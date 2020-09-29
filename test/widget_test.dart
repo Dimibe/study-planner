@@ -5,26 +5,28 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:study_planner/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('App starts and renders elements', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify that there are five input fields
+    expect(find.bySemanticsLabel('Uni'), findsOneWidget);
+    expect(find.bySemanticsLabel('Studiengang'), findsOneWidget);
+    expect(find.bySemanticsLabel('Credits Hauptstudium'), findsOneWidget);
+    expect(find.bySemanticsLabel('Credits Auflagen etc.'), findsOneWidget);
+    expect(find.bySemanticsLabel('Ziel Semesteranzahl'), findsOneWidget);
+    expect(find.bySemanticsLabel('Weiter'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Tap the button
+    // await tester.tap(find.bySemanticsLabel('Weiter'));
+    //  await tester.pump();
 
     // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // expect(find.text('Uni'), findsOneWidget);
   });
 }
