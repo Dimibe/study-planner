@@ -3,12 +3,14 @@ import 'package:flutter/services.dart';
 
 class CWTextField extends StatelessWidget {
   final TextEditingController controller;
+  final String labelText;
   final String hintText;
   final TextInputType keyboardType;
   final List<TextInputFormatter> inputFormatters;
 
   CWTextField(
       {this.controller,
+      this.labelText,
       this.hintText,
       this.keyboardType,
       this.inputFormatters});
@@ -22,7 +24,7 @@ class CWTextField extends StatelessWidget {
         inputFormatters: this.inputFormatters,
         keyboardType: this.keyboardType,
         decoration: InputDecoration(
-          hoverColor: Colors.lightGreen,
+          labelText: this.labelText,
           hintText: this.hintText,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5.0),
