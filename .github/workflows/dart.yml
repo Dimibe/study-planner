@@ -11,12 +11,12 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    container:
-      image:  google/dart:latest
-
     steps:
     - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: pub get
-    - name: Run tests
-      run: pub run test
+    - uses: subosito/flutter-action@v1
+      with:
+       channel: beta
+    - run: flutter config --enable-web
+    - run: flutter pub get
+    - run: flutter test
+    - run: flutter build web
