@@ -5,6 +5,8 @@ class CWTextField extends StatelessWidget {
   final TextEditingController controller;
   final String labelText;
   final String hintText;
+  final String helperText;
+  final double maxWidth;
   final TextInputType keyboardType;
   final List<TextInputFormatter> inputFormatters;
 
@@ -13,7 +15,9 @@ class CWTextField extends StatelessWidget {
       this.controller,
       this.labelText,
       this.hintText,
+      this.helperText,
       this.keyboardType,
+      this.maxWidth = 300,
       this.inputFormatters})
       : super(key: key);
 
@@ -21,8 +25,7 @@ class CWTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(
-        maxWidth: 300,
-        minWidth: 50,
+        maxWidth: this.maxWidth,
       ),
       padding: EdgeInsets.all(8.0),
       child: TextField(
@@ -31,6 +34,7 @@ class CWTextField extends StatelessWidget {
         decoration: InputDecoration(
           labelText: this.labelText,
           hintText: this.hintText,
+          helperText: this.helperText,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5.0),
             borderSide: BorderSide(style: BorderStyle.solid, color: Colors.red),
