@@ -9,16 +9,21 @@ class CWTextField extends StatelessWidget {
   final List<TextInputFormatter> inputFormatters;
 
   CWTextField(
-      {this.controller,
+      {Key key,
+      this.controller,
       this.labelText,
       this.hintText,
       this.keyboardType,
-      this.inputFormatters});
+      this.inputFormatters})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(maxWidth: 300),
+      constraints: BoxConstraints(
+        maxWidth: 300,
+        minWidth: 50,
+      ),
       padding: EdgeInsets.all(8.0),
       child: TextField(
         inputFormatters: this.inputFormatters,
