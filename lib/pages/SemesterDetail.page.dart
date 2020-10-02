@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
-import 'package:study_planner/widgets/common/CWDynamicRow.dart';
+import 'package:study_planner/widgets/common/CWDynamicContainer.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
 
 class SemesterDetailPage extends StatefulWidget {
@@ -28,11 +28,11 @@ class _SemesterDetailPageState extends State<SemesterDetailPage> {
               labelText: 'Semester',
               controller: myController0,
             ),
-            CWDynamicRow(
+            CWDynamicContainer(
               showAddOption: true,
               showHideOption: true,
               padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-              //contoller: dynamicControllers,
+              contoller: CWDynamicController(),
               children: [
                 CWTextField(
                   labelText: 'Kurs',
@@ -53,7 +53,7 @@ class _SemesterDetailPageState extends State<SemesterDetailPage> {
             ),
             CWButton(
               label: 'Speichern',
-              onPressed: () {},
+              onPressed: () => Navigator.pop(context),
             ),
           ],
         ),

@@ -21,6 +21,16 @@ class CWTextField extends StatelessWidget {
       this.inputFormatters})
       : super(key: key);
 
+  /// Creates a copy
+  CWTextField.copy(CWTextField other, {TextEditingController controller})
+      : this.controller = controller ?? other.controller,
+        labelText = other.labelText,
+        hintText = other.hintText,
+        helperText = other.helperText,
+        keyboardType = other.keyboardType,
+        maxWidth = other.maxWidth,
+        inputFormatters = other.inputFormatters;
+
   @override
   Widget build(BuildContext context) {
     return Container(
