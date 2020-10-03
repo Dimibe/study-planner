@@ -42,6 +42,7 @@ class _CWDynamicContainerState extends State<CWDynamicContainer> {
       var copy = CWTextField.copy(textField, controller: controller);
       widgets.add(copy);
     }
+    widget.contoller.addRow(map);
     setState(() => rows.add(_CWDynamicRow(children: widgets)));
   }
 
@@ -83,6 +84,10 @@ class CWDynamicController {
 
   Map<String, TextEditingController> getByRow(int row) {
     return _controllers[row];
+  }
+
+  get controllers {
+    return _controllers;
   }
 }
 

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:study_planner/models/Course.dart';
+import 'package:study_planner/models/Semester.dart';
+import 'package:study_planner/models/StudyPlan.dart';
+import 'package:study_planner/services/StorageService.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
 import 'package:study_planner/widgets/common/CWDynamicContainer.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
@@ -12,6 +16,15 @@ class SemesterDetailPage extends StatefulWidget {
 
 class _SemesterDetailPageState extends State<SemesterDetailPage> {
   final myController0 = TextEditingController();
+  final dynamicControllers = CWDynamicController();
+  StudyPlan plan;
+
+  @override
+  void initState() {
+    super.initState();
+    StorageService.loadStudyPlan().then((value) => plan = value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -32,7 +45,7 @@ class _SemesterDetailPageState extends State<SemesterDetailPage> {
               showAddOption: true,
               showHideOption: true,
               padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-              contoller: CWDynamicController(),
+              contoller: dynamicControllers,
               children: [
                 CWTextField(
                   labelText: 'Kurs',
@@ -53,7 +66,20 @@ class _SemesterDetailPageState extends State<SemesterDetailPage> {
             ),
             CWButton(
               label: 'Speichern',
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                var courses = <Course>[];
+                for (Map<String, TextEditingController> c
+                    in dynamicControllers.controllers) {
+                  var course =
+                      Course(c['Kurs'].text, int.parse(c['Credits'].text));
+                  courses.add(course);
+                }
+                var s = Semester(myController0.text, courses);
+                plan.semester ??= [];
+                plan.semester.add(s);
+                StorageService.saveStudyPlan(plan);
+                Navigator.pop(context);
+              },
             ),
           ],
         ),

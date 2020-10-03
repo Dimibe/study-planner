@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:study_planner/models/StudyPlan.dart';
 import 'package:study_planner/pages/SemesterOverview.page.dart';
+import 'package:study_planner/services/StorageService.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
 import 'package:study_planner/widgets/SPDrawer.dart';
@@ -13,11 +17,27 @@ class GeneralInformationPage extends StatefulWidget {
 }
 
 class _GeneralInformationPageState extends State<GeneralInformationPage> {
-  final myController0 = TextEditingController();
-  final myController1 = TextEditingController();
-  final myController2 = TextEditingController();
-  final myController3 = TextEditingController();
-  final myController4 = TextEditingController();
+  final _uniController = TextEditingController();
+  final _studiesController = TextEditingController();
+  final _mainCreditsController = TextEditingController();
+  final _otherCreditsController = TextEditingController();
+  final _semeseterController = TextEditingController();
+  StudyPlan studyPlan;
+
+  @override
+  void initState() {
+    super.initState();
+    StorageService.loadStudyPlan().then((plan) {
+      this.studyPlan = plan;
+      setState(() {
+        _uniController.text = plan?.uni;
+        _studiesController.text = plan?.studyName;
+        _mainCreditsController.text = plan?.creditsMain;
+        _otherCreditsController.text = plan?.creditsOther;
+        _semeseterController.text = plan?.semesterCount;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,16 +64,16 @@ class _GeneralInformationPageState extends State<GeneralInformationPage> {
               Padding(padding: EdgeInsets.only(top: 16.0)),
               CWTextField(
                 labelText: 'Uni',
-                controller: myController0,
+                controller: _uniController,
               ),
               CWTextField(
                 labelText: 'Studiengang',
-                controller: myController1,
+                controller: _studiesController,
               ),
               CWTextField(
                 labelText: 'Credits Hauptstudium',
                 hintText: 'Anzahl Credits',
-                controller: myController2,
+                controller: _mainCreditsController,
                 keyboardType: TextInputType.number,
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.digitsOnly
@@ -62,7 +82,7 @@ class _GeneralInformationPageState extends State<GeneralInformationPage> {
               CWTextField(
                 labelText: 'Credits Auflagen etc.',
                 hintText: 'Anzahl Credits',
-                controller: myController3,
+                controller: _otherCreditsController,
                 keyboardType: TextInputType.number,
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.digitsOnly
@@ -71,7 +91,7 @@ class _GeneralInformationPageState extends State<GeneralInformationPage> {
               CWTextField(
                 labelText: 'Ziel Semesteranzahl',
                 hintText: 'Anzahl Semester',
-                controller: myController4,
+                controller: _semeseterController,
                 keyboardType: TextInputType.number,
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.digitsOnly
@@ -81,6 +101,7 @@ class _GeneralInformationPageState extends State<GeneralInformationPage> {
               CWButton(
                 label: 'Weiter',
                 onPressed: () {
+                  saveStudyPlan();
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                         builder: (context) => SemesterOverviewPage()),
@@ -92,5 +113,17 @@ class _GeneralInformationPageState extends State<GeneralInformationPage> {
         ),
       ),
     );
+  }
+
+  void saveStudyPlan() {
+    studyPlan ??= StudyPlan();
+
+    studyPlan.uni = _uniController.text;
+    studyPlan.studyName = _studiesController.text;
+    studyPlan.semesterCount = _semeseterController.text;
+    studyPlan.creditsMain = _mainCreditsController.text;
+    studyPlan.creditsOther = _otherCreditsController.text;
+
+    StorageService.saveStudyPlan(studyPlan);
   }
 }
