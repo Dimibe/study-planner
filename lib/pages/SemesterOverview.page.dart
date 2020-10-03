@@ -35,34 +35,55 @@ class _SemesterOverviewPageState extends State<SemesterOverviewPage> {
       ];
     }
     return [
-      DataTable(
-        columns: [
-          DataColumn(label: Text('Kurs')),
-          DataColumn(label: Text('Credits')),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '${studyPlan.semester[0].name}',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              FlatButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Bearbeiten',
+                    style: TextStyle(color: Theme.of(context).accentColor),
+                  ))
+            ],
+          ),
+          DataTable(
+            columns: [
+              DataColumn(label: Text('Kurs')),
+              DataColumn(label: Text('Credits')),
+            ],
+            rows: List<DataRow>.generate(
+              studyPlan.semester[0].courses.length,
+              (index) {
+                var course = studyPlan.semester[0].courses[index];
+                return DataRow(
+                  color: MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.selected))
+                      return Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.08);
+                    if (index % 2 == 0) return Colors.grey.withOpacity(0.3);
+                    return null; // Use the default value.
+                  }),
+                  cells: [
+                    DataCell(Text(course.name)),
+                    DataCell(Text('${course.credits}')),
+                  ],
+                );
+              },
+            ),
+          )
         ],
-        rows: List<DataRow>.generate(
-          studyPlan.semester[0].courses.length,
-          (index) {
-            var course = studyPlan.semester[0].courses[index];
-            return DataRow(
-              color: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                if (states.contains(MaterialState.selected))
-                  return Theme.of(context)
-                      .colorScheme
-                      .primary
-                      .withOpacity(0.08);
-                if (index % 2 == 0) return Colors.grey.withOpacity(0.3);
-                return null; // Use the default value.
-              }),
-              cells: [
-                DataCell(Text(course.name)),
-                DataCell(Text('${course.credits}')),
-              ],
-            );
-          },
-        ),
-      )
+      ),
     ];
   }
 
