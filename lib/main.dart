@@ -1,21 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:study_planner/pages/GeneralInformation.page.dart';
 
-void main() {
-  runApp(MyApp());
+import 'services/StorageService.dart';
+import 'models/Settings.dart';
+
+void main() async {
+  Settings settings = await StorageService.loadSettings();
+  runApp(MyApp(themeColorIndex: settings?.themeColorIndex));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  final int themeColorIndex;
+
+  const MyApp({Key key, this.themeColorIndex}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Study Planner',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.green,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
+        primarySwatch: widget.themeColorIndex != null
+            ? Colors.primaries[widget.themeColorIndex]
+            : Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: GeneralInformationPage(),

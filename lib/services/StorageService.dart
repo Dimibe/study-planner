@@ -1,14 +1,16 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:study_planner/models/Settings.dart';
 import 'package:study_planner/models/StudyPlan.dart';
 
 class StorageService {
-  static const STUDY_PLAN = 'studyplan-v0.1';
+  static const _STUDY_PLAN = 'studyplan-v0.1';
+  static const _SETTINGS = 'settings-v0.1';
 
   static Future<StudyPlan> loadStudyPlan() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var jsonString = prefs.get(STUDY_PLAN);
+    var jsonString = prefs.get(_STUDY_PLAN);
     var jsonObj = json.decode(jsonString);
     var plan = StudyPlan.fromJson(jsonObj);
     print('Reading: ${plan.toJson()}');
@@ -18,6 +20,21 @@ class StorageService {
   static void saveStudyPlan(StudyPlan plan) async {
     print('Saving: ${plan.toJson()}');
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(STUDY_PLAN, jsonEncode(plan.toJson()));
+    await prefs.setString(_STUDY_PLAN, jsonEncode(plan.toJson()));
+  }
+
+  static Future<Settings> loadSettings() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var jsonString = prefs.get(_SETTINGS);
+    var jsonObj = json.decode(jsonString);
+    var settings = Settings.fromJson(jsonObj);
+    print('Reading: ${settings.toJson()}');
+    return settings;
+  }
+
+  static void saveSettings(Settings settings) async {
+    print('Saving: ${settings.toJson()}');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_SETTINGS, jsonEncode(settings.toJson()));
   }
 }
