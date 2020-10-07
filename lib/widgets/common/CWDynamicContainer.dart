@@ -7,6 +7,7 @@ class CWDynamicContainer extends StatefulWidget {
   final bool showAddOption;
   final CWDynamicController contoller;
   final List<CWTextField> children;
+  final List<Map<String, dynamic>> Function() initialData;
   final EdgeInsets padding;
 
   const CWDynamicContainer({
@@ -15,6 +16,7 @@ class CWDynamicContainer extends StatefulWidget {
     this.showAddOption,
     this.contoller,
     this.children,
+    this.initialData,
     this.padding = const EdgeInsets.all(8.0),
   }) : super(key: key);
 
@@ -28,22 +30,34 @@ class _CWDynamicContainerState extends State<CWDynamicContainer> {
   @override
   void initState() {
     super.initState();
-    addEmptyRow();
+    if (widget.initialData() != null) {
+      widget.initialData().forEach((rowValues) => addRow(rowValues));
+    } else {
+      addEmptyRow();
+    }
   }
 
-  void addEmptyRow() {
+  void addRow([Map<String, dynamic> rowValues]) {
     Map<String, TextEditingController> map = {};
 
     var widgets = <CWTextField>[];
 
     for (CWTextField textField in widget.children) {
       var controller = TextEditingController();
+      if (rowValues != null && rowValues[textField.labelText] != null) {
+        controller.text = '${rowValues[textField.labelText]}';
+      }
       map.putIfAbsent(textField.labelText, () => controller);
       var copy = CWTextField.copy(textField, controller: controller);
       widgets.add(copy);
     }
+
     widget.contoller.addRow(map);
     setState(() => rows.add(_CWDynamicRow(children: widgets)));
+  }
+
+  void addEmptyRow() {
+    addRow();
   }
 
   @override
