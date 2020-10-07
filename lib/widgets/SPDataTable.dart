@@ -3,8 +3,9 @@ import 'package:study_planner/models/Semester.dart';
 
 class SPDataTable extends StatelessWidget {
   final Semester semester;
+  final void Function() onEdit;
 
-  const SPDataTable({Key key, this.semester}) : super(key: key);
+  const SPDataTable({Key key, this.semester, this.onEdit}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +24,15 @@ class SPDataTable extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline6,
               ),
               FlatButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                  ),
-                  onPressed: () {},
-                  child: Text(
-                    'Bearbeiten',
-                    style: TextStyle(color: Theme.of(context).accentColor),
-                  ))
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                ),
+                onPressed: onEdit,
+                child: Text(
+                  'Bearbeiten',
+                  style: TextStyle(color: Theme.of(context).accentColor),
+                ),
+              ),
             ],
           ),
           SizedBox(

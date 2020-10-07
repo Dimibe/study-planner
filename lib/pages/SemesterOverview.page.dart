@@ -4,6 +4,7 @@ import 'package:study_planner/pages/SemesterDetail.page.dart';
 import 'package:study_planner/services/StorageService.dart';
 import 'package:study_planner/widgets/SPDataTable.dart';
 import 'package:study_planner/widgets/SPDrawer.dart';
+import 'package:study_planner/widgets/common/CWButton.dart';
 
 class SemesterOverviewPage extends StatefulWidget {
   SemesterOverviewPage({Key key}) : super(key: key);
@@ -40,7 +41,20 @@ class _SemesterOverviewPageState extends State<SemesterOverviewPage> {
       ];
     }
     var content = <Widget>[];
-    content.addAll(studyPlan.semester.map((s) => SPDataTable(semester: s)));
+    content.addAll(studyPlan.semester.map((s) {
+      var onEdit = () async {
+        var res = await showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return SemesterDetailPage(plan: studyPlan, semester: s);
+            });
+        if (res) {
+          initData();
+        }
+      };
+      return SPDataTable(semester: s, onEdit: onEdit);
+    }));
     return content;
   }
 
@@ -54,32 +68,22 @@ class _SemesterOverviewPageState extends State<SemesterOverviewPage> {
 
     content.add(Padding(padding: EdgeInsets.only(top: 16.0)));
     content.add(
-      ButtonTheme(
-        minWidth: 290,
-        height: 60,
-        child: RaisedButton(
-          color: Theme.of(context).accentColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-          onPressed: () async {
-            var res = await showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (context) {
-                  return SemesterDetailPage();
-                });
-            if (res) {
-              initData();
-            }
-          },
-          child: Text(
-            'Semester hinzufügen',
-            style: TextStyle(fontSize: 20),
-          ),
-        ),
+      CWButton(
+        label: 'Semester Hinzufügen',
+        onPressed: () async {
+          var res = await showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) {
+                return SemesterDetailPage(plan: studyPlan);
+              });
+          if (res) {
+            initData();
+          }
+        },
       ),
     );
+
     content.add(Padding(padding: EdgeInsets.only(top: 16.0)));
 
     return Scaffold(

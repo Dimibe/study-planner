@@ -8,21 +8,23 @@ import 'package:study_planner/widgets/common/CWDynamicContainer.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
 
 class SemesterDetailPage extends StatefulWidget {
-  SemesterDetailPage({Key key}) : super(key: key);
+  final Semester semester;
+  final StudyPlan plan;
+
+  SemesterDetailPage({Key key, this.plan, this.semester}) : super(key: key);
 
   @override
   _SemesterDetailPageState createState() => _SemesterDetailPageState();
 }
 
 class _SemesterDetailPageState extends State<SemesterDetailPage> {
-  final myController0 = TextEditingController();
-  final dynamicControllers = CWDynamicController();
-  StudyPlan plan;
+  var myController0;
+  var dynamicControllers = CWDynamicController();
 
   @override
   void initState() {
     super.initState();
-    StorageService.loadStudyPlan().then((value) => plan = value);
+    myController0 = TextEditingController(text: widget?.semester?.name);
   }
 
   @override
@@ -34,7 +36,6 @@ class _SemesterDetailPageState extends State<SemesterDetailPage> {
       child: Container(
         padding: EdgeInsets.all(30.0),
         constraints: BoxConstraints(maxWidth: 700),
-        //  padding: EdgeInsets.all(150.0),
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -49,6 +50,11 @@ class _SemesterDetailPageState extends State<SemesterDetailPage> {
                 showHideOption: true,
                 padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
                 contoller: dynamicControllers,
+                initialData: () {
+                  return widget.semester?.courses
+                      ?.map((c) => {'Kurs': c.name, 'Credits': c.credits})
+                      ?.toList(growable: false);
+                },
                 children: [
                   CWTextField(
                     labelText: 'Kurs',
@@ -67,22 +73,47 @@ class _SemesterDetailPageState extends State<SemesterDetailPage> {
                   ),
                 ],
               ),
-              CWButton(
-                label: 'Speichern',
-                onPressed: () {
-                  var courses = <Course>[];
-                  for (Map<String, TextEditingController> c
-                      in dynamicControllers.controllers) {
-                    var course =
-                        Course(c['Kurs'].text, int.parse(c['Credits'].text));
-                    courses.add(course);
-                  }
-                  var s = Semester(myController0.text, courses);
-                  plan.semester ??= [];
-                  plan.semester.add(s);
-                  StorageService.saveStudyPlan(plan);
-                  Navigator.pop(context, true);
-                },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  FlatButton(
+                    padding: EdgeInsets.only(right: 20),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    ),
+                    onPressed: widget.semester == null
+                        ? null
+                        : () {
+                            widget.plan.semester.remove(widget.semester);
+                            StorageService.saveStudyPlan(widget.plan);
+                            Navigator.pop(context, true);
+                          },
+                    child: Text(
+                      'Löschen',
+                      style: TextStyle(color: Theme.of(context).errorColor),
+                    ),
+                  ),
+                  CWButton(
+                    label: 'Speichern',
+                    onPressed: () {
+                      var courses = <Course>[];
+                      for (Map<String, TextEditingController> c
+                          in dynamicControllers.controllers) {
+                        var course = Course(
+                            c['Kurs'].text, int.parse(c['Credits'].text));
+                        courses.add(course);
+                      }
+                      var s = widget.semester ?? Semester();
+                      s.name = myController0.text;
+                      s.courses = courses;
+                      if (widget.semester == null) {
+                        widget.plan.semester.add(s);
+                      }
+                      StorageService.saveStudyPlan(widget.plan);
+                      Navigator.pop(context, true);
+                    },
+                  ),
+                ],
               ),
             ],
           ),
