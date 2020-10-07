@@ -10,7 +10,8 @@ class StudyPlan {
   String semesterCount;
   String creditsMain;
   String creditsOther;
-  List<Semester> semester = [];
+  @JsonKey(defaultValue: [])
+  List<Semester> semester;
 
   StudyPlan(
       [this.uni,

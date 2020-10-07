@@ -7,7 +7,8 @@ part 'Semester.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Semester {
   String name;
-  List<Course> courses = [];
+  @JsonKey(defaultValue: [])
+  List<Course> courses;
 
   Semester([this.name, this.courses]);
 
