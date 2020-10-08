@@ -57,7 +57,7 @@ class _SettingsPageState extends State<SettingsPage> {
         return AlertDialog(
           contentPadding: const EdgeInsets.all(6.0),
           title: Text(title),
-          content: Container(width: 400, height: 400, child: content),
+          content: content,
           actions: [
             FlatButton(
               child: Text('Abbrechen'),
@@ -68,6 +68,9 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             CWButton(
               label: 'Speichern',
+              minWidth: 100,
+              minHeight: 40,
+              fontSize: 16,
               onPressed: () {
                 settings.themeColorIndex = themeColorIndex;
                 StorageService.saveSettings(settings);
@@ -87,7 +90,7 @@ class _SettingsPageState extends State<SettingsPage> {
       MaterialColorPicker(
         allowShades: false,
         colors: Colors.primaries,
-        circleSize: 150.0,
+        // circleSize: 150.0,
         selectedColor: settings?.themeColorIndex == null
             ? Colors.green
             : Colors.primaries[settings.themeColorIndex],
