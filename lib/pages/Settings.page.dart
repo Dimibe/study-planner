@@ -41,7 +41,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ),
         CWButton(
-          label: 'Change Color',
+          label: 'Farbe ändern',
           color: Theme.of(context).buttonColor,
           padding: EdgeInsets.all(8.0),
           onPressed: _openFullMaterialColorPicker,
@@ -60,14 +60,14 @@ class _SettingsPageState extends State<SettingsPage> {
           content: Container(width: 400, height: 400, child: content),
           actions: [
             FlatButton(
-              child: Text('CANCEL'),
+              child: Text('Abbrechen'),
               onPressed: () {
                 MyApp.of(context).setPrimarySwatch();
                 Navigator.of(context).pop();
               },
             ),
-            FlatButton(
-              child: Text('SUBMIT'),
+            CWButton(
+              label: 'Speichern',
               onPressed: () {
                 settings.themeColorIndex = themeColorIndex;
                 StorageService.saveSettings(settings);
@@ -83,7 +83,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void _openFullMaterialColorPicker() async {
     _openDialog(
-      "Full Material Color picker",
+      'Farbauswahl',
       MaterialColorPicker(
         allowShades: false,
         colors: Colors.primaries,
