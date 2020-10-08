@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:study_planner/pages/Settings.page.dart';
 
 class SPDrawer extends StatelessWidget {
   @override
@@ -23,7 +24,7 @@ class SPDrawer extends StatelessWidget {
             title: Text('Settings'),
             onTap: () {
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => null),
+                MaterialPageRoute(builder: (context) => SettingsPage()),
               );
             },
           ),

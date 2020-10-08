@@ -11,6 +11,9 @@ class StorageService {
   static Future<StudyPlan> loadStudyPlan() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var jsonString = prefs.get(_STUDY_PLAN);
+    if (jsonString == null) {
+      return StudyPlan();
+    }
     var jsonObj = json.decode(jsonString);
     var plan = StudyPlan.fromJson(jsonObj);
     print('Reading: ${plan.toJson()}');
@@ -26,6 +29,9 @@ class StorageService {
   static Future<Settings> loadSettings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var jsonString = prefs.get(_SETTINGS);
+    if (jsonString == null) {
+      return Settings();
+    }
     var jsonObj = json.decode(jsonString);
     var settings = Settings.fromJson(jsonObj);
     print('Reading: ${settings.toJson()}');
