@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:study_planner/pages/AnalysisOverview.page.dart';
 import 'package:study_planner/pages/GeneralInformation.page.dart';
 import 'package:study_planner/pages/SemesterOverview.page.dart';
 import 'package:study_planner/pages/Settings.page.dart';
@@ -37,6 +38,15 @@ class SPDrawer extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => SemesterOverviewPage()),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.analytics),
+            title: Text('Semester Analyse'),
+            onTap: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => AnalysisOverviewPage()),
               );
             },
           ),
