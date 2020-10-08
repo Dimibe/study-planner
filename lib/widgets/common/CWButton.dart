@@ -12,19 +12,21 @@ class CWButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ButtonTheme(
-      minWidth: 290,
-      height: 60,
-      padding: this.padding,
-      child: RaisedButton(
-        color: this.color ?? Theme.of(context).accentColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-        onPressed: this.onPressed,
-        child: Text(
-          this.label,
-          style: TextStyle(fontSize: 20),
+    return Padding(
+      padding: this.padding ?? const EdgeInsets.all(8.0),
+      child: ButtonTheme(
+        minWidth: 290,
+        height: 60,
+        child: RaisedButton(
+          color: this.color ?? Theme.of(context).accentColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          onPressed: this.onPressed,
+          child: Text(
+            this.label,
+            style: TextStyle(fontSize: 20),
+          ),
         ),
       ),
     );
