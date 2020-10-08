@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:study_planner/models/StudyPlan.dart';
 import 'package:study_planner/pages/SemesterOverview.page.dart';
 import 'package:study_planner/services/StorageService.dart';
+import 'package:study_planner/widgets/SPDialog.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
-import 'package:study_planner/widgets/SPDrawer.dart';
 
 class GeneralInformationPage extends StatefulWidget {
   GeneralInformationPage({Key key}) : super(key: key);
@@ -39,77 +39,65 @@ class _GeneralInformationPageState extends State<GeneralInformationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Study Planner!'),
-      ),
-      drawerScrimColor: Theme.of(context).backgroundColor,
-      drawer: SPDrawer(),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'Welcome to study planner!',
-                style: Theme.of(context).textTheme.headline2,
-              ),
-              Padding(padding: EdgeInsets.only(top: 50.0)),
-              Text(
-                'Please type in the following information:',
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              Padding(padding: EdgeInsets.only(top: 16.0)),
-              CWTextField(
-                labelText: 'Uni',
-                controller: _uniController,
-              ),
-              CWTextField(
-                labelText: 'Studiengang',
-                controller: _studiesController,
-              ),
-              CWTextField(
-                labelText: 'Credits Hauptstudium',
-                hintText: 'Anzahl Credits',
-                controller: _mainCreditsController,
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ],
-              ),
-              CWTextField(
-                labelText: 'Credits Auflagen etc.',
-                hintText: 'Anzahl Credits',
-                controller: _otherCreditsController,
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ],
-              ),
-              CWTextField(
-                labelText: 'Ziel Semesteranzahl',
-                hintText: 'Anzahl Semester',
-                controller: _semeseterController,
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ],
-              ),
-              Padding(padding: EdgeInsets.only(top: 16.0)),
-              CWButton(
-                label: 'Weiter',
-                onPressed: () {
-                  saveStudyPlan();
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                        builder: (context) => SemesterOverviewPage()),
-                  );
-                },
-              ),
-            ],
-          ),
+    return SPDialog(
+      title: 'Study Planner!',
+      content: <Widget>[
+        Text(
+          'Welcome to study planner!',
+          style: Theme.of(context).textTheme.headline2,
         ),
-      ),
+        Padding(padding: EdgeInsets.only(top: 50.0)),
+        Text(
+          'Please type in the following information:',
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        Padding(padding: EdgeInsets.only(top: 16.0)),
+        CWTextField(
+          labelText: 'Uni',
+          controller: _uniController,
+        ),
+        CWTextField(
+          labelText: 'Studiengang',
+          controller: _studiesController,
+        ),
+        CWTextField(
+          labelText: 'Credits Hauptstudium',
+          hintText: 'Anzahl Credits',
+          controller: _mainCreditsController,
+          keyboardType: TextInputType.number,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly
+          ],
+        ),
+        CWTextField(
+          labelText: 'Credits Auflagen etc.',
+          hintText: 'Anzahl Credits',
+          controller: _otherCreditsController,
+          keyboardType: TextInputType.number,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly
+          ],
+        ),
+        CWTextField(
+          labelText: 'Ziel Semesteranzahl',
+          hintText: 'Anzahl Semester',
+          controller: _semeseterController,
+          keyboardType: TextInputType.number,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly
+          ],
+        ),
+        Padding(padding: EdgeInsets.only(top: 16.0)),
+        CWButton(
+          label: 'Weiter',
+          onPressed: () {
+            saveStudyPlan();
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => SemesterOverviewPage()),
+            );
+          },
+        ),
+      ],
     );
   }
 

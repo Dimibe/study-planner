@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:study_planner/models/Settings.dart';
 import 'package:study_planner/services/StorageService.dart';
-import 'package:study_planner/widgets/SPDrawer.dart';
+import 'package:study_planner/widgets/SPDialog.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
-
 import '../main.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -31,43 +30,23 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Study Planner!'),
-      ),
-      drawerScrimColor: Theme.of(context).backgroundColor,
-      drawer: SPDrawer(),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Material(
-                      elevation: 4.0,
-                      shape: const CircleBorder(),
-                      child: CircleAvatar(
-                        radius: 70 / 2,
-                        backgroundColor: Colors.primaries[themeColorIndex],
-                      ),
-                    ),
-                  ),
-                  CWButton(
-                    label: 'Change Color',
-                    color: Theme.of(context).buttonColor,
-                    padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-                    onPressed: _openFullMaterialColorPicker,
-                  ),
-                ],
-              ),
-            ],
+    return SPDialog(
+      title: 'Study Planner!',
+      content: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CircleAvatar(
+            radius: 70 / 2,
+            backgroundColor: Colors.primaries[themeColorIndex],
           ),
         ),
-      ),
+        CWButton(
+          label: 'Change Color',
+          color: Theme.of(context).buttonColor,
+          padding: EdgeInsets.all(8.0),
+          onPressed: _openFullMaterialColorPicker,
+        ),
+      ],
     );
   }
 

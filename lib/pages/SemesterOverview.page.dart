@@ -3,7 +3,7 @@ import 'package:study_planner/models/StudyPlan.dart';
 import 'package:study_planner/pages/SemesterDetail.page.dart';
 import 'package:study_planner/services/StorageService.dart';
 import 'package:study_planner/widgets/SPDataTable.dart';
-import 'package:study_planner/widgets/SPDrawer.dart';
+import 'package:study_planner/widgets/SPDialog.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
 
 class SemesterOverviewPage extends StatefulWidget {
@@ -18,10 +18,10 @@ class _SemesterOverviewPageState extends State<SemesterOverviewPage> {
   @override
   void initState() {
     super.initState();
-    initData();
+    _initData();
   }
 
-  void initData() {
+  void _initData() {
     StorageService.loadStudyPlan().then((plan) {
       setState(() {
         this.studyPlan = plan;
@@ -29,17 +29,48 @@ class _SemesterOverviewPageState extends State<SemesterOverviewPage> {
     });
   }
 
-  List<Widget> getContent() {
-    if (studyPlan == null ||
-        studyPlan.semester == null ||
-        studyPlan.semester.isEmpty) {
-      return [
-        Text(
-          'Noch keine Semester vorhanden..',
-          style: Theme.of(context).textTheme.headline6,
-        ),
-      ];
-    }
+  @override
+  Widget build(BuildContext context) {
+    return SPDialog(
+      title: 'Study Planner!',
+      content: () {
+        var content = <Widget>[];
+
+        if (studyPlan == null ||
+            studyPlan.semester == null ||
+            studyPlan.semester.isEmpty) {
+          content.add(
+            Text(
+              'Noch keine Semester vorhanden..',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+          );
+        } else {
+          content.addAll(_getSemesterData());
+        }
+        content.add(
+          CWButton(
+            label: 'Semester Hinzufügen',
+            padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+            onPressed: () async {
+              var res = await showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) {
+                    return SemesterDetailPage(plan: studyPlan);
+                  });
+              if (res) {
+                _initData();
+              }
+            },
+          ),
+        );
+        return content;
+      },
+    );
+  }
+
+  List<Widget> _getSemesterData() {
     var content = <Widget>[];
     content.addAll(studyPlan.semester.map((s) {
       var onEdit = () async {
@@ -50,56 +81,11 @@ class _SemesterOverviewPageState extends State<SemesterOverviewPage> {
               return SemesterDetailPage(plan: studyPlan, semester: s);
             });
         if (res) {
-          initData();
+          _initData();
         }
       };
       return SPDataTable(semester: s, onEdit: onEdit);
     }));
     return content;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    var content = <Widget>[
-      Padding(padding: EdgeInsets.only(top: 50.0)),
-    ];
-
-    content.addAll(getContent());
-
-    content.add(Padding(padding: EdgeInsets.only(top: 16.0)));
-    content.add(
-      CWButton(
-        label: 'Semester Hinzufügen',
-        onPressed: () async {
-          var res = await showDialog(
-              barrierDismissible: false,
-              context: context,
-              builder: (context) {
-                return SemesterDetailPage(plan: studyPlan);
-              });
-          if (res) {
-            initData();
-          }
-        },
-      ),
-    );
-
-    content.add(Padding(padding: EdgeInsets.only(top: 16.0)));
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Study Planner!'),
-      ),
-      drawerScrimColor: Theme.of(context).backgroundColor,
-      drawer: SPDrawer(),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: content,
-          ),
-        ),
-      ),
-    );
   }
 }
