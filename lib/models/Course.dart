@@ -6,8 +6,9 @@ part 'Course.g.dart';
 class Course {
   String name;
   int credits;
+  double grade;
 
-  Course([this.name, this.credits]);
+  Course([this.name, this.credits, this.grade]);
 
   factory Course.fromJson(Map<String, dynamic> json) => _$CourseFromJson(json);
 

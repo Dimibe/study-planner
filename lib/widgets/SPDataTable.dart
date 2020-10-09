@@ -41,6 +41,7 @@ class SPDataTable extends StatelessWidget {
               columns: [
                 DataColumn(label: Text('Kurs')),
                 DataColumn(label: Text('Credits')),
+                DataColumn(label: Text('Note')),
               ],
               rows: List<DataRow>.generate(
                 semester.courses.length,
@@ -60,6 +61,7 @@ class SPDataTable extends StatelessWidget {
                     cells: [
                       DataCell(Text(course.name)),
                       DataCell(Text('${course.credits}')),
+                      DataCell(Text('${course.grade}')),
                     ],
                   );
                 },

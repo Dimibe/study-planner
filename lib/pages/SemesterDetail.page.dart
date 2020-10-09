@@ -52,23 +52,24 @@ class _SemesterDetailPageState extends State<SemesterDetailPage> {
                 contoller: dynamicControllers,
                 initialData: () {
                   return widget.semester?.courses
-                      ?.map((c) => {'Kurs': c.name, 'Credits': c.credits})
+                      ?.map((c) => {
+                            'Kurs Name': c.name,
+                            'Anzahl Credits': c.credits,
+                            'Note': c.grade
+                          })
                       ?.toList(growable: false);
                 },
                 children: [
                   CWTextField(
-                    labelText: 'Kurs',
-                    helperText: 'Name',
+                    labelText: 'Kurs Name',
                     maxWidth: 200,
                   ),
                   CWTextField(
-                    labelText: 'Credits',
-                    helperText: 'Anzahl',
+                    labelText: 'Anzahl Credits',
                     maxWidth: 200,
                   ),
                   CWTextField(
-                    labelText: 'Kategorie',
-                    helperText: 'Comming soon..',
+                    labelText: 'Note',
                     maxWidth: 200,
                   ),
                 ],
@@ -100,7 +101,10 @@ class _SemesterDetailPageState extends State<SemesterDetailPage> {
                       for (Map<String, TextEditingController> c
                           in dynamicControllers.controllers) {
                         var course = Course(
-                            c['Kurs'].text, int.parse(c['Credits'].text));
+                          c['Kurs Name'].text,
+                          int.parse(c['Anzahl Credits'].text),
+                          double.parse(c['Note'].text),
+                        );
                         courses.add(course);
                       }
                       var s = widget.semester ?? Semester();
