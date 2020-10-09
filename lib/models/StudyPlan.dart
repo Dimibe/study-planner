@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:study_planner/models/Semester.dart';
+import 'package:study_planner/models/StudyField.dart';
 
 part 'StudyPlan.g.dart';
 
@@ -10,6 +11,7 @@ class StudyPlan {
   String semesterCount;
   String creditsMain;
   String creditsOther;
+  List<StudyField> studyFields;
   @JsonKey(defaultValue: [])
   List<Semester> semester;
 
@@ -19,6 +21,7 @@ class StudyPlan {
       this.semesterCount,
       this.creditsMain,
       this.creditsOther,
+      this.studyFields,
       this.semester]);
 
   factory StudyPlan.fromJson(Map<String, dynamic> json) =>
