@@ -17,11 +17,11 @@ class _AnalysisOverviewPageState extends State<AnalysisOverviewPage> {
     return SPDialog(
       dependsOn: StorageService.loadStudyPlan(),
       content: (StudyPlan studyPlan) {
-        var creditsNow = StudyPlanUtils.sumOfCredits(studyPlan);
-        var meanCreditsSemster = creditsNow / studyPlan.semester.length;
         var creditsTotal = int.parse(studyPlan.creditsMain) +
             int.parse(studyPlan.creditsOther);
+        var creditsNow = StudyPlanUtils.sumOfCredits(studyPlan);
         var creditsOpen = creditsTotal - creditsNow;
+        var meanCreditsSemster = creditsNow / studyPlan.semester.length;
         var semesterOpen = creditsOpen / meanCreditsSemster;
         var semesterCount = studyPlan.semester.length;
         var openSemester = int.parse(studyPlan.semesterCount) - semesterCount;
@@ -38,15 +38,27 @@ class _AnalysisOverviewPageState extends State<AnalysisOverviewPage> {
               rows: [
                 DataRow(
                   cells: [
-                    DataCell(Text('Durchschnitt Credits pro Semester')),
-                    DataCell(Text('$meanCreditsSemster')),
+                    DataCell(Text('Gesamt Credits')),
+                    DataCell(Text('$creditsTotal')),
                   ],
                 ),
                 DataRow(
                   cells: [
-                    DataCell(Text('Durchschnitt Note')),
+                    DataCell(Text('Bereits erworbene Credits')),
+                    DataCell(Text('$creditsNow')),
+                  ],
+                ),
+                DataRow(
+                  cells: [
+                    DataCell(Text('Wunsch Semesteranzahl')),
+                    DataCell(Text('${studyPlan.semesterCount}')),
+                  ],
+                ),
+                DataRow(
+                  cells: [
+                    DataCell(Text('Credits pro Semester für Wunschziel')),
                     DataCell(
-                        Text('${StudyPlanUtils.totalMeanGrade(studyPlan)}')),
+                        Text('$creditsPerSemester in $openSemester Semester')),
                   ],
                 ),
                 DataRow(
@@ -58,26 +70,39 @@ class _AnalysisOverviewPageState extends State<AnalysisOverviewPage> {
                 ),
                 DataRow(
                   cells: [
-                    DataCell(Text('Credits pro Semester für Wunschziel')),
-                    DataCell(Text('$creditsPerSemester')),
+                    DataCell(Text('Durchschnitt Note')),
+                    DataCell(Text(StudyPlanUtils.totalMeanGrade(studyPlan)
+                        .toStringAsFixed(2))),
                   ],
-                )
+                ),
+                DataRow(
+                  cells: [
+                    DataCell(Text('Durchschnitt Credits pro Semester')),
+                    DataCell(Text('$meanCreditsSemster')),
+                  ],
+                ),
               ],
             ),
           ),
-          SPBarChart<Semester>(
-            id: 'credits',
-            title: 'Credits',
-            data: studyPlan.semester,
-            domainFn: (s, _) => s.name,
-            measureFn: (s, _) => StudyPlanUtils.creditsInSemester(s),
-          ),
-          SPBarChart(
-            id: 'courses',
-            title: 'Notendurchschnitt',
-            data: studyPlan.semester,
-            domainFn: (s, _) => s.name,
-            measureFn: (s, _) => StudyPlanUtils.meanGrade(s),
+          Wrap(
+            children: [
+              SPBarChart<Semester>(
+                id: 'credits',
+                title: 'Credits',
+                data: studyPlan.semester,
+                domainFn: (s, _) => s.name,
+                measureFn: (s, _) => StudyPlanUtils.creditsInSemester(s),
+              ),
+              SPBarChart(
+                id: 'courses',
+                title: 'Notendurchschnitt',
+                data: studyPlan.semester,
+                domainFn: (s, _) => s.name,
+                labelFn: (s, _) =>
+                    StudyPlanUtils.meanGrade(s).toStringAsFixed(2),
+                measureFn: (s, _) => StudyPlanUtils.meanGrade(s),
+              ),
+            ],
           ),
         ];
       },

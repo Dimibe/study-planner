@@ -7,6 +7,7 @@ class SPBarChart<T> extends StatelessWidget {
   final List<T> data;
   final num Function(T, int) measureFn;
   final String Function(T, int) domainFn;
+  final String Function(T, int) labelFn;
 
   const SPBarChart({
     Key key,
@@ -14,13 +15,14 @@ class SPBarChart<T> extends StatelessWidget {
     @required this.data,
     @required this.measureFn,
     @required this.domainFn,
+    this.labelFn,
     this.title,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(16.0),
       width: 300,
       height: 300,
       child: BarChart(
@@ -36,11 +38,12 @@ class SPBarChart<T> extends StatelessWidget {
   List<Series<dynamic, String>> _getData(context) {
     return [
       Series<T, String>(
-        id: this.id,
-        data: this.data,
-        domainFn: this.domainFn,
-        measureFn: this.measureFn,
-        labelAccessorFn: (arg1, arg2) => '${this.measureFn(arg1, arg2)}',
+        id: id,
+        data: data,
+        domainFn: domainFn,
+        measureFn: measureFn,
+        labelAccessorFn: (arg1, arg2) =>
+            labelFn != null ? labelFn(arg1, arg2) : '${measureFn(arg1, arg2)}',
         colorFn: (semester, _) {
           var theme = Theme.of(context).accentColor;
           return Color(r: theme.red, g: theme.green, b: theme.blue);
