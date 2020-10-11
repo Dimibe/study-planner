@@ -14,7 +14,7 @@ class StudyPlanUtils {
   static double meanGrade(Semester semester) {
     var courses = semester.courses.where((c) => c.grade != null).toList();
     if (courses.isEmpty) {
-      return 0;
+      return null;
     }
     var sum = courses.map((c) => c.grade * c.credits).reduce(MathUtils.sum);
     var mean = sum / courses.map((c) => c.credits).reduce(MathUtils.sum);
@@ -22,7 +22,7 @@ class StudyPlanUtils {
   }
 
   static double totalMeanGrade(StudyPlan studyPlan) {
-    return studyPlan.semester.map(meanGrade).reduce(MathUtils.sum) /
-        studyPlan.semester.length;
+    var count = studyPlan.semester.map(meanGrade).where((g) => g != null);
+    return count.reduce(MathUtils.sum) / count.length;
   }
 }
