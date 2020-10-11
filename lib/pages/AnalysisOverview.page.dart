@@ -28,60 +28,67 @@ class _AnalysisOverviewPageState extends State<AnalysisOverviewPage> {
         var creditsPerSemester = creditsOpen / openSemester;
 
         return <Widget>[
-          SizedBox(
-            width: double.infinity,
-            child: DataTable(
-              columns: [
-                DataColumn(label: Text('Titel')),
-                DataColumn(label: Text('Wert')),
-              ],
-              rows: [
-                DataRow(
-                  cells: [
-                    DataCell(Text('Gesamt Credits')),
-                    DataCell(Text('$creditsTotal')),
-                  ],
-                ),
-                DataRow(
-                  cells: [
-                    DataCell(Text('Bereits erworbene Credits')),
-                    DataCell(Text('$creditsNow')),
-                  ],
-                ),
-                DataRow(
-                  cells: [
-                    DataCell(Text('Wunsch Semesteranzahl')),
-                    DataCell(Text('${studyPlan.semesterCount}')),
-                  ],
-                ),
-                DataRow(
-                  cells: [
-                    DataCell(Text('Credits pro Semester für Wunschziel')),
-                    DataCell(
-                        Text('$creditsPerSemester in $openSemester Semester')),
-                  ],
-                ),
-                DataRow(
-                  cells: [
-                    DataCell(
-                        Text('Verbleibende Semester mit Credits Drchschnitt')),
-                    DataCell(Text('$semesterOpen')),
-                  ],
-                ),
-                DataRow(
-                  cells: [
-                    DataCell(Text('Durchschnitt Note')),
-                    DataCell(Text(StudyPlanUtils.totalMeanGrade(studyPlan)
-                        .toStringAsFixed(2))),
-                  ],
-                ),
-                DataRow(
-                  cells: [
-                    DataCell(Text('Durchschnitt Credits pro Semester')),
-                    DataCell(Text('$meanCreditsSemster')),
-                  ],
-                ),
-              ],
+          Container(
+            padding: EdgeInsets.all(16.0),
+            constraints: BoxConstraints(maxWidth: 700),
+            child: SizedBox(
+              width: double.infinity,
+              child: DataTable(
+                showBottomBorder: true,
+                columns: [
+                  DataColumn(label: Text('Titel')),
+                  DataColumn(label: Text('Wert')),
+                ],
+                rows: [
+                  DataRow(
+                    cells: [
+                      DataCell(Text('Gesamt Credits')),
+                      DataCell(Text('$creditsTotal')),
+                    ],
+                  ),
+                  DataRow(
+                    cells: [
+                      DataCell(Text('Bereits erworbene Credits')),
+                      DataCell(Text(
+                          '$creditsNow (${((creditsNow / creditsTotal) * 100).toStringAsFixed(2)}%)')),
+                    ],
+                  ),
+                  DataRow(
+                    cells: [
+                      DataCell(Text('Wunsch Semesteranzahl')),
+                      DataCell(Text(
+                          '${studyPlan.semesterCount} ($openSemester offene)')),
+                    ],
+                  ),
+                  DataRow(
+                    cells: [
+                      DataCell(Text('Credits pro Semester für Wunschziel')),
+                      DataCell(Text(
+                          '$creditsPerSemester in $openSemester Semester')),
+                    ],
+                  ),
+                  DataRow(
+                    cells: [
+                      DataCell(Text(
+                          'Verbleibende Semester mit Credits Drchschnitt')),
+                      DataCell(Text(semesterOpen.toStringAsFixed(1))),
+                    ],
+                  ),
+                  DataRow(
+                    cells: [
+                      DataCell(Text('Durchschnitt Note')),
+                      DataCell(Text(StudyPlanUtils.totalMeanGrade(studyPlan)
+                          .toStringAsFixed(2))),
+                    ],
+                  ),
+                  DataRow(
+                    cells: [
+                      DataCell(Text('Durchschnitt Credits pro Semester')),
+                      DataCell(Text('$meanCreditsSemster')),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           Wrap(
@@ -92,6 +99,7 @@ class _AnalysisOverviewPageState extends State<AnalysisOverviewPage> {
                 data: studyPlan.semester,
                 domainFn: (s, _) => s.name,
                 measureFn: (s, _) => StudyPlanUtils.creditsInSemester(s),
+                average: meanCreditsSemster,
               ),
               SPBarChart(
                 id: 'courses',
@@ -101,6 +109,7 @@ class _AnalysisOverviewPageState extends State<AnalysisOverviewPage> {
                 labelFn: (s, _) =>
                     StudyPlanUtils.meanGrade(s).toStringAsFixed(2),
                 measureFn: (s, _) => StudyPlanUtils.meanGrade(s),
+                average: StudyPlanUtils.totalMeanGrade(studyPlan),
               ),
             ],
           ),
