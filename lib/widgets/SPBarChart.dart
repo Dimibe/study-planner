@@ -8,6 +8,7 @@ class SPBarChart<T> extends StatelessWidget {
   final num Function(T, int) measureFn;
   final String Function(T, int) domainFn;
   final String Function(T, int) labelFn;
+  final num average;
 
   const SPBarChart({
     Key key,
@@ -17,19 +18,38 @@ class SPBarChart<T> extends StatelessWidget {
     @required this.domainFn,
     this.labelFn,
     this.title,
+    this.average,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var annotations = <LineAnnotationSegment>[];
+    if (average != null) {
+      annotations.add(
+        LineAnnotationSegment(
+          average,
+          RangeAnnotationAxisType.measure,
+          middleLabel: 'Ø',
+          labelPosition: AnnotationLabelPosition.margin,
+          color: MaterialPalette.gray.shade400,
+        ),
+      );
+    }
+
     return Container(
       padding: EdgeInsets.all(16.0),
-      width: 300,
+      width: 400,
       height: 300,
       child: BarChart(
         _getData(context),
         animate: true,
         defaultInteractions: false,
-        behaviors: [ChartTitle(this.title)],
+        behaviors: [
+          ChartTitle(this.title,
+              subTitle:
+                  average == null ? null : 'Ø ${average.toStringAsFixed(2)}'),
+          RangeAnnotation(annotations),
+        ],
         barRendererDecorator: BarLabelDecorator<String>(),
       ),
     );
