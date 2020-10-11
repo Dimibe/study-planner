@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:study_planner/models/Settings.dart';
+import 'package:study_planner/models/StudyPlan.dart';
 import 'package:study_planner/services/StorageService.dart';
 import 'package:study_planner/widgets/SPDialog.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
+import 'package:study_planner/widgets/common/CWTextField.dart';
 import '../main.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -14,6 +18,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   Settings settings;
   int themeColorIndex = 0;
+  var textEditingController = TextEditingController();
 
   @override
   void initState() {
@@ -25,6 +30,11 @@ class _SettingsPageState extends State<SettingsPage> {
           themeColorIndex = settings.themeColorIndex;
         });
       }
+    });
+    StorageService.loadStudyPlan().then((value) {
+      setState(() {
+        textEditingController.text = json.encode(value.toJson());
+      });
     });
   }
 
@@ -45,6 +55,19 @@ class _SettingsPageState extends State<SettingsPage> {
           color: Theme.of(context).buttonColor,
           padding: EdgeInsets.all(8.0),
           onPressed: _openFullMaterialColorPicker,
+        ),
+        CWTextField(
+          labelText: 'Studienplan',
+          maxLines: 5,
+          controller: textEditingController,
+        ),
+        CWButton(
+          label: 'Studienplan übernehmen',
+          color: Theme.of(context).buttonColor,
+          padding: EdgeInsets.all(8.0),
+          onPressed: () => StorageService.saveStudyPlan(
+            StudyPlan.fromJson(json.decode(textEditingController.text)),
+          ),
         ),
       ],
     );
