@@ -63,6 +63,7 @@ class _SemesterDetailPageState extends State<SemesterDetailPage> {
                   CWTextField(
                     labelText: 'Kurs Name',
                     maxWidth: 200,
+                    //   validate: (text) => text.isNotEmpty,
                   ),
                   CWTextField(
                     labelText: 'Anzahl Credits',
@@ -103,8 +104,11 @@ class _SemesterDetailPageState extends State<SemesterDetailPage> {
                         var course = Course(
                           c['Kurs Name'].text,
                           int.parse(c['Anzahl Credits'].text),
-                          double.parse(c['Note'].text),
                         );
+                        if (c['Note'].text != null &&
+                            c['Note'].text.isNotEmpty) {
+                          course.grade = double.parse(c['Note'].text);
+                        }
                         courses.add(course);
                       }
                       var s = widget.semester ?? Semester();

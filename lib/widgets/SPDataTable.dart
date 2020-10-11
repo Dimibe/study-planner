@@ -61,7 +61,7 @@ class SPDataTable extends StatelessWidget {
                     cells: [
                       DataCell(Text(course.name)),
                       DataCell(Text('${course.credits}')),
-                      DataCell(Text('${course.grade}')),
+                      DataCell(Text('${course.grade ?? "-"}')),
                     ],
                   );
                 },
