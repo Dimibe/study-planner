@@ -38,10 +38,12 @@ class SPDataTable extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: DataTable(
+              columnSpacing: 10.0,
               columns: [
                 DataColumn(label: Text('Kurs')),
                 DataColumn(label: Text('Credits')),
                 DataColumn(label: Text('Note')),
+                DataColumn(label: Text('Feld')),
               ],
               rows: List<DataRow>.generate(
                 semester.courses.length,
@@ -62,12 +64,13 @@ class SPDataTable extends StatelessWidget {
                       DataCell(Text(course.name)),
                       DataCell(Text('${course.credits}')),
                       DataCell(Text('${course.grade ?? "-"}')),
+                      DataCell(Text('${course.studyField ?? "-"}')),
                     ],
                   );
                 },
               ),
             ),
-          )
+          ),
         ],
       ),
     );

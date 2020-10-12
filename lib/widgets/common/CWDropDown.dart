@@ -46,7 +46,11 @@ class _CWDropDownState<T> extends State<CWDropDown<T>> {
   @override
   void initState() {
     super.initState();
-    widget.controller.value = widget.initValue;
+    if (widget.controller.value == null) {
+      setState(() {
+        widget.controller.value = widget.initValue;
+      });
+    }
   }
 
   @override
@@ -54,6 +58,7 @@ class _CWDropDownState<T> extends State<CWDropDown<T>> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
+        //padding: EdgeInsets.zero,
         constraints: BoxConstraints(
           maxWidth: widget.maxWidth,
         ),
@@ -61,6 +66,7 @@ class _CWDropDownState<T> extends State<CWDropDown<T>> {
           child: DropdownButtonFormField<T>(
             decoration: InputDecoration(
               labelText: widget.labelText,
+              isDense: true,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(5.0),
                 borderSide:
@@ -87,4 +93,8 @@ class _CWDropDownState<T> extends State<CWDropDown<T>> {
 
 class DropDownController<T> {
   T value;
+
+  set text(T value) {
+    this.value = value;
+  }
 }

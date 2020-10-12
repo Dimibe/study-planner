@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:study_planner/models/Course.dart';
 import 'package:study_planner/models/Semester.dart';
+import 'package:study_planner/models/StudyField.dart';
 import 'package:study_planner/models/StudyPlan.dart';
 import 'package:study_planner/services/StorageService.dart';
+import 'package:study_planner/utils/StudyPlanUtils.dart';
 import 'package:study_planner/widgets/SPModalDialog.dart';
 import 'package:study_planner/widgets/common/CWBase.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
@@ -46,8 +48,12 @@ class _SemesterDetailPageState extends State<SemesterDetailPage> {
           contoller: dynamicControllers,
           initialData: () {
             return widget.semester?.courses
-                ?.map((c) =>
-                    {'name': c.name, 'credits': c.credits, 'grade': c.grade})
+                ?.map((c) => {
+                      'name': c.name,
+                      'credits': c.credits,
+                      'grade': c.grade,
+                      'studyfield': c.studyField,
+                    })
                 ?.toList(growable: false);
           },
           children: <CWBase>[
@@ -66,10 +72,11 @@ class _SemesterDetailPageState extends State<SemesterDetailPage> {
               labelText: 'Note',
               maxWidth: 100,
             ),
-            CWDropDown(
+            CWDropDown<String>(
+              semanticLabel: 'studyfield',
               labelText: 'Kategorie',
-              items: ['Hauptstudium', 'Auflage'],
-              initValue: 'Hauptstudium',
+              items: widget.plan.studyFields.map((e) => e.toString()).toList(),
+              initValue: widget.plan.studyFields[0].toString(),
               maxWidth: 200,
             ),
           ],
@@ -109,6 +116,11 @@ class _SemesterDetailPageState extends State<SemesterDetailPage> {
                 );
                 if (c['grade'].text != null && c['grade'].text.isNotEmpty) {
                   course.grade = double.parse(c['grade'].text);
+                }
+                if (c['studyfield'].value != null &&
+                    c['studyfield'].value.isNotEmpty) {
+                  course.studyField = StudyPlanUtils.getStudyFieldByName(
+                      widget.plan, c['studyfield'].value);
                 }
                 courses.add(course);
               }
