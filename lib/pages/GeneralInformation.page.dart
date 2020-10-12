@@ -30,9 +30,9 @@ class _GeneralInformationPageState extends State<GeneralInformationPage> {
       setState(() {
         _uniController.text = plan?.uni;
         _studiesController.text = plan?.studyName;
-        _mainCreditsController.text = '${plan?.creditsMain}';
-        _otherCreditsController.text = '${plan?.creditsOther}';
-        _semeseterController.text = '${plan?.semesterCount}';
+        _mainCreditsController.text = '${plan?.creditsMain ?? ""}';
+        _otherCreditsController.text = '${plan?.creditsOther ?? ""}';
+        _semeseterController.text = '${plan?.semesterCount ?? ""}';
       });
     });
   }
