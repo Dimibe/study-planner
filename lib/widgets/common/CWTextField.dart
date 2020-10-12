@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:study_planner/widgets/common/CWBase.dart';
 
-class CWTextField extends StatefulWidget {
+class CWTextField extends StatefulWidget implements CWBase<CWTextField> {
   final TextEditingController controller;
+  final String semanticLabel;
   final String labelText;
   final String hintText;
   final String helperText;
@@ -13,9 +15,10 @@ class CWTextField extends StatefulWidget {
   final List<TextInputFormatter> inputFormatters;
   final int maxLines;
 
-  CWTextField(
+  const CWTextField(
       {Key key,
       @required this.labelText,
+      this.semanticLabel,
       this.controller,
       this.hintText,
       this.helperText,
@@ -30,6 +33,7 @@ class CWTextField extends StatefulWidget {
   /// Creates a copy
   CWTextField.copy(CWTextField other, {TextEditingController controller})
       : this.controller = controller ?? other.controller,
+        semanticLabel = other.semanticLabel,
         labelText = other.labelText,
         hintText = other.hintText,
         helperText = other.helperText,
@@ -41,7 +45,18 @@ class CWTextField extends StatefulWidget {
         inputFormatters = other.inputFormatters;
 
   @override
+  CWTextField copy(controller) {
+    return CWTextField.copy(this, controller: controller);
+  }
+
+  @override
   _CWTextFieldState createState() => _CWTextFieldState();
+
+  @override
+  createController() => TextEditingController();
+
+  @override
+  get id => semanticLabel;
 }
 
 class _CWTextFieldState extends State<CWTextField> {
