@@ -6,12 +6,16 @@ part 'StudyField.g.dart';
 class StudyField {
   String name;
   int credits;
+  @JsonKey(defaultValue: false)
   bool countForGrade;
 
-  StudyField([this.name, this.credits, this.countForGrade]);
+  StudyField(this.name, [this.credits, this.countForGrade]);
 
   factory StudyField.fromJson(Map<String, dynamic> json) =>
       _$StudyFieldFromJson(json);
 
   Map<String, dynamic> toJson() => _$StudyFieldToJson(this);
+
+  @override
+  String toString() => name;
 }

@@ -11,8 +11,9 @@ class StudyPlan {
   int semesterCount;
   int creditsMain;
   int creditsOther;
+  @JsonKey(defaultValue: const [])
   List<StudyField> studyFields;
-  @JsonKey(defaultValue: [])
+  @JsonKey(defaultValue: const [])
   List<Semester> semester;
 
   StudyPlan(
@@ -22,7 +23,14 @@ class StudyPlan {
       this.creditsMain,
       this.creditsOther,
       this.studyFields,
-      this.semester]);
+      this.semester]) {
+    if (studyFields == null || studyFields.isEmpty) {
+      studyFields = [
+        StudyField('Hauptstudium', creditsMain, true),
+        StudyField('Auflagen', creditsOther, false),
+      ];
+    }
+  }
 
   factory StudyPlan.fromJson(Map<String, dynamic> json) =>
       _$StudyPlanFromJson(json);
