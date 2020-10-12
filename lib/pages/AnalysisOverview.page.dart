@@ -49,7 +49,7 @@ class _AnalysisOverviewPageState extends State<AnalysisOverviewPage> {
                     cells: [
                       DataCell(Text('Bereits erworbene Credits')),
                       DataCell(Text(
-                          '$creditsNow (${((creditsNow / creditsTotal) * 100).toStringAsFixed(2)}%)')),
+                          '$creditsNow (${((creditsNow / creditsTotal) * 100)?.toStringAsFixed(2) ?? "-"}%)')),
                     ],
                   ),
                   DataRow(
@@ -70,14 +70,15 @@ class _AnalysisOverviewPageState extends State<AnalysisOverviewPage> {
                     cells: [
                       DataCell(Text(
                           'Verbleibende Semester mit Credits Drchschnitt')),
-                      DataCell(Text(semesterOpen.toStringAsFixed(1))),
+                      DataCell(Text(semesterOpen?.toStringAsFixed(1) ?? '-')),
                     ],
                   ),
                   DataRow(
                     cells: [
                       DataCell(Text('Durchschnitt Note')),
                       DataCell(Text(StudyPlanUtils.totalMeanGrade(studyPlan)
-                          .toStringAsFixed(2))),
+                              ?.toStringAsFixed(2) ??
+                          '-')),
                     ],
                   ),
                   DataRow(
