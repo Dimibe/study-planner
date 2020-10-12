@@ -17,14 +17,13 @@ class _AnalysisOverviewPageState extends State<AnalysisOverviewPage> {
     return SPDialog(
       dependsOn: StorageService.loadStudyPlan(),
       content: (StudyPlan studyPlan) {
-        var creditsTotal = int.parse(studyPlan.creditsMain) +
-            int.parse(studyPlan.creditsOther);
+        var creditsTotal = studyPlan.creditsMain + studyPlan.creditsOther;
         var creditsNow = StudyPlanUtils.sumOfCredits(studyPlan);
         var creditsOpen = creditsTotal - creditsNow;
         var meanCreditsSemster = creditsNow / studyPlan.semester.length;
         var semesterOpen = creditsOpen / meanCreditsSemster;
         var semesterCount = studyPlan.semester.length;
-        var openSemester = int.parse(studyPlan.semesterCount) - semesterCount;
+        var openSemester = studyPlan.semesterCount - semesterCount;
         var creditsPerSemester = creditsOpen / openSemester;
 
         return <Widget>[
