@@ -4,7 +4,9 @@ import 'package:study_planner/models/Semester.dart';
 import 'package:study_planner/models/StudyPlan.dart';
 import 'package:study_planner/services/StorageService.dart';
 import 'package:study_planner/widgets/SPModalDialog.dart';
+import 'package:study_planner/widgets/common/CWBase.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
+import 'package:study_planner/widgets/common/CWDropDown.dart';
 import 'package:study_planner/widgets/common/CWDynamicContainer.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
 
@@ -33,6 +35,7 @@ class _SemesterDetailPageState extends State<SemesterDetailPage> {
     return SPModalDialog(
       content: [
         CWTextField(
+          semanticLabel: 'semester',
           labelText: 'Semester',
           controller: myController0,
         ),
@@ -43,24 +46,30 @@ class _SemesterDetailPageState extends State<SemesterDetailPage> {
           contoller: dynamicControllers,
           initialData: () {
             return widget.semester?.courses
-                ?.map((c) => {
-                      'Kurs Name': c.name,
-                      'Anzahl Credits': c.credits,
-                      'Note': c.grade
-                    })
+                ?.map((c) =>
+                    {'name': c.name, 'credits': c.credits, 'grade': c.grade})
                 ?.toList(growable: false);
           },
-          children: [
+          children: <CWBase>[
             CWTextField(
+              semanticLabel: 'name',
               labelText: 'Kurs Name',
               maxWidth: 200,
             ),
             CWTextField(
-              labelText: 'Anzahl Credits',
-              maxWidth: 200,
+              semanticLabel: 'credits',
+              labelText: 'Credits',
+              maxWidth: 100,
             ),
             CWTextField(
+              semanticLabel: 'grade',
               labelText: 'Note',
+              maxWidth: 100,
+            ),
+            CWDropDown(
+              labelText: 'Kategorie',
+              items: ['Hauptstudium', 'Auflage'],
+              initValue: 'Hauptstudium',
               maxWidth: 200,
             ),
           ],
@@ -93,14 +102,13 @@ class _SemesterDetailPageState extends State<SemesterDetailPage> {
             minWidth: minWidth,
             onPressed: () {
               var courses = <Course>[];
-              for (Map<String, TextEditingController> c
-                  in dynamicControllers.controllers) {
+              for (Map<String, dynamic> c in dynamicControllers.controllers) {
                 var course = Course(
-                  c['Kurs Name'].text,
-                  int.parse(c['Anzahl Credits'].text),
+                  c['name'].text,
+                  int.parse(c['credits'].text),
                 );
-                if (c['Note'].text != null && c['Note'].text.isNotEmpty) {
-                  course.grade = double.parse(c['Note'].text);
+                if (c['grade'].text != null && c['grade'].text.isNotEmpty) {
+                  course.grade = double.parse(c['grade'].text);
                 }
                 courses.add(course);
               }

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-
-import 'CWTextField.dart';
+import 'package:study_planner/widgets/common/CWBase.dart';
 
 class CWDynamicContainer extends StatefulWidget {
   final bool showHideOption;
   final bool showAddOption;
   final CWDynamicController contoller;
-  final List<CWTextField> children;
+  final List<CWBase> children;
   final List<Map<String, dynamic>> Function() initialData;
   final EdgeInsets padding;
 
@@ -38,17 +37,17 @@ class _CWDynamicContainerState extends State<CWDynamicContainer> {
   }
 
   void addRow([Map<String, dynamic> rowValues]) {
-    Map<String, TextEditingController> map = {};
+    Map<String, dynamic> map = {};
 
-    var widgets = <CWTextField>[];
+    var widgets = <Widget>[];
 
-    for (CWTextField textField in widget.children) {
-      var controller = TextEditingController();
-      if (rowValues != null && rowValues[textField.labelText] != null) {
-        controller.text = '${rowValues[textField.labelText]}';
+    for (CWBase baseWidget in widget.children) {
+      var controller = baseWidget.createController();
+      if (rowValues != null && rowValues[baseWidget.id] != null) {
+        controller.text = '${rowValues[baseWidget.id]}';
       }
-      map.putIfAbsent(textField.labelText, () => controller);
-      var copy = CWTextField.copy(textField, controller: controller);
+      map.putIfAbsent(baseWidget.id, () => controller);
+      var copy = baseWidget.copy(controller);
       widgets.add(copy);
     }
 
@@ -90,13 +89,13 @@ class _CWDynamicContainerState extends State<CWDynamicContainer> {
 }
 
 class CWDynamicController {
-  List<Map<String, TextEditingController>> _controllers = [];
+  List<Map<String, dynamic>> _controllers = [];
 
-  void addRow(Map<String, TextEditingController> map) {
+  void addRow(Map<String, dynamic> map) {
     _controllers.add(map);
   }
 
-  Map<String, TextEditingController> getByRow(int row) {
+  Map<String, dynamic> getByRow(int row) {
     return _controllers[row];
   }
 
@@ -106,7 +105,7 @@ class CWDynamicController {
 }
 
 class _CWDynamicRow extends StatefulWidget {
-  final List<CWTextField> children;
+  final List<Widget> children;
 
   const _CWDynamicRow({Key key, this.children}) : super(key: key);
 
