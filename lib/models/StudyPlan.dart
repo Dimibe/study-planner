@@ -8,9 +8,9 @@ part 'StudyPlan.g.dart';
 class StudyPlan {
   String uni;
   String studyName;
-  String semesterCount;
-  String creditsMain;
-  String creditsOther;
+  int semesterCount;
+  int creditsMain;
+  int creditsOther;
   List<StudyField> studyFields;
   @JsonKey(defaultValue: [])
   List<Semester> semester;

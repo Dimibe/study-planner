@@ -30,9 +30,9 @@ class _GeneralInformationPageState extends State<GeneralInformationPage> {
       setState(() {
         _uniController.text = plan?.uni;
         _studiesController.text = plan?.studyName;
-        _mainCreditsController.text = plan?.creditsMain;
-        _otherCreditsController.text = plan?.creditsOther;
-        _semeseterController.text = plan?.semesterCount;
+        _mainCreditsController.text = '${plan?.creditsMain}';
+        _otherCreditsController.text = '${plan?.creditsOther}';
+        _semeseterController.text = '${plan?.semesterCount}';
       });
     });
   }
@@ -106,9 +106,9 @@ class _GeneralInformationPageState extends State<GeneralInformationPage> {
 
     studyPlan.uni = _uniController.text;
     studyPlan.studyName = _studiesController.text;
-    studyPlan.semesterCount = _semeseterController.text;
-    studyPlan.creditsMain = _mainCreditsController.text;
-    studyPlan.creditsOther = _otherCreditsController.text;
+    studyPlan.semesterCount = int.parse(_semeseterController.text);
+    studyPlan.creditsMain = int.parse(_mainCreditsController.text);
+    studyPlan.creditsOther = int.parse(_otherCreditsController.text);
 
     StorageService.saveStudyPlan(studyPlan);
   }
