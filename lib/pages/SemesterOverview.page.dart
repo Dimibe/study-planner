@@ -35,7 +35,6 @@ class _SemesterOverviewPageState extends State<SemesterOverviewPage> {
       title: 'Study Planner!',
       content: () {
         var content = <Widget>[];
-
         if (studyPlan == null ||
             studyPlan.semester == null ||
             studyPlan.semester.isEmpty) {
@@ -75,7 +74,7 @@ class _SemesterOverviewPageState extends State<SemesterOverviewPage> {
     content.addAll(studyPlan.semester.map((s) {
       var onEdit = () async {
         var res = await showDialog(
-            barrierDismissible: false,
+            barrierDismissible: true,
             context: context,
             builder: (context) {
               return SemesterDetailPage(plan: studyPlan, semester: s);
