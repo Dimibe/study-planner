@@ -45,12 +45,14 @@ class _SemesterOverviewPageState extends State<SemesterOverviewPage> {
             ),
           );
         } else {
-          content.addAll(_getSemesterData());
+          content.add(Container(
+              constraints: BoxConstraints(maxWidth: 1000),
+              child: Wrap(children: _getSemesterData())));
         }
         content.add(
           CWButton(
             label: 'Semester Hinzufügen',
-            padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+            padding: const EdgeInsets.only(top: 32.0, bottom: 16.0),
             onPressed: () async {
               var res = await showDialog(
                   barrierDismissible: false,
