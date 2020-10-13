@@ -63,7 +63,7 @@ class _AnalysisOverviewPageState extends State<AnalysisOverviewPage> {
                     cells: [
                       DataCell(Text('Credits pro Semester für Wunschziel')),
                       DataCell(Text(
-                          '$creditsPerSemester in $openSemester Semester')),
+                          '${creditsPerSemester.toStringAsFixed(1)} in $openSemester Semester')),
                     ],
                   ),
                   DataRow(
