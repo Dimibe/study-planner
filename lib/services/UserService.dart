@@ -10,7 +10,7 @@ class UserService {
 
   UserService();
 
-  addAuthStateListener(Function(User) listener) {
+  StreamSubscription<User> addAuthStateListener(Function(User) listener) {
     return _auth.authStateChanges().listen(listener);
   }
 

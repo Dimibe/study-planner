@@ -25,11 +25,12 @@ class _GeneralInformationPageState extends State<GeneralInformationPage> {
   final _otherCreditsController = TextEditingController();
   final _semeseterController = TextEditingController();
   StudyPlan studyPlan;
+  var streamSubscription;
 
   @override
   void initState() {
     super.initState();
-    getIt<UserService>().addAuthStateListener(
+    streamSubscription = getIt<UserService>().addAuthStateListener(
       (user) => getIt<StudyPlanService>().loadStudyPlan().then((plan) {
         this.studyPlan = plan;
         setState(() {
@@ -41,6 +42,12 @@ class _GeneralInformationPageState extends State<GeneralInformationPage> {
         });
       }),
     );
+  }
+
+  @override
+  void dispose() async {
+    super.dispose();
+    await streamSubscription.cancel();
   }
 
   @override

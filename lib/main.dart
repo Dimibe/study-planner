@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -18,7 +20,6 @@ void main() async {
   runApp(MyApp());
 }
 
-///
 void setup({bool initFirebase = true}) {
   if (initFirebase) {
     getIt.registerSingleton<UserService>(UserService());
@@ -44,14 +45,21 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   int _themeColorIndex = 9;
   Widget _homeScreen = GeneralInformationPage();
+  StreamSubscription authStateListener;
 
   @override
   void initState() {
     super.initState();
-    getIt<UserService>().addAuthStateListener((user) {
+    authStateListener = getIt<UserService>().addAuthStateListener((user) {
       setPrimarySwatch();
       setHomeScreen();
     });
+  }
+
+  @override
+  void dispose() async {
+    super.dispose();
+    await authStateListener.cancel();
   }
 
   @override
