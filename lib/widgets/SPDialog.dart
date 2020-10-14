@@ -77,22 +77,39 @@ class _SPDialogState extends State<SPDialog> {
   }
 
   Widget getLoginActionWidget() {
-    Widget child = const Icon(Icons.person_pin);
-    var func;
-    UserService userService = GetIt.I<UserService>();
-    if (!userService.isLoggedIn) {
-      child = const Text('Log in', style: TextStyle(color: Colors.white));
-      func = _openLogin;
-    }
-
     return Padding(
-        padding: EdgeInsets.only(right: 8.0),
-        child: Center(
-          child: FlatButton(
-            onPressed: func,
-            child: child,
+      padding: EdgeInsets.only(right: 8.0),
+      child: Center(
+        child: GetIt.I<UserService>().isLoggedIn
+            ? _getLogoutWidget()
+            : _getLoginWidget(),
+      ),
+    );
+  }
+
+  Widget _getLoginWidget() {
+    return FlatButton(
+      onPressed: _openLogin,
+      child: const Text('Log in', style: const TextStyle(color: Colors.white)),
+    );
+  }
+
+  Widget _getLogoutWidget() {
+    return Row(
+      children: [
+        Text(
+          GetIt.I<UserService>().email,
+          style: const TextStyle(color: Colors.white),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 8.0, right: 8.0),
+          child: IconButton(
+            onPressed: GetIt.I<UserService>().logout,
+            icon: const Icon(Icons.logout, color: Colors.white),
           ),
-        ));
+        ),
+      ],
+    );
   }
 
   void _openLogin() async {

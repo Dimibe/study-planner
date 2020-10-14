@@ -25,11 +25,19 @@ class UserService {
     return null;
   }
 
-  get isLoggedIn {
+  bool get isLoggedIn {
     return _auth.currentUser != null;
+  }
+
+  String get email {
+    return _auth.currentUser.email;
   }
 
   String getUid() {
     return _auth.currentUser.uid;
+  }
+
+  void logout() {
+    FirebaseAuth.instance.signOut();
   }
 }

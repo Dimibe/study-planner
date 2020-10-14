@@ -16,10 +16,13 @@ void main() async {
   runApp(MyApp());
 }
 
-void setup() {
-  getIt.registerSingleton<UserService>(UserService());
-  getIt.registerSingleton<StorageService>(StorageService());
-  getIt.registerSingleton<FirestoreService>(FirestoreService());
+///
+void setup({bool initFirebase = true}) {
+  if (initFirebase) {
+    getIt.registerSingleton<UserService>(UserService());
+    getIt.registerSingleton<StorageService>(StorageService());
+    getIt.registerSingleton<FirestoreService>(FirestoreService());
+  }
   getIt.registerSingleton<SettingsService>(SettingsService());
   getIt.registerSingleton<StudyPlanService>(StudyPlanService());
 }

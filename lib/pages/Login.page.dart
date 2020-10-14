@@ -1,10 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
-import 'package:get_it/get_it.dart';
-import 'package:study_planner/models/StudyPlan.dart';
-import 'package:study_planner/services/StudyPlanService.dart';
 import 'package:study_planner/services/UserService.dart';
 import 'package:study_planner/widgets/SPModalDialog.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
@@ -47,9 +43,9 @@ class _LoginPageState extends State<LoginPage> {
         CWButton(
           label: 'Login',
           onPressed: () async {
-            String uid = await GetIt.I<UserService>()
+            await GetIt.I<UserService>()
                 .login(userNameController.text, passwordController.text);
-            StudyPlan plan = await GetIt.I<StudyPlanService>().loadStudyPlan();
+            Navigator.of(context).pop();
           },
         )
       ],
