@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:study_planner/pages/AnalysisOverview.page.dart';
 import 'package:study_planner/pages/GeneralInformation.page.dart';
 import 'package:study_planner/services/FirestoreService.dart';
 import 'package:study_planner/services/SettingsService.dart';
@@ -40,11 +41,15 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   int _themeColorIndex = 9;
+  Widget _homeScreen = GeneralInformationPage();
 
   @override
   void initState() {
     super.initState();
-    getIt<UserService>().addAuthStateListener((user) => setPrimarySwatch());
+    getIt<UserService>().addAuthStateListener((user) {
+      setPrimarySwatch();
+      setHomeScreen();
+    });
   }
 
   @override
@@ -56,8 +61,31 @@ class MyAppState extends State<MyApp> {
         primarySwatch: Colors.primaries[_themeColorIndex],
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: GeneralInformationPage(),
+      home: _homeScreen,
     );
+  }
+
+  void setHomeScreen() async {
+    if (getIt<UserService>().isLoggedIn) {
+      if (_homeScreen is! AnalysisOverviewPage) {
+        var plan = await getIt<StudyPlanService>().loadStudyPlan();
+        if (plan.semester.isNotEmpty) {
+          setState(() {
+            _homeScreen = AnalysisOverviewPage();
+          });
+        } else if (plan.uni != null) {
+          setState(() {
+            _homeScreen = AnalysisOverviewPage();
+          });
+        }
+      }
+    } else {
+      if (_homeScreen is! GeneralInformationPage) {
+        setState(() {
+          _homeScreen = GeneralInformationPage();
+        });
+      }
+    }
   }
 
   /// This function can be called from outside to change the primarySwatch

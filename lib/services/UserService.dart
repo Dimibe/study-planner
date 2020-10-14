@@ -22,7 +22,24 @@ class UserService {
         print('Wrong password provided for that user.');
       }
     }
-    return null;
+    throw null;
+  }
+
+  Future<String> register(String email, String password) async {
+    try {
+      await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      return _auth.currentUser.uid;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
+    throw null;
   }
 
   bool get isLoggedIn {

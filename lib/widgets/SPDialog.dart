@@ -113,13 +113,11 @@ class _SPDialogState extends State<SPDialog> {
   }
 
   void _openLogin() async {
-    var res = await showDialog(
-        context: context,
-        builder: (context) {
-          return LoginPage();
-        });
-    if (res) {
-      // login
-    }
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return LoginPage();
+      },
+    );
   }
 }
