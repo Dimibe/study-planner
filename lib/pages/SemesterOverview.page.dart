@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:study_planner/models/Semester.dart';
 import 'package:study_planner/models/StudyPlan.dart';
 import 'package:study_planner/pages/SemesterDetail.page.dart';
 import 'package:study_planner/services/StudyPlanService.dart';
@@ -52,20 +53,9 @@ class _SemesterOverviewPageState extends State<SemesterOverviewPage> {
         }
         content.add(
           CWButton(
-            label: 'Semester Hinzufügen',
-            padding: const EdgeInsets.only(top: 32.0, bottom: 16.0),
-            onPressed: () async {
-              var res = await showDialog(
-                  barrierDismissible: true,
-                  context: context,
-                  builder: (context) {
-                    return SemesterDetailPage(plan: studyPlan);
-                  });
-              if (res) {
-                _initData();
-              }
-            },
-          ),
+              label: 'Semester Hinzufügen',
+              padding: const EdgeInsets.only(top: 32.0, bottom: 16.0),
+              onPressed: getClickFunction(studyPlan, null)),
         );
         return content;
       },
@@ -75,19 +65,22 @@ class _SemesterOverviewPageState extends State<SemesterOverviewPage> {
   List<Widget> _getSemesterData() {
     var content = <Widget>[];
     content.addAll(studyPlan.semester.map((s) {
-      var onEdit = () async {
-        var res = await showDialog(
-            barrierDismissible: true,
-            context: context,
-            builder: (context) {
-              return SemesterDetailPage(plan: studyPlan, semester: s);
-            });
-        if (res) {
-          _initData();
-        }
-      };
-      return SPDataTable(semester: s, onEdit: onEdit);
+      return SPDataTable(semester: s, onEdit: getClickFunction(studyPlan, s));
     }));
     return content;
+  }
+
+  Function() getClickFunction(StudyPlan plan, Semester s) {
+    return () async {
+      var res = await showDialog(
+          barrierDismissible: true,
+          context: context,
+          builder: (context) {
+            return SemesterDetailPage(plan: studyPlan, semester: s);
+          });
+      if (res) {
+        _initData();
+      }
+    };
   }
 }
