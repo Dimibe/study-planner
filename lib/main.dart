@@ -1,9 +1,27 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:study_planner/pages/GeneralInformation.page.dart';
+import 'package:study_planner/services/FirestoreService.dart';
+import 'package:study_planner/services/SettingsService.dart';
+import 'package:study_planner/services/StudyPlanService.dart';
+import 'package:study_planner/services/UserService.dart';
 import 'services/StorageService.dart';
 
-void main() {
+final getIt = GetIt.instance;
+
+void main() async {
+  await Firebase.initializeApp();
+  setup();
   runApp(MyApp());
+}
+
+void setup() {
+  getIt.registerSingleton<UserService>(UserService());
+  getIt.registerSingleton<StorageService>(StorageService());
+  getIt.registerSingleton<FirestoreService>(FirestoreService());
+  getIt.registerSingleton<SettingsService>(SettingsService());
+  getIt.registerSingleton<StudyPlanService>(StudyPlanService());
 }
 
 class MyApp extends StatefulWidget {
@@ -18,12 +36,12 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-  int themeColorIndex = 9;
+  int _themeColorIndex = 9;
 
   @override
   void initState() {
     super.initState();
-    setPrimarySwatch();
+    getIt<UserService>().addAuthStateListener((user) => setPrimarySwatch());
   }
 
   @override
@@ -32,22 +50,23 @@ class MyAppState extends State<MyApp> {
       title: 'Study Planner',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.primaries[themeColorIndex],
+        primarySwatch: Colors.primaries[_themeColorIndex],
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: GeneralInformationPage(),
     );
   }
 
+  /// This function can be called from outside to change the primarySwatch
   void setPrimarySwatch({ColorSwatch color}) {
     if (color != null) {
       setState(() {
-        themeColorIndex = Colors.primaries.indexOf(color);
+        _themeColorIndex = Colors.primaries.indexOf(color);
       });
     } else {
-      StorageService.loadSettings().then((settings) {
+      getIt<SettingsService>().loadSettings().then((settings) {
         setState(() {
-          themeColorIndex = settings.themeColorIndex;
+          _themeColorIndex = settings.themeColorIndex;
         });
       });
     }

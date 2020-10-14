@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:study_planner/models/Semester.dart';
 import 'package:study_planner/models/StudyPlan.dart';
-import 'package:study_planner/services/StorageService.dart';
+import 'package:study_planner/services/StudyPlanService.dart';
 import 'package:study_planner/utils/StudyPlanUtils.dart';
 import 'package:study_planner/widgets/SPBarChart.dart';
 import 'package:study_planner/widgets/SPDialog.dart';
@@ -15,7 +16,7 @@ class _AnalysisOverviewPageState extends State<AnalysisOverviewPage> {
   @override
   Widget build(BuildContext context) {
     return SPDialog(
-      dependsOn: StorageService.loadStudyPlan(),
+      dependsOn: GetIt.I<StudyPlanService>().loadStudyPlan(),
       content: (StudyPlan studyPlan) {
         var creditsTotal = studyPlan.creditsMain + studyPlan.creditsOther;
         var creditsNow = StudyPlanUtils.sumOfCredits(studyPlan);

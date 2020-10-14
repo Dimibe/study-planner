@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+import 'package:get_it/get_it.dart';
 import 'package:study_planner/models/Settings.dart';
 import 'package:study_planner/models/StudyPlan.dart';
-import 'package:study_planner/services/StorageService.dart';
+import 'package:study_planner/services/SettingsService.dart';
+import 'package:study_planner/services/StudyPlanService.dart';
 import 'package:study_planner/widgets/SPDialog.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
@@ -23,7 +25,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
-    StorageService.loadSettings().then((value) {
+    GetIt.I<SettingsService>().loadSettings().then((value) {
       if (value != null) {
         setState(() {
           settings = value;
@@ -31,7 +33,7 @@ class _SettingsPageState extends State<SettingsPage> {
         });
       }
     });
-    StorageService.loadStudyPlan().then((value) {
+    GetIt.I<StudyPlanService>().loadStudyPlan().then((value) {
       setState(() {
         textEditingController.text = json.encode(value.toJson());
       });
@@ -65,7 +67,7 @@ class _SettingsPageState extends State<SettingsPage> {
           label: 'Studienplan übernehmen',
           color: Theme.of(context).buttonColor,
           padding: EdgeInsets.all(8.0),
-          onPressed: () => StorageService.saveStudyPlan(
+          onPressed: () => GetIt.I<StudyPlanService>().saveStudyPlan(
             StudyPlan.fromJson(json.decode(textEditingController.text)),
           ),
         ),
@@ -96,7 +98,7 @@ class _SettingsPageState extends State<SettingsPage> {
               fontSize: 16,
               onPressed: () {
                 settings.themeColorIndex = themeColorIndex;
-                StorageService.saveSettings(settings);
+                GetIt.I<SettingsService>().saveSettings(settings);
                 MyApp.of(context).setPrimarySwatch();
                 Navigator.of(context).pop();
               },

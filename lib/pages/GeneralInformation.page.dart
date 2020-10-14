@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
 import 'package:study_planner/models/StudyPlan.dart';
 import 'package:study_planner/pages/SemesterOverview.page.dart';
-import 'package:study_planner/services/StorageService.dart';
+import 'package:study_planner/services/StudyPlanService.dart';
 import 'package:study_planner/widgets/SPDialog.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
@@ -25,7 +26,7 @@ class _GeneralInformationPageState extends State<GeneralInformationPage> {
   @override
   void initState() {
     super.initState();
-    StorageService.loadStudyPlan().then((plan) {
+    GetIt.I<StudyPlanService>().loadStudyPlan().then((plan) {
       this.studyPlan = plan;
       setState(() {
         _uniController.text = plan?.uni;
@@ -110,6 +111,6 @@ class _GeneralInformationPageState extends State<GeneralInformationPage> {
     studyPlan.creditsMain = int.parse(_mainCreditsController.text);
     studyPlan.creditsOther = int.parse(_otherCreditsController.text);
 
-    StorageService.saveStudyPlan(studyPlan);
+    GetIt.I<StudyPlanService>().saveStudyPlan(studyPlan);
   }
 }

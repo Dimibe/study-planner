@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:study_planner/pages/Login.page.dart';
+import 'package:study_planner/services/UserService.dart';
 import 'package:study_planner/widgets/SPDrawer.dart';
 
 class SPDialog extends StatefulWidget {
@@ -54,6 +57,7 @@ class _SPDialogState extends State<SPDialog> {
             );
           },
         ),
+        actions: [getLoginActionWidget()],
       ),
       drawerScrimColor: Theme.of(context).backgroundColor,
       drawer: SPDrawer(),
@@ -70,5 +74,35 @@ class _SPDialogState extends State<SPDialog> {
         ),
       ),
     );
+  }
+
+  Widget getLoginActionWidget() {
+    Widget child = const Icon(Icons.person_pin);
+    var func;
+    UserService userService = GetIt.I<UserService>();
+    if (!userService.isLoggedIn) {
+      child = const Text('Log in', style: TextStyle(color: Colors.white));
+      func = _openLogin;
+    }
+
+    return Padding(
+        padding: EdgeInsets.only(right: 8.0),
+        child: Center(
+          child: FlatButton(
+            onPressed: func,
+            child: child,
+          ),
+        ));
+  }
+
+  void _openLogin() async {
+    var res = await showDialog(
+        context: context,
+        builder: (context) {
+          return LoginPage();
+        });
+    if (res) {
+      // login
+    }
   }
 }
