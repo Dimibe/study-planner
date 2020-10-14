@@ -1,33 +1,45 @@
 import 'package:get_it/get_it.dart';
 import 'package:study_planner/models/Settings.dart';
 
+import 'Cache.dart';
 import 'FirestoreService.dart';
 import 'StorageService.dart';
 import 'UserService.dart';
 
+final getIt = GetIt.instance;
+
 class SettingsService {
-  Future<Settings> loadSettings() async {
-    if (GetIt.I<UserService>().isLoggedIn) {
-      var userService = GetIt.I<UserService>();
+  SettingsService();
+
+  Future<Settings> loadSettings({bool force = false}) async {
+    if (!force && getIt<Cache>().settings != null) {
+      return getIt<Cache>().settings;
+    }
+    Settings settings;
+    if (getIt<UserService>().isLoggedIn) {
+      var userService = getIt<UserService>();
       var uid = userService.getUid();
-      var document = GetIt.I<FirestoreService>().getDocument('settings', uid);
+      var document = getIt<FirestoreService>().getDocument('settings', uid);
       var json = (await document).data();
       if (json == null) {
-        return Settings();
+        settings = Settings();
       }
-      return Settings.fromJson(json);
+      settings = Settings.fromJson(json);
     } else {
-      return GetIt.I<StorageService>().loadSettings();
+      settings = getIt<StorageService>().loadSettings();
     }
+    getIt<Cache>().settings = settings;
+    return settings;
   }
 
   Future<void> saveSettings(Settings settings) {
-    if (GetIt.I<UserService>().isLoggedIn) {
-      var uid = GetIt.I<UserService>().getUid();
-      return GetIt.I<FirestoreService>()
+    getIt<Cache>().settings = settings;
+    if (getIt<UserService>().isLoggedIn) {
+      var uid = getIt<UserService>().getUid();
+      return getIt<FirestoreService>()
           .saveDocument('settings', uid, settings.toJson());
     } else {
-      return GetIt.I<StorageService>().saveSettings(settings);
+      return getIt<StorageService>().saveSettings(settings);
     }
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:study_planner/pages/AnalysisOverview.page.dart';
 import 'package:study_planner/pages/GeneralInformation.page.dart';
+import 'package:study_planner/services/Cache.dart';
 import 'package:study_planner/services/FirestoreService.dart';
 import 'package:study_planner/services/SettingsService.dart';
 import 'package:study_planner/services/StudyPlanService.dart';
@@ -26,6 +27,7 @@ void setup({bool initFirebase = true}) {
   }
   getIt.registerSingleton<SettingsService>(SettingsService());
   getIt.registerSingleton<StudyPlanService>(StudyPlanService());
+  getIt.registerSingleton<Cache>(Cache());
 }
 
 class MyApp extends StatefulWidget {

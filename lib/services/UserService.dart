@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get_it/get_it.dart';
+
+import 'Cache.dart';
 
 class UserService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -12,6 +15,7 @@ class UserService {
   }
 
   Future<String> login(String email, String password) async {
+    GetIt.I<Cache>().reset();
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       return _auth.currentUser.uid;
@@ -26,6 +30,7 @@ class UserService {
   }
 
   Future<String> register(String email, String password) async {
+    GetIt.I<Cache>().reset();
     try {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -55,6 +60,7 @@ class UserService {
   }
 
   void logout() {
+    GetIt.I<Cache>().reset();
     FirebaseAuth.instance.signOut();
   }
 }
