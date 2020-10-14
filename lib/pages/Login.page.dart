@@ -17,8 +17,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    userNameController.text = 'dimitribegnis@gmail.com';
-
     return SPModalDialog(
       title: Text('Login'),
       minWidth: 100,
