@@ -82,9 +82,6 @@ class MyAppState extends State<MyApp> {
   void _handleLoginStatus() async {
     var _page = await widget.getNextRoute();
     getIt<NavigatorService>().navigateTo(_page);
-    //   setState(() {
-    //   _homeScreen = _page;
-    //   });
   }
 
   /// This function can be called from outside to change the primarySwatch
