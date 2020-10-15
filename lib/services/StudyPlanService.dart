@@ -20,10 +20,7 @@ class StudyPlanService {
       var uid = getIt<UserService>().getUid();
       var document = getIt<FirestoreService>().getDocument('studyplans', uid);
       var json = (await document).data();
-      if (json == null) {
-        studyPlan = StudyPlan();
-      }
-      studyPlan = StudyPlan.fromJson(json);
+      studyPlan = StudyPlan.fromJson(json ?? {});
     } else {
       studyPlan = getIt<StorageService>().loadStudyPlan();
     }

@@ -3,13 +3,15 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:study_planner/pages/AnalysisOverview.page.dart';
-import 'package:study_planner/pages/GeneralInformation.page.dart';
-import 'package:study_planner/services/Cache.dart';
-import 'package:study_planner/services/FirestoreService.dart';
-import 'package:study_planner/services/SettingsService.dart';
-import 'package:study_planner/services/StudyPlanService.dart';
-import 'package:study_planner/services/UserService.dart';
+import 'package:study_planner/pages/Welcome.page.dart';
+
+import 'pages/AnalysisOverview.page.dart';
+import 'pages/GeneralInformation.page.dart';
+import 'services/Cache.dart';
+import 'services/FirestoreService.dart';
+import 'services/SettingsService.dart';
+import 'services/StudyPlanService.dart';
+import 'services/UserService.dart';
 import 'services/StorageService.dart';
 
 final getIt = GetIt.instance;
@@ -44,7 +46,7 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   int _themeColorIndex = 9;
-  Widget _homeScreen = GeneralInformationPage();
+  Widget _homeScreen = WelcomePage();
   StreamSubscription authStateListener;
 
   @override
@@ -87,12 +89,14 @@ class MyAppState extends State<MyApp> {
           setState(() {
             _homeScreen = AnalysisOverviewPage();
           });
+        } else {
+          _homeScreen = GeneralInformationPage();
         }
       }
     } else {
-      if (_homeScreen is! GeneralInformationPage) {
+      if (_homeScreen is! WelcomePage) {
         setState(() {
-          _homeScreen = GeneralInformationPage();
+          _homeScreen = WelcomePage();
         });
       }
     }

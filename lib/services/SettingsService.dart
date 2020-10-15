@@ -21,10 +21,7 @@ class SettingsService {
       var uid = userService.getUid();
       var document = getIt<FirestoreService>().getDocument('settings', uid);
       var json = (await document).data();
-      if (json == null) {
-        settings = Settings();
-      }
-      settings = Settings.fromJson(json);
+      settings = Settings.fromJson(json ?? {});
     } else {
       settings = getIt<StorageService>().loadSettings();
     }
