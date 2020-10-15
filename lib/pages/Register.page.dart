@@ -30,10 +30,12 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           CWTextField(
             labelText: 'Passwort',
+            obscureText: true,
             controller: passwordController,
           ),
           CWTextField(
             labelText: 'Passwort wiederholen',
+            obscureText: true,
             // controller: passwordController,
           ),
           FlatButton(

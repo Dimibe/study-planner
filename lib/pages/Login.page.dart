@@ -31,6 +31,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           CWTextField(
             labelText: 'Passwort',
+            obscureText: true,
             controller: passwordController,
           ),
           FlatButton(

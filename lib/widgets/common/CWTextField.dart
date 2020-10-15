@@ -14,21 +14,23 @@ class CWTextField extends StatefulWidget implements CWBase<CWTextField> {
   final TextInputType keyboardType;
   final List<TextInputFormatter> inputFormatters;
   final int maxLines;
+  final bool obscureText;
 
-  const CWTextField(
-      {Key key,
-      @required this.labelText,
-      this.semanticLabel,
-      this.controller,
-      this.hintText,
-      this.helperText,
-      this.errorText = 'Erforderlich',
-      this.validator,
-      this.keyboardType,
-      this.maxWidth = 300,
-      this.maxLines = 1,
-      this.inputFormatters})
-      : super(key: key);
+  const CWTextField({
+    Key key,
+    @required this.labelText,
+    this.semanticLabel,
+    this.controller,
+    this.hintText,
+    this.helperText,
+    this.errorText = 'Erforderlich',
+    this.validator,
+    this.keyboardType,
+    this.maxWidth = 300,
+    this.maxLines = 1,
+    this.inputFormatters,
+    this.obscureText = false,
+  }) : super(key: key);
 
   /// Creates a copy
   CWTextField.copy(CWTextField other, {TextEditingController controller})
@@ -42,7 +44,8 @@ class CWTextField extends StatefulWidget implements CWBase<CWTextField> {
         keyboardType = other.keyboardType,
         maxWidth = other.maxWidth,
         maxLines = other.maxLines,
-        inputFormatters = other.inputFormatters;
+        inputFormatters = other.inputFormatters,
+        obscureText = other.obscureText;
 
   @override
   CWTextField copy(controller) {
@@ -82,6 +85,7 @@ class _CWTextFieldState extends State<CWTextField> {
         keyboardType: widget.keyboardType,
         onChanged: _validate,
         maxLines: widget.maxLines,
+        obscureText: widget.obscureText,
         decoration: InputDecoration(
           labelText: widget.labelText,
           hintText: widget.hintText,
