@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:study_planner/pages/AnalysisOverview.page.dart';
 import 'package:study_planner/pages/GeneralInformation.page.dart';
 import 'package:study_planner/pages/SemesterOverview.page.dart';
 import 'package:study_planner/pages/Settings.page.dart';
+import 'package:study_planner/services/NavigatorService.dart';
+
+final GetIt getIt = GetIt.instance;
 
 class SPDrawer extends StatelessWidget {
   @override
@@ -25,39 +29,25 @@ class SPDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.featured_play_list),
             title: Text('Allgemeine Informationen'),
-            onTap: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                    builder: (context) => GeneralInformationPage()),
-              );
-            },
+            onTap: () =>
+                getIt<NavigatorService>().navigateTo(GeneralInformationPage()),
           ),
           ListTile(
             leading: Icon(Icons.list_alt),
             title: Text('Semester Übersicht'),
-            onTap: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => SemesterOverviewPage()),
-              );
-            },
+            onTap: () =>
+                getIt<NavigatorService>().navigateTo(SemesterOverviewPage()),
           ),
           ListTile(
             leading: Icon(Icons.analytics),
             title: Text('Semester Analyse'),
-            onTap: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => AnalysisOverviewPage()),
-              );
-            },
+            onTap: () =>
+                getIt<NavigatorService>().navigateTo(AnalysisOverviewPage()),
           ),
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Einstellungen'),
-            onTap: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => SettingsPage()),
-              );
-            },
+            onTap: () => getIt<NavigatorService>().navigateTo(SettingsPage()),
           ),
         ],
       ),

@@ -7,6 +7,7 @@ import 'package:study_planner/pages/Welcome.page.dart';
 
 import 'pages/AnalysisOverview.page.dart';
 import 'pages/GeneralInformation.page.dart';
+import 'services/NavigatorService.dart';
 import 'services/Cache.dart';
 import 'services/FirestoreService.dart';
 import 'services/SettingsService.dart';
@@ -28,6 +29,7 @@ void setup({bool initFirebase = true}) {
     getIt.registerSingleton<StorageService>(StorageService());
     getIt.registerSingleton<FirestoreService>(FirestoreService());
   }
+  getIt.registerSingleton<NavigatorService>(NavigatorService());
   getIt.registerSingleton<SettingsService>(SettingsService());
   getIt.registerSingleton<StudyPlanService>(StudyPlanService());
   getIt.registerSingleton<Cache>(Cache());
@@ -69,6 +71,7 @@ class MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Study Planner',
       debugShowCheckedModeBanner: false,
+      navigatorKey: getIt<NavigatorService>().navigatorKey,
       theme: ThemeData(
         primarySwatch: Colors.primaries[_themeColorIndex],
         visualDensity: VisualDensity.adaptivePlatformDensity,

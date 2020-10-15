@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:study_planner/models/StudyPlan.dart';
 import 'package:study_planner/pages/SemesterOverview.page.dart';
+import 'package:study_planner/services/NavigatorService.dart';
 import 'package:study_planner/services/StudyPlanService.dart';
 import 'package:study_planner/widgets/SPDialog.dart';
 import 'package:study_planner/widgets/common/CWAppState.dart';
@@ -107,9 +108,7 @@ class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
           label: 'Weiter',
           onPressed: () {
             saveStudyPlan();
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => SemesterOverviewPage()),
-            );
+            getIt<NavigatorService>().navigateTo(SemesterOverviewPage());
           },
         ),
       ],

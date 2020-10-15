@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
+import 'package:study_planner/services/NavigatorService.dart';
 import 'package:study_planner/services/UserService.dart';
 import 'package:study_planner/widgets/SPModalDialog.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
 
 import 'Register.page.dart';
+
+final GetIt getIt = GetIt.instance;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -45,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           FlatButton(
             onPressed: () async {
-              Navigator.of(context).pop();
+              getIt<NavigatorService>().pop();
               await showDialog(
                 context: context,
                 builder: (context) {
@@ -64,9 +67,8 @@ class _LoginPageState extends State<LoginPage> {
         CWButton(
           label: 'Login',
           onPressed: () async {
-            await GetIt.I<UserService>()
+            await getIt<UserService>()
                 .login(emailController.text, passwordController.text);
-            Navigator.pop(context);
           },
         )
       ],

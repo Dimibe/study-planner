@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:study_planner/pages/Login.page.dart';
+import 'package:study_planner/services/NavigatorService.dart';
 import 'package:study_planner/services/UserService.dart';
+import 'package:study_planner/utils/UserRouting.dart';
 import 'package:study_planner/widgets/SPModalDialog.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
 
-class RegisterPage extends StatefulWidget {
+final GetIt getIt = GetIt.instance;
+
+class RegisterPage extends StatefulWidget with UserRouting {
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
@@ -49,7 +53,7 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           FlatButton(
             onPressed: () async {
-              Navigator.of(context).pop();
+              getIt<NavigatorService>().pop();
               await showDialog(
                 context: context,
                 builder: (context) {
@@ -65,9 +69,8 @@ class _RegisterPageState extends State<RegisterPage> {
         CWButton(
           label: 'Registrieren',
           onPressed: () async {
-            await GetIt.I<UserService>()
+            await getIt<UserService>()
                 .register(userNameController.text, passwordController.text);
-            Navigator.of(context).pop();
           },
         )
       ],

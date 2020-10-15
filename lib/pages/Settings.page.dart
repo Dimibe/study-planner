@@ -5,6 +5,7 @@ import 'package:flutter_material_color_picker/flutter_material_color_picker.dart
 import 'package:get_it/get_it.dart';
 import 'package:study_planner/models/Settings.dart';
 import 'package:study_planner/models/StudyPlan.dart';
+import 'package:study_planner/services/NavigatorService.dart';
 import 'package:study_planner/services/SettingsService.dart';
 import 'package:study_planner/services/StudyPlanService.dart';
 import 'package:study_planner/widgets/SPDialog.dart';
@@ -12,6 +13,8 @@ import 'package:study_planner/widgets/common/CWAppState.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
 import '../main.dart';
+
+final getIt = GetIt.instance;
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -26,7 +29,7 @@ class _SettingsPageState extends CWState<SettingsPage> {
   @override
   void initState() {
     super.initState();
-    GetIt.I<SettingsService>().loadSettings().then((value) {
+    getIt<SettingsService>().loadSettings().then((value) {
       if (value != null) {
         setState(() {
           settings = value;
@@ -34,7 +37,7 @@ class _SettingsPageState extends CWState<SettingsPage> {
         });
       }
     });
-    GetIt.I<StudyPlanService>().loadStudyPlan().then((value) {
+    getIt<StudyPlanService>().loadStudyPlan().then((value) {
       setState(() {
         textEditingController.text = json.encode(value.toJson());
       });
@@ -68,7 +71,7 @@ class _SettingsPageState extends CWState<SettingsPage> {
           label: 'Studienplan übernehmen',
           color: Theme.of(context).buttonColor,
           padding: EdgeInsets.all(8.0),
-          onPressed: () => GetIt.I<StudyPlanService>().saveStudyPlan(
+          onPressed: () => getIt<StudyPlanService>().saveStudyPlan(
             StudyPlan.fromJson(json.decode(textEditingController.text)),
           ),
         ),
@@ -89,7 +92,7 @@ class _SettingsPageState extends CWState<SettingsPage> {
               child: Text('Abbrechen'),
               onPressed: () {
                 MyApp.of(context).setPrimarySwatch();
-                Navigator.of(context).pop();
+                getIt<NavigatorService>().pop();
               },
             ),
             CWButton(
@@ -99,9 +102,9 @@ class _SettingsPageState extends CWState<SettingsPage> {
               fontSize: 16,
               onPressed: () {
                 settings.themeColorIndex = themeColorIndex;
-                GetIt.I<SettingsService>().saveSettings(settings);
+                getIt<SettingsService>().saveSettings(settings);
                 MyApp.of(context).setPrimarySwatch();
-                Navigator.of(context).pop();
+                getIt<NavigatorService>().pop();
               },
             ),
           ],
@@ -116,7 +119,6 @@ class _SettingsPageState extends CWState<SettingsPage> {
       MaterialColorPicker(
         allowShades: false,
         colors: Colors.primaries,
-        // circleSize: 150.0,
         selectedColor: settings?.themeColorIndex == null
             ? Colors.green
             : Colors.primaries[settings.themeColorIndex],
