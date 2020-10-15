@@ -4,6 +4,8 @@ import 'package:study_planner/pages/Login.page.dart';
 import 'package:study_planner/services/UserService.dart';
 import 'package:study_planner/widgets/SPDrawer.dart';
 
+final GetIt getIt = GetIt.instance;
+
 /// Base Widget which should be returned by any page widget.
 class SPDialog extends StatefulWidget {
   /// Title of the dialog.

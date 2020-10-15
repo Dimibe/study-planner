@@ -8,14 +8,15 @@ import 'Cache.dart';
 class UserService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  UserService();
+  UserService() {
+    addAuthStateListener((user) => GetIt.I<Cache>().reset());
+  }
 
   StreamSubscription<User> addAuthStateListener(Function(User) listener) {
     return _auth.authStateChanges().listen(listener);
   }
 
   Future<String> login(String email, String password) async {
-    GetIt.I<Cache>().reset();
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       return _auth.currentUser.uid;
@@ -30,7 +31,6 @@ class UserService {
   }
 
   Future<String> register(String email, String password) async {
-    GetIt.I<Cache>().reset();
     try {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -59,8 +59,7 @@ class UserService {
     return _auth.currentUser.uid;
   }
 
-  void logout() {
-    GetIt.I<Cache>().reset();
-    FirebaseAuth.instance.signOut();
+  Future<void> logout() async {
+    return FirebaseAuth.instance.signOut();
   }
 }

@@ -3,11 +3,10 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:study_planner/pages/Welcome.page.dart';
 
-import 'pages/AnalysisOverview.page.dart';
-import 'pages/GeneralInformation.page.dart';
+import 'pages/Welcome.page.dart';
 import 'services/NavigatorService.dart';
+import 'utils/UserRouting.dart';
 import 'services/Cache.dart';
 import 'services/FirestoreService.dart';
 import 'services/SettingsService.dart';
@@ -35,7 +34,7 @@ void setup({bool initFirebase = true}) {
   getIt.registerSingleton<Cache>(Cache());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatefulWidget with UserRouting {
   const MyApp({Key key}) : super(key: key);
 
   @override
@@ -48,15 +47,15 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   int _themeColorIndex = 9;
-  Widget _homeScreen = WelcomePage();
   StreamSubscription authStateListener;
+  Widget _homeScreen = WelcomePage();
 
   @override
   void initState() {
     super.initState();
     authStateListener = getIt<UserService>().addAuthStateListener((user) {
       setPrimarySwatch();
-      setHomeScreen();
+      _handleLoginStatus();
     });
   }
 
@@ -80,29 +79,12 @@ class MyAppState extends State<MyApp> {
     );
   }
 
-  void setHomeScreen() async {
-    if (getIt<UserService>().isLoggedIn) {
-      if (_homeScreen is! AnalysisOverviewPage) {
-        var plan = await getIt<StudyPlanService>().loadStudyPlan();
-        if (plan.semester.isNotEmpty) {
-          setState(() {
-            _homeScreen = AnalysisOverviewPage();
-          });
-        } else if (plan.uni != null) {
-          setState(() {
-            _homeScreen = AnalysisOverviewPage();
-          });
-        } else {
-          _homeScreen = GeneralInformationPage();
-        }
-      }
-    } else {
-      if (_homeScreen is! WelcomePage) {
-        setState(() {
-          _homeScreen = WelcomePage();
-        });
-      }
-    }
+  void _handleLoginStatus() async {
+    var _page = await widget.getNextRoute();
+    getIt<NavigatorService>().navigateTo(_page);
+    //   setState(() {
+    //   _homeScreen = _page;
+    //   });
   }
 
   /// This function can be called from outside to change the primarySwatch
