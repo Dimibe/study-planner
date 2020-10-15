@@ -28,6 +28,11 @@ class _AnalysisOverviewPageState extends State<AnalysisOverviewPage> {
         var creditsPerSemester = creditsOpen / openSemester;
 
         return <Widget>[
+          Text(
+            'Analyse',
+            style: Theme.of(context).textTheme.headline4,
+            textAlign: TextAlign.center,
+          ),
           Container(
             padding: EdgeInsets.all(16.0),
             constraints: BoxConstraints(maxWidth: 700),

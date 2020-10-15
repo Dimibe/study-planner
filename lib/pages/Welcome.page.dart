@@ -16,10 +16,17 @@ class WelcomePage extends StatelessWidget {
           style: Theme.of(context).textTheme.headline2,
           textAlign: TextAlign.center,
         ),
+        Padding(padding: EdgeInsets.only(bottom: 20.0)),
         Text(
           'Analysiere dein Studium und behalte alles im Überblick.',
           style: Theme.of(context).textTheme.headline6,
           textAlign: TextAlign.center,
+        ),
+        Padding(padding: EdgeInsets.only(bottom: 20.0)),
+        Container(
+          constraints: BoxConstraints(maxWidth: 600),
+          padding: EdgeInsets.all(8.0),
+          child: Image(image: AssetImage('assets/welcome.png')),
         ),
         CWButton(
           label: 'Jetzt registrieren!',

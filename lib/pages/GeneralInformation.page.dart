@@ -56,13 +56,13 @@ class _GeneralInformationPageState extends State<GeneralInformationPage> {
       title: 'Study Planner!',
       content: <Widget>[
         Text(
-          'Welcome to study planner!',
+          'Wikommen bei Study Planner!',
           style: Theme.of(context).textTheme.headline2,
           textAlign: TextAlign.center,
         ),
         Padding(padding: EdgeInsets.only(top: 50.0)),
         Text(
-          'Please type in the following information:',
+          'Bitte gebe die folgenden Informationen ein:',
           style: Theme.of(context).textTheme.headline6,
           textAlign: TextAlign.center,
         ),
