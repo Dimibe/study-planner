@@ -5,4 +5,4 @@ Plan your course of studies with study planner!
 
 ## Getting Started
 
-Comming soon...
+![Welcome image](https://raw.githubusercontent.com/Dimibe/study-planner/master/assets/welcome.png?token=ADXXI5JLGZGIWFW4GVBPEUC7SGM46)
