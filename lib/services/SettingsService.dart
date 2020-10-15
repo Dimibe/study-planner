@@ -12,10 +12,11 @@ class SettingsService {
   SettingsService();
 
   Future<Settings> loadSettings({bool force = false}) async {
-    if (!force && getIt<Cache>().settings != null) {
-      return getIt<Cache>().settings;
+    Settings settings = getIt<Cache>().settings;
+    if (!force && settings != null) {
+      print('Reading settings from cache: ${settings.toJson()}');
+      return settings;
     }
-    Settings settings;
     if (getIt<UserService>().isLoggedIn) {
       var userService = getIt<UserService>();
       var uid = userService.getUid();
@@ -26,10 +27,12 @@ class SettingsService {
       settings = getIt<StorageService>().loadSettings();
     }
     getIt<Cache>().settings = settings;
+    print('Reading settings: ${settings.toJson()}');
     return settings;
   }
 
   Future<void> saveSettings(Settings settings) {
+    print('Saving: ${settings.toJson()}');
     getIt<Cache>().settings = settings;
     if (getIt<UserService>().isLoggedIn) {
       var uid = getIt<UserService>().getUid();

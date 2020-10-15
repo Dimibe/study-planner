@@ -38,9 +38,8 @@ class _SemesterOverviewPageState extends CWState<SemesterOverviewPage> {
       title: 'Study Planner!',
       content: () {
         var content = <Widget>[];
-        if (studyPlan == null ||
-            studyPlan.semester == null ||
-            studyPlan.semester.isEmpty) {
+        if (studyPlan == null) return content;
+        if (studyPlan.semester == null || studyPlan.semester.isEmpty) {
           content.add(
             Text(
               'Noch keine Semester vorhanden..',

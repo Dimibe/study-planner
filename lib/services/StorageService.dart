@@ -42,7 +42,6 @@ class StorageService {
   }
 
   Future<void> saveSettings(Settings settings) async {
-    print('Saving: ${settings.toJson()}');
     await prefs.setString(_SETTINGS, jsonEncode(settings.toJson()));
   }
 }
