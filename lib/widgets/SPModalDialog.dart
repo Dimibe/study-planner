@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+/// Base Widget which should be returned by any modal page widget.
 class SPModalDialog extends StatelessWidget {
   final Widget title;
   final dynamic content;
