@@ -58,11 +58,13 @@ class _GeneralInformationPageState extends State<GeneralInformationPage> {
         Text(
           'Welcome to study planner!',
           style: Theme.of(context).textTheme.headline2,
+          textAlign: TextAlign.center,
         ),
         Padding(padding: EdgeInsets.only(top: 50.0)),
         Text(
           'Please type in the following information:',
           style: Theme.of(context).textTheme.headline6,
+          textAlign: TextAlign.center,
         ),
         Padding(padding: EdgeInsets.only(top: 16.0)),
         CWTextField(
