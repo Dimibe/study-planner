@@ -30,8 +30,8 @@ class _GeneralInformationPageState extends State<GeneralInformationPage> {
   @override
   void initState() {
     super.initState();
-    streamSubscription = getIt<UserService>().addAuthStateListener(
-      (user) => getIt<StudyPlanService>().loadStudyPlan().then((plan) {
+    getIt<StudyPlanService>().loadStudyPlan().then(
+      (plan) {
         this.studyPlan = plan;
         setState(() {
           _uniController.text = plan?.uni;
@@ -40,7 +40,7 @@ class _GeneralInformationPageState extends State<GeneralInformationPage> {
           _otherCreditsController.text = '${plan?.creditsOther ?? ""}';
           _semeseterController.text = '${plan?.semesterCount ?? ""}';
         });
-      }),
+      },
     );
   }
 
