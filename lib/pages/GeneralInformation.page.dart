@@ -46,8 +46,8 @@ class _GeneralInformationPageState extends State<GeneralInformationPage> {
 
   @override
   void dispose() async {
+    streamSubscription.cancel();
     super.dispose();
-    await streamSubscription.cancel();
   }
 
   @override
