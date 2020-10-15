@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
 import 'package:study_planner/models/StudyPlan.dart';
 import 'package:study_planner/pages/SemesterOverview.page.dart';
-import 'package:study_planner/services/StorageService.dart';
+import 'package:study_planner/services/StudyPlanService.dart';
+import 'package:study_planner/services/UserService.dart';
 import 'package:study_planner/widgets/SPDialog.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
+
+final GetIt getIt = GetIt.instance;
 
 class GeneralInformationPage extends StatefulWidget {
   GeneralInformationPage({Key key}) : super(key: key);
@@ -21,20 +25,29 @@ class _GeneralInformationPageState extends State<GeneralInformationPage> {
   final _otherCreditsController = TextEditingController();
   final _semeseterController = TextEditingController();
   StudyPlan studyPlan;
+  var streamSubscription;
 
   @override
   void initState() {
     super.initState();
-    StorageService.loadStudyPlan().then((plan) {
-      this.studyPlan = plan;
-      setState(() {
-        _uniController.text = plan?.uni;
-        _studiesController.text = plan?.studyName;
-        _mainCreditsController.text = '${plan?.creditsMain ?? ""}';
-        _otherCreditsController.text = '${plan?.creditsOther ?? ""}';
-        _semeseterController.text = '${plan?.semesterCount ?? ""}';
-      });
-    });
+    streamSubscription = getIt<UserService>().addAuthStateListener(
+      (user) => getIt<StudyPlanService>().loadStudyPlan().then((plan) {
+        this.studyPlan = plan;
+        setState(() {
+          _uniController.text = plan?.uni;
+          _studiesController.text = plan?.studyName;
+          _mainCreditsController.text = '${plan?.creditsMain ?? ""}';
+          _otherCreditsController.text = '${plan?.creditsOther ?? ""}';
+          _semeseterController.text = '${plan?.semesterCount ?? ""}';
+        });
+      }),
+    );
+  }
+
+  @override
+  void dispose() async {
+    super.dispose();
+    await streamSubscription.cancel();
   }
 
   @override
@@ -110,6 +123,6 @@ class _GeneralInformationPageState extends State<GeneralInformationPage> {
     studyPlan.creditsMain = int.parse(_mainCreditsController.text);
     studyPlan.creditsOther = int.parse(_otherCreditsController.text);
 
-    StorageService.saveStudyPlan(studyPlan);
+    getIt<StudyPlanService>().saveStudyPlan(studyPlan);
   }
 }

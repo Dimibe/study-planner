@@ -8,8 +8,13 @@ class StorageService {
   static const _STUDY_PLAN = 'studyplan-v0.1';
   static const _SETTINGS = 'settings-v0.1';
 
-  static Future<StudyPlan> loadStudyPlan() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  SharedPreferences prefs;
+
+  StorageService() {
+    SharedPreferences.getInstance().then((value) => prefs = value);
+  }
+
+  StudyPlan loadStudyPlan() {
     var jsonString = prefs.get(_STUDY_PLAN);
     if (jsonString == null) {
       return StudyPlan();
@@ -20,14 +25,12 @@ class StorageService {
     return plan;
   }
 
-  static void saveStudyPlan(StudyPlan plan) async {
+  Future<void> saveStudyPlan(StudyPlan plan) async {
     print('Saving: ${plan.toJson()}');
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(_STUDY_PLAN, jsonEncode(plan.toJson()));
   }
 
-  static Future<Settings> loadSettings() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  Settings loadSettings() {
     var jsonString = prefs.get(_SETTINGS);
     if (jsonString == null) {
       return Settings();
@@ -38,9 +41,8 @@ class StorageService {
     return settings;
   }
 
-  static void saveSettings(Settings settings) async {
+  Future<void> saveSettings(Settings settings) async {
     print('Saving: ${settings.toJson()}');
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(_SETTINGS, jsonEncode(settings.toJson()));
   }
 }

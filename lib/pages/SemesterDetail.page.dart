@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:study_planner/models/Course.dart';
 import 'package:study_planner/models/Semester.dart';
-import 'package:study_planner/models/StudyField.dart';
 import 'package:study_planner/models/StudyPlan.dart';
-import 'package:study_planner/services/StorageService.dart';
+import 'package:study_planner/services/StudyPlanService.dart';
 import 'package:study_planner/utils/StudyPlanUtils.dart';
 import 'package:study_planner/widgets/SPModalDialog.dart';
 import 'package:study_planner/widgets/common/CWBase.dart';
@@ -96,7 +96,7 @@ class _SemesterDetailPageState extends State<SemesterDetailPage> {
                 ? null
                 : () {
                     widget.plan.semester.remove(widget.semester);
-                    StorageService.saveStudyPlan(widget.plan);
+                    GetIt.I<StudyPlanService>().saveStudyPlan(widget.plan);
                     Navigator.pop(context, true);
                   },
             child: Text(
@@ -130,7 +130,7 @@ class _SemesterDetailPageState extends State<SemesterDetailPage> {
               if (widget.semester == null) {
                 widget.plan.semester.add(s);
               }
-              StorageService.saveStudyPlan(widget.plan);
+              GetIt.I<StudyPlanService>().saveStudyPlan(widget.plan);
               Navigator.pop(context, true);
             },
           ),

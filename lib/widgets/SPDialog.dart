@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:study_planner/pages/Login.page.dart';
+import 'package:study_planner/services/UserService.dart';
 import 'package:study_planner/widgets/SPDrawer.dart';
 
 class SPDialog extends StatefulWidget {
@@ -54,6 +57,7 @@ class _SPDialogState extends State<SPDialog> {
             );
           },
         ),
+        actions: [getLoginActionWidget()],
       ),
       drawerScrimColor: Theme.of(context).backgroundColor,
       drawer: SPDrawer(),
@@ -69,6 +73,51 @@ class _SPDialogState extends State<SPDialog> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget getLoginActionWidget() {
+    return Padding(
+      padding: EdgeInsets.only(right: 8.0),
+      child: Center(
+        child: GetIt.I<UserService>().isLoggedIn
+            ? _getLogoutWidget()
+            : _getLoginWidget(),
+      ),
+    );
+  }
+
+  Widget _getLoginWidget() {
+    return FlatButton(
+      onPressed: _openLogin,
+      child: const Text('Log in', style: const TextStyle(color: Colors.white)),
+    );
+  }
+
+  Widget _getLogoutWidget() {
+    return Row(
+      children: [
+        Text(
+          GetIt.I<UserService>().email,
+          style: const TextStyle(color: Colors.white),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 8.0, right: 8.0),
+          child: IconButton(
+            onPressed: GetIt.I<UserService>().logout,
+            icon: const Icon(Icons.logout, color: Colors.white),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _openLogin() async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return LoginPage();
+      },
     );
   }
 }
