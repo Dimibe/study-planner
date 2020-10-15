@@ -35,6 +35,12 @@ class SPBarChart<T> extends StatelessWidget {
         ),
       );
     }
+    var rotation = 0;
+    if (data != null && data.isNotEmpty) {
+      if (domainFn(data[0], null).length > 13) {
+        rotation = 45;
+      }
+    }
 
     return Container(
       padding: EdgeInsets.all(16.0),
@@ -44,6 +50,9 @@ class SPBarChart<T> extends StatelessWidget {
         _getData(context),
         animate: true,
         defaultInteractions: false,
+        domainAxis: OrdinalAxisSpec(
+          renderSpec: SmallTickRendererSpec(labelRotation: rotation),
+        ),
         behaviors: [
           ChartTitle(this.title,
               subTitle:
