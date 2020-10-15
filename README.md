@@ -16,6 +16,7 @@ For Flutter Web development the flutter beta channel must be used. Follow [this]
 | - assets
 | - build
   | - web
+| - fonts
 | - web
 | - lib 
   | - main.dart
