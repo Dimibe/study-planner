@@ -4,8 +4,8 @@ import 'package:get_it/get_it.dart';
 import 'package:study_planner/models/StudyPlan.dart';
 import 'package:study_planner/pages/SemesterOverview.page.dart';
 import 'package:study_planner/services/StudyPlanService.dart';
-import 'package:study_planner/services/UserService.dart';
 import 'package:study_planner/widgets/SPDialog.dart';
+import 'package:study_planner/widgets/common/CWAppState.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
 
@@ -18,7 +18,7 @@ class GeneralInformationPage extends StatefulWidget {
   _GeneralInformationPageState createState() => _GeneralInformationPageState();
 }
 
-class _GeneralInformationPageState extends State<GeneralInformationPage> {
+class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
   final _uniController = TextEditingController();
   final _studiesController = TextEditingController();
   final _mainCreditsController = TextEditingController();

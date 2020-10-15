@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:study_planner/widgets/SPDialog.dart';
+import 'package:study_planner/widgets/common/CWAppState.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
 
 import 'Register.page.dart';
 
-class WelcomePage extends StatelessWidget {
+class WelcomePage extends StatefulWidget {
+  @override
+  _WelcomePageState createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends CWState<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return SPDialog(

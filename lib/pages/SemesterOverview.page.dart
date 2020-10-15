@@ -6,6 +6,7 @@ import 'package:study_planner/pages/SemesterDetail.page.dart';
 import 'package:study_planner/services/StudyPlanService.dart';
 import 'package:study_planner/widgets/SPDataTable.dart';
 import 'package:study_planner/widgets/SPDialog.dart';
+import 'package:study_planner/widgets/common/CWAppState.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
 
 class SemesterOverviewPage extends StatefulWidget {
@@ -15,7 +16,7 @@ class SemesterOverviewPage extends StatefulWidget {
   _SemesterOverviewPageState createState() => _SemesterOverviewPageState();
 }
 
-class _SemesterOverviewPageState extends State<SemesterOverviewPage> {
+class _SemesterOverviewPageState extends CWState<SemesterOverviewPage> {
   StudyPlan studyPlan;
   @override
   void initState() {

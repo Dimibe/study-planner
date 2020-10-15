@@ -6,6 +6,7 @@ import 'package:study_planner/models/StudyPlan.dart';
 import 'package:study_planner/services/StudyPlanService.dart';
 import 'package:study_planner/utils/StudyPlanUtils.dart';
 import 'package:study_planner/widgets/SPModalDialog.dart';
+import 'package:study_planner/widgets/common/CWAppState.dart';
 import 'package:study_planner/widgets/common/CWBase.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
 import 'package:study_planner/widgets/common/CWDropDown.dart';
@@ -22,7 +23,7 @@ class SemesterDetailPage extends StatefulWidget {
   _SemesterDetailPageState createState() => _SemesterDetailPageState();
 }
 
-class _SemesterDetailPageState extends State<SemesterDetailPage> {
+class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
   var myController0;
   var dynamicControllers = CWDynamicController();
 

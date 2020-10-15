@@ -8,6 +8,7 @@ import 'package:study_planner/models/StudyPlan.dart';
 import 'package:study_planner/services/SettingsService.dart';
 import 'package:study_planner/services/StudyPlanService.dart';
 import 'package:study_planner/widgets/SPDialog.dart';
+import 'package:study_planner/widgets/common/CWAppState.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
 import '../main.dart';
@@ -17,7 +18,7 @@ class SettingsPage extends StatefulWidget {
   State<StatefulWidget> createState() => _SettingsPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class _SettingsPageState extends CWState<SettingsPage> {
   Settings settings;
   int themeColorIndex = 0;
   var textEditingController = TextEditingController();

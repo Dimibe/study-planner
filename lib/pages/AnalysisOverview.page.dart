@@ -6,13 +6,14 @@ import 'package:study_planner/services/StudyPlanService.dart';
 import 'package:study_planner/utils/StudyPlanUtils.dart';
 import 'package:study_planner/widgets/SPBarChart.dart';
 import 'package:study_planner/widgets/SPDialog.dart';
+import 'package:study_planner/widgets/common/CWAppState.dart';
 
 class AnalysisOverviewPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _AnalysisOverviewPageState();
 }
 
-class _AnalysisOverviewPageState extends State<AnalysisOverviewPage> {
+class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
   @override
   Widget build(BuildContext context) {
     return SPDialog(
