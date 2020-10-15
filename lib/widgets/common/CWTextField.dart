@@ -15,6 +15,8 @@ class CWTextField extends StatefulWidget implements CWBase<CWTextField> {
   final List<TextInputFormatter> inputFormatters;
   final int maxLines;
   final bool obscureText;
+  final List<String> autofillHints;
+  final bool autofocus;
 
   const CWTextField({
     Key key,
@@ -30,6 +32,8 @@ class CWTextField extends StatefulWidget implements CWBase<CWTextField> {
     this.maxLines = 1,
     this.inputFormatters,
     this.obscureText = false,
+    this.autofillHints,
+    this.autofocus = false,
   }) : super(key: key);
 
   /// Creates a copy
@@ -45,7 +49,9 @@ class CWTextField extends StatefulWidget implements CWBase<CWTextField> {
         maxWidth = other.maxWidth,
         maxLines = other.maxLines,
         inputFormatters = other.inputFormatters,
-        obscureText = other.obscureText;
+        obscureText = other.obscureText,
+        autofillHints = other.autofillHints,
+        autofocus = other.autofocus;
 
   @override
   CWTextField copy(controller) {
@@ -81,6 +87,8 @@ class _CWTextFieldState extends State<CWTextField> {
       ),
       padding: EdgeInsets.all(8.0),
       child: TextField(
+        autofocus: widget.autofocus,
+        autofillHints: widget.autofillHints,
         inputFormatters: widget.inputFormatters,
         keyboardType: widget.keyboardType,
         onChanged: _validate,

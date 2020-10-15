@@ -25,14 +25,23 @@ class _LoginPageState extends State<LoginPage> {
       padding: 15,
       content: (constrains) {
         return [
-          CWTextField(
-            labelText: 'Email',
-            controller: emailController,
-          ),
-          CWTextField(
-            labelText: 'Passwort',
-            obscureText: true,
-            controller: passwordController,
+          AutofillGroup(
+            child: Column(
+              children: [
+                CWTextField(
+                  labelText: 'Email',
+                  autofocus: true,
+                  autofillHints: [AutofillHints.email],
+                  controller: emailController,
+                ),
+                CWTextField(
+                  labelText: 'Passwort',
+                  obscureText: true,
+                  autofillHints: [AutofillHints.password],
+                  controller: passwordController,
+                ),
+              ],
+            ),
           ),
           FlatButton(
             onPressed: () async {

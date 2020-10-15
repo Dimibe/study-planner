@@ -24,19 +24,28 @@ class _RegisterPageState extends State<RegisterPage> {
       padding: 15,
       content: (constrains) {
         return [
-          CWTextField(
-            labelText: 'Email',
-            controller: userNameController,
-          ),
-          CWTextField(
-            labelText: 'Passwort',
-            obscureText: true,
-            controller: passwordController,
-          ),
-          CWTextField(
-            labelText: 'Passwort wiederholen',
-            obscureText: true,
-            // controller: passwordController,
+          AutofillGroup(
+            child: Column(
+              children: [
+                CWTextField(
+                  labelText: 'Email',
+                  autofocus: true,
+                  autofillHints: [AutofillHints.email],
+                  controller: userNameController,
+                ),
+                CWTextField(
+                  labelText: 'Passwort',
+                  autofillHints: [AutofillHints.newPassword],
+                  controller: passwordController,
+                  obscureText: true,
+                ),
+                CWTextField(
+                  labelText: 'Passwort wiederholen',
+                  obscureText: true,
+                  // controller: passwordController,
+                ),
+              ],
+            ),
           ),
           FlatButton(
             onPressed: () async {
