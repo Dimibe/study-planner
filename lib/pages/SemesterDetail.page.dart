@@ -111,19 +111,21 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
             onPressed: () {
               var courses = <Course>[];
               for (Map<String, dynamic> c in dynamicControllers.controllers) {
-                var course = Course(
-                  c['name'].text,
-                  int.parse(c['credits'].text),
-                );
-                if (c['grade'].text != null && c['grade'].text.isNotEmpty) {
-                  course.grade = double.parse(c['grade'].text);
+                if (c['name'].text.isNotEmpty && c['credits'].text.isNotEmpty) {
+                  var course = Course(
+                    c['name'].text,
+                    int.parse(c['credits'].text),
+                  );
+                  if (c['grade'].text != null && c['grade'].text.isNotEmpty) {
+                    course.grade = double.parse(c['grade'].text);
+                  }
+                  if (c['studyfield'].value != null &&
+                      c['studyfield'].value.isNotEmpty) {
+                    course.studyField = StudyPlanUtils.getStudyFieldByName(
+                        widget.plan, c['studyfield'].value);
+                  }
+                  courses.add(course);
                 }
-                if (c['studyfield'].value != null &&
-                    c['studyfield'].value.isNotEmpty) {
-                  course.studyField = StudyPlanUtils.getStudyFieldByName(
-                      widget.plan, c['studyfield'].value);
-                }
-                courses.add(course);
               }
               var s = widget.semester ?? Semester();
               s.name = myController0.text;
