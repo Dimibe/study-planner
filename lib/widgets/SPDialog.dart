@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:study_planner/pages/Login.page.dart';
@@ -37,54 +39,72 @@ class SPDialog extends StatefulWidget {
 
 class _SPDialogState extends State<SPDialog> {
   dynamic _value;
+  bool _loggedIn;
+  StreamSubscription _authStateListener;
 
   @override
   void initState() {
     super.initState();
     widget.dependsOn?.then((value) => setState(() => _value = value));
+    _authStateListener = getIt<UserService>().addAuthStateListener((user) {
+      setState(() {
+        _loggedIn = user != null;
+      });
+    });
+  }
+
+  @override
+  void dispose() async {
+    _authStateListener.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(this.widget.title),
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: Icon(Icons.menu),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              tooltip: 'Menu',
-            );
-          },
+    return LayoutBuilder(
+      builder: (_, constraints) => Scaffold(
+        appBar: AppBar(
+          title: Text(this.widget.title),
+          leading: Builder(
+            builder: (BuildContext context) {
+              if (_loggedIn) {
+                return IconButton(
+                  icon: Icon(Icons.menu),
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  tooltip: 'Menu',
+                );
+              }
+              return Container();
+            },
+          ),
+          actions: [getLoginActionWidget(constraints)],
         ),
-        actions: [getLoginActionWidget()],
-      ),
-      drawerScrimColor: Theme.of(context).backgroundColor,
-      drawer: SPDrawer(),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: (widget.content is List)
-                ? widget.content
-                : (widget.dependsOn != null
-                    ? (_value != null ? widget.content(_value) : [])
-                    : widget.content()),
+        drawerScrimColor: Theme.of(context).backgroundColor,
+        drawer: _loggedIn ? SPDrawer() : null,
+        body: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: (widget.content is List)
+                  ? widget.content
+                  : (widget.dependsOn != null
+                      ? (_value != null ? widget.content(_value) : [])
+                      : widget.content()),
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget getLoginActionWidget() {
+  Widget getLoginActionWidget(BoxConstraints constraints) {
     return Padding(
       padding: EdgeInsets.only(right: 8.0),
       child: Center(
         child: GetIt.I<UserService>().isLoggedIn
-            ? _getLogoutWidget()
+            ? _getLogoutWidget(constraints)
             : _getLoginWidget(),
       ),
     );
@@ -97,21 +117,28 @@ class _SPDialogState extends State<SPDialog> {
     );
   }
 
-  Widget _getLogoutWidget() {
-    return Row(
-      children: [
+  Widget _getLogoutWidget(BoxConstraints constraints) {
+    var content = <Widget>[];
+    if (constraints.maxWidth > 600) {
+      content.add(
         Text(
           GetIt.I<UserService>().email,
           style: const TextStyle(color: Colors.white),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 8.0, right: 8.0),
-          child: IconButton(
-            onPressed: GetIt.I<UserService>().logout,
-            icon: const Icon(Icons.logout, color: Colors.white),
-          ),
+      );
+    }
+    content.add(
+      Padding(
+        padding: EdgeInsets.only(left: 8.0, right: 8.0),
+        child: IconButton(
+          onPressed: GetIt.I<UserService>().logout,
+          icon: const Icon(Icons.logout, color: Colors.white),
         ),
-      ],
+      ),
+    );
+
+    return Row(
+      children: content,
     );
   }
 
