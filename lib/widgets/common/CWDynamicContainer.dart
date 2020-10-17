@@ -116,9 +116,12 @@ class _CWDynamicRow extends StatefulWidget {
 class _CWDynamicRowState extends State<_CWDynamicRow> {
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      clipBehavior: Clip.hardEdge,
-      children: widget.children,
+    return Padding(
+      padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+      child: Wrap(
+        clipBehavior: Clip.hardEdge,
+        children: widget.children,
+      ),
     );
   }
 }

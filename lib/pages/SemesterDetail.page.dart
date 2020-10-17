@@ -78,7 +78,7 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
               labelText: 'Kategorie',
               items: widget.plan.studyFields.map((e) => e.toString()).toList(),
               initValue: widget.plan.studyFields[0].toString(),
-              maxWidth: 200,
+              maxWidth: 184,
             ),
           ],
         ),
