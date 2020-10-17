@@ -5,9 +5,9 @@ class NavigatorService {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   Type currentType = WelcomePage;
 
-  Future<dynamic> navigateTo(Widget page) {
+  Future<dynamic> navigateTo(Widget page, {bool force = true}) {
     print(currentType.toString());
-    if (currentType != page.runtimeType) {
+    if (force || currentType != page.runtimeType) {
       currentType = page.runtimeType;
       return navigatorKey.currentState
           .pushReplacement(MaterialPageRoute(builder: (context) => page));
