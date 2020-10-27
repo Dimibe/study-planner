@@ -114,8 +114,8 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
                 data: studyPlan.semester,
                 domainFn: (s, _) => s.name,
                 labelFn: (s, _) =>
-                    StudyPlanUtils.meanGrade(s).toStringAsFixed(2),
-                measureFn: (s, _) => StudyPlanUtils.meanGrade(s),
+                    StudyPlanUtils.semesterMeanGrade(s).toStringAsFixed(2),
+                measureFn: (s, _) => StudyPlanUtils.semesterMeanGrade(s),
                 average: StudyPlanUtils.totalMeanGrade(studyPlan),
               ),
             ],
