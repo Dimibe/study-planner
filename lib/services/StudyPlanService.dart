@@ -21,8 +21,6 @@ class StudyPlanService {
       var document = getIt<FirestoreService>().getDocument('studyplans', uid);
       var json = (await document).data();
       studyPlan = StudyPlan.fromJson(json ?? {});
-    } else {
-      studyPlan = getIt<StorageService>().loadStudyPlan();
     }
     getIt<Cache>().studyPlan = studyPlan;
     return studyPlan;
@@ -34,8 +32,7 @@ class StudyPlanService {
       var uid = getIt<UserService>().getUid();
       return getIt<FirestoreService>()
           .saveDocument('studyplans', uid, studyPlan.toJson());
-    } else {
-      return getIt<StorageService>().saveStudyPlan(studyPlan);
     }
+    return null;
   }
 }

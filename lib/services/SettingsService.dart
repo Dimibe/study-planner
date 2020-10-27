@@ -23,8 +23,6 @@ class SettingsService {
       var document = getIt<FirestoreService>().getDocument('settings', uid);
       var json = (await document).data();
       settings = Settings.fromJson(json ?? {});
-    } else {
-      settings = getIt<StorageService>().loadSettings();
     }
     getIt<Cache>().settings = settings;
     print('Reading settings: ${settings.toJson()}');
@@ -38,8 +36,7 @@ class SettingsService {
       var uid = getIt<UserService>().getUid();
       return getIt<FirestoreService>()
           .saveDocument('settings', uid, settings.toJson());
-    } else {
-      return getIt<StorageService>().saveSettings(settings);
     }
+    return null;
   }
 }
