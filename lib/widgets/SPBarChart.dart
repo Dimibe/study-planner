@@ -37,7 +37,7 @@ class SPBarChart<T> extends StatelessWidget {
     }
     var rotation = 0;
     if (data != null && data.isNotEmpty) {
-      if (domainFn(data[0], null).length > 13) {
+      if (domainFn(data[0], null).length * data.length > 52) {
         rotation = 45;
       }
     }
