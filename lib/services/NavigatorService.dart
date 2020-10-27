@@ -6,7 +6,6 @@ class NavigatorService {
   Type currentType = WelcomePage;
 
   Future<dynamic> navigateTo(Widget page, {bool force = true}) {
-    print(currentType.toString());
     if (force || currentType != page.runtimeType) {
       currentType = page.runtimeType;
       return navigatorKey.currentState

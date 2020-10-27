@@ -22,14 +22,8 @@ class SPDialog extends StatefulWidget {
   /// called when the value is present so there is no need for a null check.
   final dynamic content;
 
-  /// Can be used when the dialog content depends on a Future<dynamic> which
-  /// needs to be resolved. The resolved value will be directly passed to the
-  /// content function.
-  final Future<dynamic> dependsOn;
-
   SPDialog({
     @required this.content,
-    this.dependsOn,
     this.title = 'Study Planner!',
   });
 
@@ -38,14 +32,12 @@ class SPDialog extends StatefulWidget {
 }
 
 class _SPDialogState extends State<SPDialog> {
-  dynamic _value;
-  bool _loggedIn;
+  bool _loggedIn = false;
   StreamSubscription _authStateListener;
 
   @override
   void initState() {
     super.initState();
-    widget.dependsOn?.then((value) => setState(() => _value = value));
     _authStateListener = getIt<UserService>().addAuthStateListener((user) {
       setState(() {
         _loggedIn = user != null;
@@ -61,50 +53,45 @@ class _SPDialogState extends State<SPDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (_, constraints) => Scaffold(
-        appBar: AppBar(
-          title: Text(this.widget.title),
-          leading: Builder(
-            builder: (BuildContext context) {
-              if (_loggedIn) {
-                return IconButton(
-                  icon: Icon(Icons.menu),
-                  onPressed: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                  tooltip: 'Menu',
-                );
-              }
-              return Container();
-            },
-          ),
-          actions: [getLoginActionWidget(constraints)],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(this.widget.title),
+        leading: Builder(
+          builder: (BuildContext context) {
+            if (_loggedIn) {
+              return IconButton(
+                icon: Icon(Icons.menu),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                tooltip: 'Menu',
+              );
+            }
+            return Container();
+          },
         ),
-        drawerScrimColor: Theme.of(context).backgroundColor,
-        drawer: _loggedIn ? SPDrawer() : null,
-        body: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: (widget.content is List)
-                  ? widget.content
-                  : (widget.dependsOn != null
-                      ? (_value != null ? widget.content(_value) : [])
-                      : widget.content()),
-            ),
+        actions: [getLoginActionWidget()],
+      ),
+      drawerScrimColor: Theme.of(context).backgroundColor,
+      drawer: _loggedIn ? SPDrawer() : null,
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children:
+                (widget.content is List) ? widget.content : widget.content(),
           ),
         ),
       ),
     );
   }
 
-  Widget getLoginActionWidget(BoxConstraints constraints) {
+  Widget getLoginActionWidget() {
     return Padding(
       padding: EdgeInsets.only(right: 8.0),
       child: Center(
         child: GetIt.I<UserService>().isLoggedIn
-            ? _getLogoutWidget(constraints)
+            ? _getLogoutWidget()
             : _getLoginWidget(),
       ),
     );
@@ -117,9 +104,9 @@ class _SPDialogState extends State<SPDialog> {
     );
   }
 
-  Widget _getLogoutWidget(BoxConstraints constraints) {
+  Widget _getLogoutWidget() {
     var content = <Widget>[];
-    if (constraints.maxWidth > 600) {
+    if (MediaQuery.of(context).size.width > 600) {
       content.add(
         Text(
           GetIt.I<UserService>().email,
