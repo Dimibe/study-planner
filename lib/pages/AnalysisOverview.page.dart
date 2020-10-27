@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:study_planner/models/Semester.dart';
@@ -23,10 +25,11 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
         var creditsNow = StudyPlanUtils.sumOfCredits(studyPlan);
         var creditsOpen = creditsTotal - creditsNow;
         var meanCreditsSemster = creditsNow / studyPlan.semester.length;
-        var semesterOpen = creditsOpen / meanCreditsSemster;
+        var semesterOpen = max(creditsOpen / meanCreditsSemster, 0);
         var semesterCount = studyPlan.semester.length;
         var openSemester = studyPlan.semesterCount - semesterCount;
-        var creditsPerSemester = creditsOpen / openSemester;
+        var creditsPerSemester =
+            openSemester == 0 ? 0 : max(creditsOpen / openSemester, 0);
 
         return <Widget>[
           Text(
@@ -91,7 +94,7 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
                   DataRow(
                     cells: [
                       DataCell(Text('Durchschnitt Credits pro Semester')),
-                      DataCell(Text('$meanCreditsSemster')),
+                      DataCell(Text(meanCreditsSemster?.toStringAsFixed(2))),
                     ],
                   ),
                 ],
