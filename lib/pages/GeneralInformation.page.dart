@@ -80,28 +80,19 @@ class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
           labelText: 'Credits Hauptstudium',
           hintText: 'Anzahl Credits',
           controller: _mainCreditsController,
-          keyboardType: TextInputType.number,
-          inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.digitsOnly
-          ],
+          inputType: CWInputType.Integer,
         ),
         CWTextField(
           labelText: 'Credits Auflagen etc.',
           hintText: 'Anzahl Credits',
           controller: _otherCreditsController,
-          keyboardType: TextInputType.number,
-          inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.digitsOnly
-          ],
+          inputType: CWInputType.Integer,
         ),
         CWTextField(
           labelText: 'Ziel Semesteranzahl',
           hintText: 'Anzahl Semester',
           controller: _semeseterController,
-          keyboardType: TextInputType.number,
-          inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.digitsOnly
-          ],
+          inputType: CWInputType.Integer,
         ),
         Padding(padding: EdgeInsets.only(top: 16.0)),
         CWButton(

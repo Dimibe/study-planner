@@ -11,12 +11,11 @@ class CWTextField extends StatefulWidget implements CWBase<CWTextField> {
   final String errorText;
   final bool Function(String) validator;
   final double maxWidth;
-  final TextInputType keyboardType;
-  final List<TextInputFormatter> inputFormatters;
   final int maxLines;
   final bool obscureText;
   final List<String> autofillHints;
   final bool autofocus;
+  final CWInputType inputType;
 
   const CWTextField({
     Key key,
@@ -27,13 +26,12 @@ class CWTextField extends StatefulWidget implements CWBase<CWTextField> {
     this.helperText,
     this.errorText = 'Erforderlich',
     this.validator,
-    this.keyboardType,
     this.maxWidth = 300,
     this.maxLines = 1,
-    this.inputFormatters,
     this.obscureText = false,
     this.autofillHints,
     this.autofocus = false,
+    this.inputType = CWInputType.Text,
   }) : super(key: key);
 
   /// Creates a copy
@@ -45,13 +43,12 @@ class CWTextField extends StatefulWidget implements CWBase<CWTextField> {
         helperText = other.helperText,
         errorText = other.errorText,
         validator = other.validator,
-        keyboardType = other.keyboardType,
         maxWidth = other.maxWidth,
         maxLines = other.maxLines,
-        inputFormatters = other.inputFormatters,
         obscureText = other.obscureText,
         autofillHints = other.autofillHints,
-        autofocus = other.autofocus;
+        autofocus = other.autofocus,
+        inputType = other.inputType;
 
   @override
   CWTextField copy(controller) {
@@ -86,14 +83,14 @@ class _CWTextFieldState extends State<CWTextField> {
         maxWidth: this.widget.maxWidth,
       ),
       padding: EdgeInsets.all(8.0),
-      child: TextField(
+      child: TextFormField(
         autofocus: widget.autofocus,
         autofillHints: widget.autofillHints,
-        inputFormatters: widget.inputFormatters,
-        keyboardType: widget.keyboardType,
         onChanged: _validate,
         maxLines: widget.maxLines,
         obscureText: widget.obscureText,
+        keyboardType: _getKeyboardType(),
+        inputFormatters: _getInputFormatters(),
         decoration: InputDecoration(
           labelText: widget.labelText,
           hintText: widget.hintText,
@@ -109,6 +106,28 @@ class _CWTextFieldState extends State<CWTextField> {
     );
   }
 
+  TextInputType _getKeyboardType() {
+    if ({CWInputType.Decimal, CWInputType.Integer}.contains(widget.inputType)) {
+      return TextInputType.numberWithOptions(
+        decimal: widget.inputType == CWInputType.Decimal,
+        signed: false,
+      );
+    }
+    return null;
+  }
+
+  List<TextInputFormatter> _getInputFormatters() {
+    if (CWInputType.Integer == widget.inputType) {
+      return [FilteringTextInputFormatter.digitsOnly];
+    } else if (CWInputType.Decimal == widget.inputType) {
+      return [
+        FilteringTextInputFormatter.allow(RegExp(r'(\d|\.|,)')),
+        FilteringTextInputFormatter.deny(RegExp(r','), replacementString: '.'),
+      ];
+    }
+    return null;
+  }
+
   void _validate(String text) {
     if (widget.validator != null &&
         !widget.validator(text) &&
@@ -119,3 +138,5 @@ class _CWTextFieldState extends State<CWTextField> {
     }
   }
 }
+
+enum CWInputType { Integer, Decimal, Text }

@@ -66,11 +66,13 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
             CWTextField(
               semanticLabel: 'credits',
               labelText: 'Credits',
+              inputType: CWInputType.Decimal,
               maxWidth: 100,
             ),
             CWTextField(
               semanticLabel: 'grade',
               labelText: 'Note',
+              inputType: CWInputType.Decimal,
               maxWidth: 100,
             ),
             CWDropDown<String>(
