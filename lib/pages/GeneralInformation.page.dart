@@ -46,8 +46,8 @@ class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
   }
 
   @override
-  void dispose() async {
-    streamSubscription.cancel();
+  void dispose() {
+    streamSubscription?.cancel();
     super.dispose();
   }
 

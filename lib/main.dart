@@ -60,8 +60,8 @@ class MyAppState extends State<MyApp> {
   }
 
   @override
-  void dispose() async {
-    authStateListener.cancel();
+  void dispose() {
+    authStateListener?.cancel();
     super.dispose();
   }
 

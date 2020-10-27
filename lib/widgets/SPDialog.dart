@@ -46,8 +46,8 @@ class _SPDialogState extends State<SPDialog> {
   }
 
   @override
-  void dispose() async {
-    _authStateListener.cancel();
+  void dispose() {
+    _authStateListener?.cancel();
     super.dispose();
   }
 

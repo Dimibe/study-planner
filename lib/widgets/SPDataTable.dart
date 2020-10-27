@@ -12,7 +12,7 @@ class SPDataTable extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         var sidePadding = constraints.maxWidth < 450 ? 16.0 : 24.0;
-        var topBottomPadding = 8.0;
+        var topBottomPadding = constraints.maxWidth < 450 ? 8.0 : 32.0;
         return Container(
           padding: EdgeInsets.fromLTRB(
               sidePadding, topBottomPadding, sidePadding, topBottomPadding),
