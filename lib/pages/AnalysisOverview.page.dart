@@ -16,22 +16,43 @@ class AnalysisOverviewPage extends StatefulWidget {
 }
 
 class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
+  StudyPlan studyPlan;
+  int creditsTotal;
+  int creditsNow;
+  int creditsOpen;
+  double meanCreditsSemster;
+  double semesterOpen;
+  int semesterCount;
+  int openSemester;
+  double creditsPerSemester;
+
+  @override
+  void initState() {
+    super.initState();
+    GetIt.I<StudyPlanService>().loadStudyPlan().then((value) {
+      setState(() {
+        studyPlan = value;
+        creditsTotal = studyPlan.creditsMain + studyPlan.creditsOther;
+        creditsNow = StudyPlanUtils.sumOfCredits(studyPlan);
+        creditsOpen = creditsTotal - creditsNow;
+        meanCreditsSemster = creditsNow / studyPlan.semester.length;
+        semesterOpen = max(creditsOpen / meanCreditsSemster, 0);
+        semesterCount = studyPlan.semester.length;
+        openSemester = studyPlan.semesterCount - semesterCount;
+        creditsPerSemester =
+            openSemester == 0 ? 0 : max(creditsOpen / openSemester, 0);
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SPDialog(
-      dependsOn: GetIt.I<StudyPlanService>().loadStudyPlan(),
-      content: (StudyPlan studyPlan) {
-        var creditsTotal = studyPlan.creditsMain + studyPlan.creditsOther;
-        var creditsNow = StudyPlanUtils.sumOfCredits(studyPlan);
-        var creditsOpen = creditsTotal - creditsNow;
-        var meanCreditsSemster = creditsNow / studyPlan.semester.length;
-        var semesterOpen = max(creditsOpen / meanCreditsSemster, 0);
-        var semesterCount = studyPlan.semester.length;
-        var openSemester = studyPlan.semesterCount - semesterCount;
-        var creditsPerSemester =
-            openSemester == 0 ? 0 : max(creditsOpen / openSemester, 0);
-
-        return <Widget>[
+      content: () {
+        if (studyPlan == null) {
+          return <Widget>[];
+        }
+        return [
           Text(
             'Analyse',
             style: Theme.of(context).textTheme.headline4,
