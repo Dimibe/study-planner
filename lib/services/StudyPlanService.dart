@@ -4,7 +4,6 @@ import 'package:study_planner/services/FirestoreService.dart';
 
 import 'Cache.dart';
 import 'UserService.dart';
-import 'StorageService.dart';
 
 final getIt = GetIt.instance;
 

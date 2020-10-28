@@ -8,8 +8,12 @@ class NavigatorService {
   Future<dynamic> navigateTo(Widget page, {bool force = true}) {
     if (force || currentType != page.runtimeType) {
       currentType = page.runtimeType;
-      return navigatorKey.currentState
-          .pushReplacement(MaterialPageRoute(builder: (context) => page));
+      return navigatorKey.currentState.pushReplacement(
+        PageRouteBuilder(
+          pageBuilder: (context, a1, a2) => page,
+          transitionDuration: Duration.zero,
+        ),
+      );
     }
     return null;
   }
