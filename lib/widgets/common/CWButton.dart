@@ -9,6 +9,7 @@ class CWButton extends StatelessWidget {
   final double minWidth;
   final double minHeight;
   final double fontSize;
+  final bool validateOnClick;
 
   const CWButton({
     Key key,
@@ -19,6 +20,7 @@ class CWButton extends StatelessWidget {
     this.minWidth,
     this.minHeight,
     this.fontSize,
+    this.validateOnClick = false,
   }) : super(key: key);
 
   @override
@@ -37,7 +39,8 @@ class CWButton extends StatelessWidget {
         ),
         child: ElevatedButton(
           onPressed: () {
-            if (SPDialog.of(context).formKey.currentState.validate()) {
+            if (!validateOnClick ||
+                SPDialog.of(context).formKey.currentState.validate()) {
               onPressed();
             }
           },

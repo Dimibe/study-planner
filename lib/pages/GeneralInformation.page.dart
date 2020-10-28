@@ -91,6 +91,7 @@ class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
         Padding(padding: EdgeInsets.only(top: 16.0)),
         CWButton(
           label: 'Speichern',
+          validateOnClick: true,
           onPressed: () {
             saveStudyPlan();
           },
@@ -101,7 +102,6 @@ class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
 
   void saveStudyPlan() {
     studyPlan ??= StudyPlan();
-
     studyPlan.uni = _uniController.text;
     studyPlan.studyName = _studiesController.text;
     studyPlan.semesterCount = int.parse(_semeseterController.text);

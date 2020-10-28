@@ -88,7 +88,7 @@ class _CWTextFieldState extends State<CWTextField> {
         keyboardType: _getKeyboardType(),
         inputFormatters: _getInputFormatters(),
         decoration: InputDecoration(
-          labelText: widget.labelText,
+          labelText: widget.labelText + (widget.mandatory ? '*' : ''),
           hintText: widget.hintText,
           helperText: widget.helperText,
           border: OutlineInputBorder(
