@@ -15,7 +15,6 @@ class _WelcomePageState extends CWState<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return SPDialog(
-      title: 'Study Planner!',
       content: <Widget>[
         Text(
           'Willkommen bei Study Planner!',

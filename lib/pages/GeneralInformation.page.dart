@@ -54,14 +54,8 @@ class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
   @override
   Widget build(BuildContext context) {
     return SPDialog(
-      title: 'Study Planner!',
+      header: 'Studienplan',
       content: <Widget>[
-        Text(
-          'Wikommen bei Study Planner!',
-          style: Theme.of(context).textTheme.headline2,
-          textAlign: TextAlign.center,
-        ),
-        Padding(padding: EdgeInsets.only(top: 50.0)),
         Text(
           'Bitte gebe die folgenden Informationen ein:',
           style: Theme.of(context).textTheme.headline6,

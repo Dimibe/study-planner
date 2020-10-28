@@ -35,6 +35,7 @@ class _SemesterOverviewPageState extends CWState<SemesterOverviewPage> {
   @override
   Widget build(BuildContext context) {
     return SPDialog(
+      header: 'Semesterübersicht',
       content: () {
         var content = <Widget>[];
         if (studyPlan == null) return content;

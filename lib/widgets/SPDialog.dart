@@ -14,18 +14,20 @@ class SPDialog extends StatefulWidget with Routes {
   /// Title of the dialog.
   final String title;
 
+  /// Header of the dialog.
+  /// Can be either an array `<Widget>[]` or a function which returns an array
+  /// `<Widget>[] Function()`.
+  final dynamic header;
+
   /// Content of the dialog.
   /// Can be either an array `<Widget>[]` or a function which returns an array
   /// `<Widget>[] Function()`.
-  ///
-  /// If [dependsOn] is specified it must be `<Widget>[] Function(dynamic)`
-  /// where the passed value is the resolved future value. The method is only
-  /// called when the value is present so there is no need for a null check.
   final dynamic content;
 
   SPDialog({
     @required this.content,
     this.title = 'Study Planner!',
+    this.header,
   });
 
   @override
@@ -108,13 +110,31 @@ class _SPDialogState extends State<SPDialog>
           ),
           drawerScrimColor: Theme.of(context).backgroundColor,
           drawer: _loggedIn ? SPDrawer() : null,
-          body: Center(
-            child: SingleChildScrollView(
+          body: SingleChildScrollView(
+            child: Align(
+              alignment: Alignment.topCenter,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: (widget.content is List)
-                    ? widget.content
-                    : widget.content(),
+                children: []
+                  ..add(
+                    widget.header != null
+                        ? Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                              16.0,
+                              24.0,
+                              16.0,
+                              50.0,
+                            ),
+                            child: Text(
+                              widget.header,
+                              style: Theme.of(context).textTheme.headline4,
+                              textAlign: TextAlign.center,
+                            ),
+                          )
+                        : SizedBox(height: 0),
+                  )
+                  ..addAll((widget.content is List)
+                      ? widget.content
+                      : widget.content()),
               ),
             ),
           ),

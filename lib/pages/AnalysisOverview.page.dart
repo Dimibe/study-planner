@@ -53,6 +53,7 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
   @override
   Widget build(BuildContext context) {
     return SPDialog(
+      header: 'Analyse',
       content: () {
         if (studyPlan == null) {
           return <Widget>[];
@@ -71,11 +72,6 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
           ];
         }
         return [
-          Text(
-            'Analyse',
-            style: Theme.of(context).textTheme.headline4,
-            textAlign: TextAlign.center,
-          ),
           Container(
             padding: EdgeInsets.all(16.0),
             constraints: BoxConstraints(maxWidth: 700),

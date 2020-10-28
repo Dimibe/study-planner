@@ -47,7 +47,7 @@ class _SettingsPageState extends CWState<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return SPDialog(
-      title: 'Study Planner!',
+      header: 'Einstellungen',
       content: [
         Padding(
           padding: const EdgeInsets.all(8.0),
