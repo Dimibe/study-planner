@@ -31,13 +31,18 @@ class SPDialog extends StatefulWidget with Routes {
   });
 
   @override
-  _SPDialogState createState() => _SPDialogState();
+  SPDialogState createState() => SPDialogState();
+
+  static SPDialogState of(BuildContext context) {
+    return context.findAncestorStateOfType<State<SPDialog>>();
+  }
 }
 
-class _SPDialogState extends State<SPDialog>
+class SPDialogState extends State<SPDialog>
     with SingleTickerProviderStateMixin {
   bool _loggedIn;
   StreamSubscription _authStateListener;
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -113,28 +118,31 @@ class _SPDialogState extends State<SPDialog>
           body: SingleChildScrollView(
             child: Align(
               alignment: Alignment.topCenter,
-              child: Column(
-                children: []
-                  ..add(
-                    widget.header != null
-                        ? Padding(
-                            padding: const EdgeInsets.fromLTRB(
-                              16.0,
-                              24.0,
-                              16.0,
-                              50.0,
-                            ),
-                            child: Text(
-                              widget.header,
-                              style: Theme.of(context).textTheme.headline4,
-                              textAlign: TextAlign.center,
-                            ),
-                          )
-                        : SizedBox(height: 0),
-                  )
-                  ..addAll((widget.content is List)
-                      ? widget.content
-                      : widget.content()),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: []
+                    ..add(
+                      widget.header != null
+                          ? Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                16.0,
+                                24.0,
+                                16.0,
+                                50.0,
+                              ),
+                              child: Text(
+                                widget.header,
+                                style: Theme.of(context).textTheme.headline4,
+                                textAlign: TextAlign.center,
+                              ),
+                            )
+                          : SizedBox(height: 0),
+                    )
+                    ..addAll((widget.content is List)
+                        ? widget.content
+                        : widget.content()),
+                ),
               ),
             ),
           ),

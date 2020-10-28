@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:study_planner/models/StudyPlan.dart';
-import 'package:study_planner/pages/SemesterOverview.page.dart';
-import 'package:study_planner/services/NavigatorService.dart';
 import 'package:study_planner/services/StudyPlanService.dart';
 import 'package:study_planner/widgets/SPDialog.dart';
 import 'package:study_planner/widgets/common/CWAppState.dart';
@@ -65,6 +62,7 @@ class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
         CWTextField(
           labelText: 'Uni',
           controller: _uniController,
+          mandatory: true,
         ),
         CWTextField(
           labelText: 'Studiengang',
@@ -75,6 +73,7 @@ class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
           hintText: 'Anzahl Credits',
           controller: _mainCreditsController,
           inputType: CWInputType.Integer,
+          mandatory: true,
         ),
         CWTextField(
           labelText: 'Credits Auflagen etc.',
@@ -87,13 +86,13 @@ class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
           hintText: 'Anzahl Semester',
           controller: _semeseterController,
           inputType: CWInputType.Integer,
+          mandatory: true,
         ),
         Padding(padding: EdgeInsets.only(top: 16.0)),
         CWButton(
-          label: 'Weiter',
+          label: 'Speichern',
           onPressed: () {
             saveStudyPlan();
-            getIt<NavigatorService>().navigateTo(SemesterOverviewPage());
           },
         ),
       ],
@@ -107,7 +106,9 @@ class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
     studyPlan.studyName = _studiesController.text;
     studyPlan.semesterCount = int.parse(_semeseterController.text);
     studyPlan.creditsMain = int.parse(_mainCreditsController.text);
-    studyPlan.creditsOther = int.parse(_otherCreditsController.text);
+    studyPlan.creditsOther = _otherCreditsController.text.isNotEmpty
+        ? int.parse(_otherCreditsController.text)
+        : null;
 
     getIt<StudyPlanService>().saveStudyPlan(studyPlan);
   }

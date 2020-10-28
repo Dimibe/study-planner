@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:study_planner/widgets/SPDialog.dart';
 
 class CWButton extends StatelessWidget {
   final String label;
@@ -35,7 +36,11 @@ class CWButton extends StatelessWidget {
           ),
         ),
         child: ElevatedButton(
-          onPressed: this.onPressed,
+          onPressed: () {
+            if (SPDialog.of(context).formKey.currentState.validate()) {
+              onPressed();
+            }
+          },
           child: Text(
             this.label,
             style: TextStyle(fontSize: this.fontSize ?? 20),

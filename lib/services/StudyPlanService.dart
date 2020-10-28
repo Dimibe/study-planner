@@ -26,6 +26,7 @@ class StudyPlanService {
   }
 
   Future<void> saveStudyPlan(StudyPlan studyPlan) async {
+    print('Saving: ${studyPlan.toJson()}');
     getIt<Cache>().studyPlan = studyPlan;
     if (getIt<UserService>().isLoggedIn) {
       var uid = getIt<UserService>().getUid();

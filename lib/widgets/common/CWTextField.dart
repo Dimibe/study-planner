@@ -9,7 +9,9 @@ class CWTextField extends StatefulWidget implements CWBase<CWTextField> {
   final String hintText;
   final String helperText;
   final String errorText;
-  final bool Function(String) validator;
+  final String mandatoryText;
+  final bool mandatory;
+  final bool Function(String) validate;
   final double maxWidth;
   final int maxLines;
   final bool obscureText;
@@ -24,8 +26,10 @@ class CWTextField extends StatefulWidget implements CWBase<CWTextField> {
     this.controller,
     this.hintText,
     this.helperText,
-    this.errorText = 'Erforderlich',
-    this.validator,
+    this.mandatoryText = 'Erforderlich',
+    this.errorText = 'Eingabe nicht korrekt',
+    this.mandatory = false,
+    this.validate,
     this.maxWidth = 300,
     this.maxLines = 1,
     this.obscureText = false,
@@ -42,7 +46,9 @@ class CWTextField extends StatefulWidget implements CWBase<CWTextField> {
         hintText = other.hintText,
         helperText = other.helperText,
         errorText = other.errorText,
-        validator = other.validator,
+        mandatoryText = other.mandatoryText,
+        mandatory = other.mandatory,
+        validate = other.validate,
         maxWidth = other.maxWidth,
         maxLines = other.maxLines,
         obscureText = other.obscureText,
@@ -66,16 +72,6 @@ class CWTextField extends StatefulWidget implements CWBase<CWTextField> {
 }
 
 class _CWTextFieldState extends State<CWTextField> {
-  var _errorText;
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.controller != null) {
-      _validate(widget.controller.text);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -86,16 +82,15 @@ class _CWTextFieldState extends State<CWTextField> {
       child: TextFormField(
         autofocus: widget.autofocus,
         autofillHints: widget.autofillHints,
-        onChanged: _validate,
         maxLines: widget.maxLines,
         obscureText: widget.obscureText,
+        validator: _validator,
         keyboardType: _getKeyboardType(),
         inputFormatters: _getInputFormatters(),
         decoration: InputDecoration(
           labelText: widget.labelText,
           hintText: widget.hintText,
           helperText: widget.helperText,
-          errorText: _errorText,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5.0),
             borderSide: BorderSide(style: BorderStyle.solid, color: Colors.red),
@@ -128,14 +123,13 @@ class _CWTextFieldState extends State<CWTextField> {
     return null;
   }
 
-  void _validate(String text) {
-    if (widget.validator != null &&
-        !widget.validator(text) &&
-        _errorText == null) {
-      setState(() => _errorText = widget.errorText);
-    } else if (_errorText != null) {
-      setState(() => _errorText = null);
+  String _validator(String text) {
+    if (widget.mandatory && (text == null || text.isEmpty)) {
+      return widget.mandatoryText;
+    } else if (widget.validate != null && !widget.validate(text)) {
+      return widget.errorText;
     }
+    return null;
   }
 }
 
