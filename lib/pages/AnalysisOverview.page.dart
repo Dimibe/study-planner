@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:study_planner/models/Semester.dart';
 import 'package:study_planner/models/StudyPlan.dart';
+import 'package:study_planner/pages/GeneralInformation.page.dart';
+import 'package:study_planner/services/NavigatorService.dart';
 import 'package:study_planner/services/StudyPlanService.dart';
 import 'package:study_planner/utils/StudyPlanUtils.dart';
 import 'package:study_planner/widgets/SPBarChart.dart';
 import 'package:study_planner/widgets/SPDialog.dart';
 import 'package:study_planner/widgets/common/CWAppState.dart';
+import 'package:study_planner/widgets/common/CWButton.dart';
 
 class AnalysisOverviewPage extends StatefulWidget {
   @override
@@ -32,15 +35,17 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
     GetIt.I<StudyPlanService>().loadStudyPlan().then((value) {
       setState(() {
         studyPlan = value;
-        creditsTotal = studyPlan.creditsMain + studyPlan.creditsOther;
-        creditsNow = StudyPlanUtils.sumOfCredits(studyPlan);
-        creditsOpen = creditsTotal - creditsNow;
-        meanCreditsSemster = creditsNow / studyPlan.semester.length;
-        semesterOpen = max(creditsOpen / meanCreditsSemster, 0);
-        semesterCount = studyPlan.semester.length;
-        openSemester = studyPlan.semesterCount - semesterCount;
-        creditsPerSemester =
-            openSemester == 0 ? 0 : max(creditsOpen / openSemester, 0);
+        if (studyPlan.creditsMain != null) {
+          creditsTotal = studyPlan.creditsMain + studyPlan.creditsOther;
+          creditsNow = StudyPlanUtils.sumOfCredits(studyPlan);
+          creditsOpen = creditsTotal - creditsNow;
+          meanCreditsSemster = creditsNow / studyPlan.semester.length;
+          semesterOpen = max(creditsOpen / meanCreditsSemster, 0);
+          semesterCount = studyPlan.semester.length;
+          openSemester = studyPlan.semesterCount - semesterCount;
+          creditsPerSemester =
+              openSemester == 0 ? 0 : max(creditsOpen / openSemester, 0);
+        }
       });
     });
   }
@@ -51,6 +56,19 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
       content: () {
         if (studyPlan == null) {
           return <Widget>[];
+        } else if (studyPlan.creditsMain == null) {
+          return <Widget>[
+            Text(
+              'Erstelle zuerst dein Studienplan..',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            CWButton(
+              label: 'Zum Studienplan',
+              padding: const EdgeInsets.only(top: 32.0, bottom: 16.0),
+              onPressed: () => GetIt.I<NavigatorService>()
+                  .navigateTo(GeneralInformationPage()),
+            ),
+          ];
         }
         return [
           Text(
