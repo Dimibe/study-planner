@@ -23,6 +23,8 @@ class SettingsService {
       var document = getIt<FirestoreService>().getDocument('settings', uid);
       var json = (await document).data();
       settings = Settings.fromJson(json ?? {});
+    } else {
+      settings = Settings.fromJson({});
     }
     getIt<Cache>().settings = settings;
     print('Reading settings: ${settings.toJson()}');

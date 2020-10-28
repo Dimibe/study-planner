@@ -74,29 +74,34 @@ class _SPDialogState extends State<SPDialog>
             leadingWidth: showDrawer ? null : 200,
             leading: Builder(
               builder: (BuildContext context) {
-                if (_loggedIn && showDrawer) {
-                  return IconButton(
-                    icon: Icon(Icons.menu),
-                    onPressed: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                    tooltip: 'Menu',
-                  );
-                }
-                return Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: Center(
-                    child: Text(
-                      this.widget.title,
-                      style: TextStyle(
-                        color:
-                            Theme.of(context).primaryTextTheme.headline6.color,
-                        fontSize: 21,
-                        fontWeight: FontWeight.w500,
+                if (_loggedIn) {
+                  if (showDrawer) {
+                    return IconButton(
+                      icon: Icon(Icons.menu),
+                      onPressed: () {
+                        Scaffold.of(context).openDrawer();
+                      },
+                      tooltip: 'Menu',
+                    );
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Center(
+                      child: Text(
+                        this.widget.title,
+                        style: TextStyle(
+                          color: Theme.of(context)
+                              .primaryTextTheme
+                              .headline6
+                              .color,
+                          fontSize: 21,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
-                  ),
-                );
+                  );
+                }
+                return Container();
               },
             ),
             actions: [getLoginActionWidget(context)],
