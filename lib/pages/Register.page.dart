@@ -19,6 +19,7 @@ class RegisterPage extends StatefulWidget with UserRouting {
 class _RegisterPageState extends State<RegisterPage> {
   var userNameController = TextEditingController();
   var passwordController = TextEditingController();
+  var passwordConfirmController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,17 +37,21 @@ class _RegisterPageState extends State<RegisterPage> {
                   autofocus: true,
                   autofillHints: [AutofillHints.email],
                   controller: userNameController,
+                  mandatory: true,
                 ),
                 CWTextField(
                   labelText: 'Passwort',
                   autofillHints: [AutofillHints.newPassword],
                   controller: passwordController,
                   obscureText: true,
+                  mandatory: true,
                 ),
                 CWTextField(
                   labelText: 'Passwort wiederholen',
+                  errorText: 'Passwort stimmt nicht überein',
                   obscureText: true,
-                  // controller: passwordController,
+                  mandatory: true,
+                  validate: (text) => text == passwordController.text,
                 ),
               ],
             ),
@@ -68,6 +73,7 @@ class _RegisterPageState extends State<RegisterPage> {
       actions: <Widget>[
         CWButton(
           label: 'Registrieren',
+          validateOnClick: true,
           onPressed: () async {
             await getIt<UserService>()
                 .register(userNameController.text, passwordController.text);
