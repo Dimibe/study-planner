@@ -46,7 +46,7 @@ class MyApp extends StatefulWidget with UserRouting {
 }
 
 class MyAppState extends State<MyApp> {
-  int _themeColorIndex = 9;
+  int _themeColorIndex = 17;
   StreamSubscription authStateListener;
   Widget _homeScreen = WelcomePage();
 
