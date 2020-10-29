@@ -115,27 +115,24 @@ class SPDialogState extends State<SPDialog> {
               alignment: Alignment.topCenter,
               child: SPForm(
                 child: Column(
-                  children: []
-                    ..add(
-                      widget.header != null
-                          ? Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                16.0,
-                                24.0,
-                                16.0,
-                                50.0,
-                              ),
-                              child: Text(
-                                widget.header,
-                                style: Theme.of(context).textTheme.headline4,
-                                textAlign: TextAlign.center,
-                              ),
-                            )
-                          : SizedBox(height: 0),
-                    )
-                    ..addAll((widget.content is List)
-                        ? widget.content
-                        : widget.content()),
+                  children: [
+                    if (widget.header != null)
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          24.0,
+                          16.0,
+                          50.0,
+                        ),
+                        child: Text(
+                          widget.header,
+                          style: Theme.of(context).textTheme.headline4,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    if (widget.content is List) ...widget.content,
+                    if (widget.content is! List) ...widget.content(),
+                  ],
                 ),
               ),
             ),
@@ -169,32 +166,26 @@ class SPDialogState extends State<SPDialog> {
   }
 
   Widget _getLogoutWidget(context) {
-    var content = <Widget>[];
-    if (MediaQuery.of(context).size.width > 600) {
-      content.add(
-        Text(
-          GetIt.I<UserService>().email,
-          style: TextStyle(
-            color: Theme.of(context).primaryTextTheme.headline6.color,
-          ),
-        ),
-      );
-    }
-    content.add(
-      Padding(
-        padding: EdgeInsets.only(left: 8.0, right: 8.0),
-        child: IconButton(
-          onPressed: GetIt.I<UserService>().logout,
-          icon: Icon(
-            Icons.logout,
-            color: Theme.of(context).primaryTextTheme.headline6.color,
-          ),
-        ),
-      ),
-    );
-
     return Row(
-      children: content,
+      children: [
+        if (MediaQuery.of(context).size.width > 600)
+          Text(
+            GetIt.I<UserService>().email,
+            style: TextStyle(
+              color: Theme.of(context).primaryTextTheme.headline6.color,
+            ),
+          ),
+        Padding(
+          padding: EdgeInsets.only(left: 8.0, right: 8.0),
+          child: IconButton(
+            onPressed: GetIt.I<UserService>().logout,
+            icon: Icon(
+              Icons.logout,
+              color: Theme.of(context).primaryTextTheme.headline6.color,
+            ),
+          ),
+        ),
+      ],
     );
   }
 

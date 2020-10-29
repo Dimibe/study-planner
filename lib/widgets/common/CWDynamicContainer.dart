@@ -61,28 +61,25 @@ class _CWDynamicContainerState extends State<CWDynamicContainer> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _children = [];
-    _children.addAll(rows);
-    _children.add(
-      Padding(
-        padding: widget.padding,
-        child: Container(
-          color: Theme.of(context).accentColor,
-          child: IconButton(
-            icon: Icon(
-              Icons.add,
-            ),
-            onPressed: addEmptyRow,
-          ),
-        ),
-      ),
-    );
-
     return Padding(
       padding: widget.padding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: _children,
+        children: [
+          ...rows,
+          Padding(
+            padding: widget.padding,
+            child: Container(
+              color: Theme.of(context).accentColor,
+              child: IconButton(
+                icon: Icon(
+                  Icons.add,
+                ),
+                onPressed: addEmptyRow,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

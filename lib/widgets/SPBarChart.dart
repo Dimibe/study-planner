@@ -23,18 +23,6 @@ class SPBarChart<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var annotations = <LineAnnotationSegment>[];
-    if (average != null) {
-      annotations.add(
-        LineAnnotationSegment(
-          average,
-          RangeAnnotationAxisType.measure,
-          middleLabel: 'Ø',
-          labelPosition: AnnotationLabelPosition.margin,
-          color: MaterialPalette.gray.shade400,
-        ),
-      );
-    }
     var rotation = 0;
     if (data != null && data.isNotEmpty) {
       if (domainFn(data[0], null).length * data.length > 52) {
@@ -57,7 +45,18 @@ class SPBarChart<T> extends StatelessWidget {
           ChartTitle(this.title,
               subTitle:
                   average == null ? null : 'Ø ${average.toStringAsFixed(2)}'),
-          RangeAnnotation(annotations),
+          RangeAnnotation(
+            <LineAnnotationSegment>[
+              if (average != null)
+                LineAnnotationSegment(
+                  average,
+                  RangeAnnotationAxisType.measure,
+                  middleLabel: 'Ø',
+                  labelPosition: AnnotationLabelPosition.margin,
+                  color: MaterialPalette.gray.shade400,
+                ),
+            ],
+          ),
         ],
         barRendererDecorator: BarLabelDecorator<String>(),
       ),

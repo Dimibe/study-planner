@@ -9,21 +9,20 @@ class SPDrawer extends StatelessWidget with Routes {
       semanticLabel: 'Main Menu',
       child: Builder(
         builder: (context) {
-          var children = <Widget>[
-            Center(
-              child: Container(
-                padding: EdgeInsets.only(top: 20),
-                height: 80,
-                child: Text(
-                  'Main Menu',
-                  style: Theme.of(context).textTheme.headline5,
+          return ListView(
+            children: [
+              Center(
+                child: Container(
+                  padding: EdgeInsets.only(top: 20),
+                  height: 80,
+                  child: Text(
+                    'Main Menu',
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
                 ),
               ),
-            ),
-          ];
-          children.addAll(getRoutes());
-          return ListView(
-            children: children,
+              ...getRoutes(),
+            ],
           );
         },
       ),

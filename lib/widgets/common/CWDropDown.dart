@@ -58,7 +58,6 @@ class _CWDropDownState<T> extends State<CWDropDown<T>> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        //padding: EdgeInsets.zero,
         constraints: BoxConstraints(
           maxWidth: widget.maxWidth,
         ),
