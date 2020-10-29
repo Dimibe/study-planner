@@ -4,10 +4,10 @@ part 'Settings.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Settings {
-  @JsonKey(defaultValue: 9)
+  @JsonKey(defaultValue: 17)
   int themeColorIndex;
 
-  Settings([this.themeColorIndex = 9]);
+  Settings([this.themeColorIndex = 17]);
 
   factory Settings.fromJson(Map<String, dynamic> json) =>
       _$SettingsFromJson(json);
