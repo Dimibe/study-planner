@@ -34,6 +34,7 @@ class _LoginPageState extends State<LoginPage> {
                 CWTextField(
                   labelText: 'Email',
                   autofocus: true,
+                  mandatory: true,
                   autofillHints: [AutofillHints.email],
                   controller: emailController,
                 ),
@@ -42,6 +43,7 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: true,
                   autofillHints: [AutofillHints.password],
                   controller: passwordController,
+                  mandatory: true,
                 ),
               ],
             ),
@@ -63,14 +65,15 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ];
       },
-      actions: <Widget>[
+      actions: [
         CWButton(
           label: 'Login',
+          validateOnClick: true,
           onPressed: () async {
             await getIt<UserService>()
                 .login(emailController.text, passwordController.text);
           },
-        )
+        ),
       ],
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:study_planner/widgets/SPDialog.dart';
+
+import '../SPForm.dart';
 
 class CWButton extends StatelessWidget {
   final String label;
@@ -39,8 +40,8 @@ class CWButton extends StatelessWidget {
         ),
         child: ElevatedButton(
           onPressed: () {
-            if (!validateOnClick ||
-                SPDialog.of(context).formKey.currentState.validate()) {
+            var formState = SPForm.of(context);
+            if (!validateOnClick || formState.formKey.currentState.validate()) {
               onPressed();
             }
           },

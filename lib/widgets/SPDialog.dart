@@ -6,6 +6,7 @@ import 'package:study_planner/pages/Login.page.dart';
 import 'package:study_planner/services/UserService.dart';
 import 'package:study_planner/utils/Routes.dart';
 import 'package:study_planner/widgets/SPDrawer.dart';
+import 'package:study_planner/widgets/SPForm.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -32,17 +33,11 @@ class SPDialog extends StatefulWidget with Routes {
 
   @override
   SPDialogState createState() => SPDialogState();
-
-  static SPDialogState of(BuildContext context) {
-    return context.findAncestorStateOfType<State<SPDialog>>();
-  }
 }
 
-class SPDialogState extends State<SPDialog>
-    with SingleTickerProviderStateMixin {
+class SPDialogState extends State<SPDialog> {
   bool _loggedIn;
   StreamSubscription _authStateListener;
-  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -118,8 +113,7 @@ class SPDialogState extends State<SPDialog>
           body: SingleChildScrollView(
             child: Align(
               alignment: Alignment.topCenter,
-              child: Form(
-                key: formKey,
+              child: SPForm(
                 child: Column(
                   children: []
                     ..add(

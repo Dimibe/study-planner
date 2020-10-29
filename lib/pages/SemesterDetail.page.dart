@@ -40,6 +40,7 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
         CWTextField(
           semanticLabel: 'semester',
           labelText: 'Semester',
+          mandatory: true,
           controller: myController0,
         ),
         CWDynamicContainer(
@@ -61,12 +62,14 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
             CWTextField(
               semanticLabel: 'name',
               labelText: 'Kurs Name',
+              mandatory: true,
               maxWidth: 200,
             ),
             CWTextField(
               semanticLabel: 'credits',
               labelText: 'Credits',
               inputType: CWInputType.Decimal,
+              mandatory: true,
               maxWidth: 100,
             ),
             CWTextField(
@@ -110,6 +113,7 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
           CWButton(
             label: 'Speichern',
             minWidth: minWidth,
+            validateOnClick: true,
             onPressed: () {
               var courses = <Course>[];
               for (Map<String, dynamic> c in dynamicControllers.controllers) {

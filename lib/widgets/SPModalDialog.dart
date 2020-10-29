@@ -1,9 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:study_planner/widgets/SPForm.dart';
 
 /// Base Widget which should be returned by any modal page widget.
-class SPModalDialog extends StatelessWidget {
+class SPModalDialog extends StatefulWidget {
   final Widget title;
   final dynamic content;
   final dynamic actions;
@@ -22,47 +23,58 @@ class SPModalDialog extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _SPModalDialogState createState() => _SPModalDialogState();
+}
+
+class _SPModalDialogState extends State<SPModalDialog> {
+  @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
         var padding = 10.0;
         if (constraints.maxWidth > 450) {
-          padding = this.padding ?? 30.0;
+          padding = this.widget.padding ?? 30.0;
         }
 
         var _minWidth =
-            minWidth ?? min(constraints.maxWidth - 2 * padding, 700);
+            widget.minWidth ?? min(constraints.maxWidth - 2 * padding, 700);
 
         return Container(
           constraints: BoxConstraints(
-              minWidth: _minWidth, maxWidth: this.maxWidth ?? 700),
+              minWidth: _minWidth, maxWidth: this.widget.maxWidth ?? 700),
           child: AlertDialog(
             insetPadding: EdgeInsets.all(padding),
-            actionsPadding: EdgeInsets.only(
-              left: padding / 2,
-              right: padding / 2,
-              bottom: padding / 2,
-            ),
             contentPadding:
                 EdgeInsets.only(left: padding / 2, right: padding / 2),
-            buttonPadding: EdgeInsets.all(10.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5.0)),
             ),
-            title: title,
+            title: widget.title,
             content: Container(
               padding: EdgeInsets.all(padding),
               constraints: BoxConstraints(
-                  minWidth: _minWidth, maxWidth: this.maxWidth ?? 700),
+                  minWidth: _minWidth, maxWidth: this.widget.maxWidth ?? 700),
               child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: content is List ? content : content(constraints),
+                child: SPForm(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (widget.content is List) ...widget.content,
+                      if (widget.content is! List)
+                        ...widget.content(constraints),
+                      Padding(padding: EdgeInsets.only(bottom: 16.0)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: (widget.actions is List
+                            ? widget.actions as List<Widget>
+                            : widget.actions(constraints)) as List<Widget>,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-            actions: actions is List ? actions : actions(constraints),
           ),
         );
       },
