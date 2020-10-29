@@ -35,18 +35,22 @@ class _RegisterPageState extends State<RegisterPage> {
                 CWTextField(
                   labelText: 'Email',
                   autofocus: true,
+                  inputType: CWInputType.Email,
                   autofillHints: [AutofillHints.email],
+                  textInputAction: TextInputAction.next,
                   controller: userNameController,
                   mandatory: true,
                 ),
                 CWTextField(
                   labelText: 'Passwort',
+                  textInputAction: TextInputAction.next,
                   autofillHints: [AutofillHints.newPassword],
                   controller: passwordController,
                   obscureText: true,
                   mandatory: true,
                 ),
                 CWTextField(
+                  textInputAction: TextInputAction.go,
                   labelText: 'Passwort wiederholen',
                   errorText: 'Passwort stimmt nicht überein',
                   obscureText: true,

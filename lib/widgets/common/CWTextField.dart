@@ -18,6 +18,9 @@ class CWTextField extends StatefulWidget implements CWBase<CWTextField> {
   final List<String> autofillHints;
   final bool autofocus;
   final CWInputType inputType;
+  final TextInputAction textInputAction;
+  final void Function(String) onFieldSubmitted;
+  final FocusNode focusNode;
 
   const CWTextField({
     Key key,
@@ -36,6 +39,9 @@ class CWTextField extends StatefulWidget implements CWBase<CWTextField> {
     this.autofillHints,
     this.autofocus = false,
     this.inputType = CWInputType.Text,
+    this.textInputAction,
+    this.onFieldSubmitted,
+    this.focusNode,
   }) : super(key: key);
 
   /// Creates a copy
@@ -54,7 +60,10 @@ class CWTextField extends StatefulWidget implements CWBase<CWTextField> {
         obscureText = other.obscureText,
         autofillHints = other.autofillHints,
         autofocus = other.autofocus,
-        inputType = other.inputType;
+        inputType = other.inputType,
+        textInputAction = other.textInputAction,
+        onFieldSubmitted = other.onFieldSubmitted,
+        focusNode = other.focusNode;
 
   @override
   CWTextField copy(controller) {
@@ -80,6 +89,9 @@ class _CWTextFieldState extends State<CWTextField> {
       ),
       padding: EdgeInsets.all(8.0),
       child: TextFormField(
+        textInputAction: widget.textInputAction,
+        onFieldSubmitted: widget.onFieldSubmitted,
+        focusNode: widget.focusNode,
         autofocus: widget.autofocus,
         autofillHints: widget.autofillHints,
         maxLines: widget.maxLines,
@@ -107,8 +119,10 @@ class _CWTextFieldState extends State<CWTextField> {
         decimal: widget.inputType == CWInputType.Decimal,
         signed: false,
       );
+    } else if (CWInputType.Email == widget.inputType) {
+      return TextInputType.emailAddress;
     }
-    return null;
+    return TextInputType.text;
   }
 
   List<TextInputFormatter> _getInputFormatters() {
@@ -133,4 +147,4 @@ class _CWTextFieldState extends State<CWTextField> {
   }
 }
 
-enum CWInputType { Integer, Decimal, Text }
+enum CWInputType { Integer, Decimal, Text, Email }
