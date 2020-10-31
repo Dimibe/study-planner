@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:study_planner/widgets/common/CWBase.dart';
+import 'package:study_planner/widgets/common/CWBaseWidget.dart';
 
-class CWTextField extends StatefulWidget implements CWBase<CWTextField> {
+class CWTextField extends CWBaseWidget<CWTextField> {
   final TextEditingController controller;
-  final String semanticLabel;
   final String labelText;
   final String hintText;
   final String helperText;
@@ -24,8 +23,8 @@ class CWTextField extends StatefulWidget implements CWBase<CWTextField> {
 
   const CWTextField({
     Key key,
+    String id,
     @required this.labelText,
-    this.semanticLabel,
     this.controller,
     this.hintText,
     this.helperText,
@@ -42,12 +41,11 @@ class CWTextField extends StatefulWidget implements CWBase<CWTextField> {
     this.textInputAction,
     this.onFieldSubmitted,
     this.focusNode,
-  }) : super(key: key);
+  }) : super(id);
 
   /// Creates a copy
   CWTextField.copy(CWTextField other, {TextEditingController controller})
       : this.controller = controller ?? other.controller,
-        semanticLabel = other.semanticLabel,
         labelText = other.labelText,
         hintText = other.hintText,
         helperText = other.helperText,
@@ -63,10 +61,11 @@ class CWTextField extends StatefulWidget implements CWBase<CWTextField> {
         inputType = other.inputType,
         textInputAction = other.textInputAction,
         onFieldSubmitted = other.onFieldSubmitted,
-        focusNode = other.focusNode;
+        focusNode = other.focusNode,
+        super(other.id, key: other.key);
 
   @override
-  CWTextField copy(controller) {
+  CWTextField copy(TextEditingController controller) {
     return CWTextField.copy(this, controller: controller);
   }
 
@@ -75,9 +74,6 @@ class CWTextField extends StatefulWidget implements CWBase<CWTextField> {
 
   @override
   createController() => TextEditingController();
-
-  @override
-  get id => semanticLabel;
 }
 
 class _CWTextFieldState extends State<CWTextField> {

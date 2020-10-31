@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:study_planner/widgets/common/CWBase.dart';
+import 'package:study_planner/widgets/common/CWBaseWidget.dart';
 
 class CWDynamicContainer extends StatefulWidget {
   final bool showHideOption;
   final bool showAddOption;
   final CWDynamicController contoller;
-  final List<CWBase> children;
+  final List<CWBaseWidget> children;
   final List<Map<String, dynamic>> Function() initialData;
   final EdgeInsets padding;
 
@@ -41,7 +41,7 @@ class _CWDynamicContainerState extends State<CWDynamicContainer> {
 
     var widgets = <Widget>[];
 
-    for (CWBase baseWidget in widget.children) {
+    for (CWBaseWidget baseWidget in widget.children) {
       var controller = baseWidget.createController();
       if (rowValues != null && rowValues[baseWidget.id] != null) {
         controller.text = '${rowValues[baseWidget.id]}';

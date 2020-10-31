@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:study_planner/widgets/common/CWBase.dart';
+import 'package:study_planner/widgets/common/CWBaseWidget.dart';
 
-class CWDropDown<T> extends StatefulWidget implements CWBase {
-  final String semanticLabel;
+class CWDropDown<T> extends CWBaseWidget<CWDropDown> {
   final List<T> items;
   final T initValue;
   final DropDownController controller;
@@ -11,35 +10,32 @@ class CWDropDown<T> extends StatefulWidget implements CWBase {
 
   const CWDropDown(
       {Key key,
+      String id,
       @required this.items,
       this.controller,
-      this.semanticLabel,
       this.initValue,
       this.maxWidth,
       this.labelText})
-      : super(key: key);
+      : super(id);
 
-  CWDropDown.copy(CWDropDown other, dynamic controller)
-      : semanticLabel = other.semanticLabel,
-        items = other.items,
+  CWDropDown.copy(CWDropDown other, DropDownController<T> controller)
+      : items = other.items,
         initValue = other.initValue,
         maxWidth = other.maxWidth,
         labelText = other.labelText,
-        this.controller = controller;
+        this.controller = controller,
+        super(other.id, key: other.key);
 
   @override
   _CWDropDownState<T> createState() => _CWDropDownState<T>();
 
   @override
-  CWDropDown copy(value) {
+  CWDropDown copy(DropDownController<T> value) {
     return CWDropDown.copy(this, value);
   }
 
   @override
   createController() => DropDownController<T>();
-
-  @override
-  get id => semanticLabel;
 }
 
 class _CWDropDownState<T> extends State<CWDropDown<T>> {

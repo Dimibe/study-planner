@@ -7,7 +7,7 @@ import 'package:study_planner/services/StudyPlanService.dart';
 import 'package:study_planner/utils/StudyPlanUtils.dart';
 import 'package:study_planner/widgets/SPModalDialog.dart';
 import 'package:study_planner/widgets/common/CWAppState.dart';
-import 'package:study_planner/widgets/common/CWBase.dart';
+import 'package:study_planner/widgets/common/CWBaseWidget.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
 import 'package:study_planner/widgets/common/CWDropDown.dart';
 import 'package:study_planner/widgets/common/CWDynamicContainer.dart';
@@ -24,24 +24,28 @@ class SemesterDetailPage extends StatefulWidget {
 }
 
 class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
-  var myController0;
+  var semesterController;
   var dynamicControllers = CWDynamicController();
 
   @override
   void initState() {
     super.initState();
-    myController0 = TextEditingController(text: widget?.semester?.name);
+    semesterController = TextEditingController(text: widget?.semester?.name);
   }
 
   @override
   Widget build(BuildContext context) {
     return SPModalDialog(
       content: [
-        CWTextField(
-          semanticLabel: 'semester',
-          labelText: 'Semester',
-          mandatory: true,
-          controller: myController0,
+        Row(
+          children: [
+            CWTextField(
+              id: 'semester',
+              labelText: 'Semester',
+              mandatory: true,
+              controller: semesterController,
+            ),
+          ],
         ),
         CWDynamicContainer(
           showAddOption: true,
@@ -58,28 +62,28 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
                     })
                 ?.toList(growable: false);
           },
-          children: <CWBase>[
+          children: <CWBaseWidget>[
             CWTextField(
-              semanticLabel: 'name',
+              id: 'name',
               labelText: 'Kurs Name',
               mandatory: true,
               maxWidth: 200,
             ),
             CWTextField(
-              semanticLabel: 'credits',
+              id: 'credits',
               labelText: 'Credits',
               inputType: CWInputType.Decimal,
               mandatory: true,
               maxWidth: 100,
             ),
             CWTextField(
-              semanticLabel: 'grade',
+              id: 'grade',
               labelText: 'Note',
               inputType: CWInputType.Decimal,
               maxWidth: 100,
             ),
             CWDropDown<String>(
-              semanticLabel: 'studyfield',
+              id: 'studyfield',
               labelText: 'Kategorie',
               items: widget.plan.studyFields.map((e) => e.toString()).toList(),
               initValue: widget.plan.studyFields[0].toString(),
@@ -134,7 +138,7 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
                 }
               }
               var s = widget.semester ?? Semester();
-              s.name = myController0.text;
+              s.name = semesterController.text;
               s.courses = courses;
               if (widget.semester == null) {
                 widget.plan.semester.add(s);

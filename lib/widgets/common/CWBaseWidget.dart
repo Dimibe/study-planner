@@ -1,9 +1,15 @@
+import 'package:flutter/widgets.dart';
+
 /// This interface must be implemented by widgets which should be used
 /// in [CWDynamicContainer] widget.
 ///
 /// The returned controller in `createController()` must have a `text` property.
-abstract class CWBase<T> {
-  T copy(controller);
+abstract class CWBaseWidget<T> extends StatefulWidget {
+  final String id;
+
+  const CWBaseWidget(this.id, {Key key}) : super(key: key);
+
+  T copy(covariant dynamic controller);
+
   dynamic createController();
-  get id;
 }
