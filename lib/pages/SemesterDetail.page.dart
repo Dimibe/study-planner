@@ -9,6 +9,7 @@ import 'package:study_planner/widgets/SPModalDialog.dart';
 import 'package:study_planner/widgets/common/CWAppState.dart';
 import 'package:study_planner/widgets/common/CWBaseWidget.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
+import 'package:study_planner/widgets/common/CWCheckBox.dart';
 import 'package:study_planner/widgets/common/CWDropDown.dart';
 import 'package:study_planner/widgets/common/CWDynamicContainer.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
@@ -26,11 +27,13 @@ class SemesterDetailPage extends StatefulWidget {
 class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
   var semesterController;
   var dynamicControllers = CWDynamicController();
+  var checkBoxController = CheckBoxController();
 
   @override
   void initState() {
     super.initState();
     semesterController = TextEditingController(text: widget?.semester?.name);
+    checkBoxController.value = widget?.semester?.completed;
   }
 
   @override
@@ -39,11 +42,20 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
       content: [
         Row(
           children: [
-            CWTextField(
-              id: 'semester',
-              labelText: 'Semester',
-              mandatory: true,
-              controller: semesterController,
+            Row(
+              children: [
+                CWTextField(
+                  id: 'semester',
+                  labelText: 'Semester',
+                  mandatory: true,
+                  controller: semesterController,
+                ),
+                CWCheckBox(
+                  id: 'semesterdone',
+                  label: 'Semester abgeschlossen',
+                  controller: checkBoxController,
+                ),
+              ],
             ),
           ],
         ),
@@ -139,6 +151,7 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
               }
               var s = widget.semester ?? Semester();
               s.name = semesterController.text;
+              s.completed = checkBoxController.value;
               s.courses = courses;
               if (widget.semester == null) {
                 widget.plan.semester.add(s);

@@ -51,6 +51,7 @@ class _CWCheckBoxState extends State<CWCheckBox> {
         Checkbox(
           onChanged: (value) => setState(() => widget.controller.value = value),
           value: widget.controller.value,
+          activeColor: Theme.of(context).primaryColor,
         ),
         Text(
           widget.label,

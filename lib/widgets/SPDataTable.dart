@@ -24,9 +24,15 @@ class SPDataTable extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    semester.name,
-                    style: Theme.of(context).textTheme.headline6,
+                  Row(
+                    children: [
+                      Text(
+                        semester.name,
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                      Padding(padding: EdgeInsets.only(right: 8.0)),
+                      if (semester.completed) Icon(Icons.check),
+                    ],
                   ),
                   FlatButton(
                     shape: RoundedRectangleBorder(
