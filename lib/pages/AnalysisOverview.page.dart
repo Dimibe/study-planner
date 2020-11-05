@@ -53,7 +53,7 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
   @override
   Widget build(BuildContext context) {
     return SPDialog(
-      header: 'Analyse',
+      header: 'header.analysisOverview',
       content: () {
         if (studyPlan == null) {
           return <Widget>[];

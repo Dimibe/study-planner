@@ -34,7 +34,7 @@ class _WelcomePageState extends CWState<WelcomePage> {
           child: Image(image: AssetImage('assets/welcome.png')),
         ),
         CWButton(
-          label: 'Jetzt registrieren!',
+          label: 'button.label.registerNow',
           padding: const EdgeInsets.only(top: 32.0, bottom: 16.0),
           onPressed: () async {
             await showDialog(

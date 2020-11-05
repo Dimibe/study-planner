@@ -51,46 +51,46 @@ class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
   @override
   Widget build(BuildContext context) {
     return SPDialog(
-      header: 'Studienplan',
+      header: 'header.generalInformation',
       content: <Widget>[
         Text(
-          'Bitte gebe die folgenden Informationen ein:',
+          'text.generalInformationInstruction',
           style: Theme.of(context).textTheme.headline6,
           textAlign: TextAlign.center,
         ),
         Padding(padding: EdgeInsets.only(top: 16.0)),
         CWTextField(
-          labelText: 'Uni',
+          labelText: 'label.university',
           controller: _uniController,
           mandatory: true,
         ),
         CWTextField(
-          labelText: 'Studiengang',
+          labelText: 'label.courseOfStudies',
           controller: _studiesController,
         ),
         CWTextField(
-          labelText: 'Credits Hauptstudium',
-          hintText: 'Anzahl Credits',
+          labelText: 'label.creditsCount',
+          hintText: 'hint.creditsCount',
           controller: _mainCreditsController,
           inputType: CWInputType.Integer,
           mandatory: true,
         ),
         CWTextField(
-          labelText: 'Credits Auflagen etc.',
-          hintText: 'Anzahl Credits',
+          labelText: 'label.creditsOther',
+          hintText: 'hint.creditsCount',
           controller: _otherCreditsController,
           inputType: CWInputType.Integer,
         ),
         CWTextField(
-          labelText: 'Ziel Semesteranzahl',
-          hintText: 'Anzahl Semester',
+          labelText: 'label.semesterGoal',
+          hintText: 'hint.semesterGoal',
           controller: _semeseterController,
           inputType: CWInputType.Integer,
           mandatory: true,
         ),
         Padding(padding: EdgeInsets.only(top: 16.0)),
         CWButton(
-          label: 'Speichern',
+          label: 'button.label.save',
           validateOnClick: true,
           onPressed: () {
             saveStudyPlan();
