@@ -80,55 +80,54 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
               child: DataTable(
                 showBottomBorder: true,
                 columns: [
-                  DataColumn(label: Text('Titel')),
                   DataColumn(label: Text('Wert')),
+                  DataColumn(label: CWText('label.titel')),
                 ],
                 rows: [
                   DataRow(
                     cells: [
-                      DataCell(Text('Gesamt Credits')),
+                      DataCell(CWText('label.totalCredits')),
                       DataCell(Text('$creditsTotal')),
                     ],
                   ),
                   DataRow(
                     cells: [
-                      DataCell(Text('Bereits erworbene Credits')),
+                      DataCell(CWText('label.aquiredCredits')),
                       DataCell(Text(
                           '$creditsNow (${((creditsNow / creditsTotal) * 100)?.toStringAsFixed(2) ?? "-"}%)')),
                     ],
                   ),
                   DataRow(
                     cells: [
-                      DataCell(Text('Wunsch Semesteranzahl')),
+                      DataCell(CWText('label.semesterGoal')),
                       DataCell(Text(
                           '${studyPlan.semesterCount} ($openSemester offene)')),
                     ],
                   ),
                   DataRow(
                     cells: [
-                      DataCell(Text('Credits pro Semester für Wunschziel')),
+                      DataCell(CWText('label.creditsForGoal')),
                       DataCell(Text(
                           '${creditsPerSemester.toStringAsFixed(1)} in $openSemester Semester')),
                     ],
                   ),
                   DataRow(
                     cells: [
-                      DataCell(Text(
-                          'Verbleibende Semester mit Credits Drchschnitt')),
+                      DataCell(CWText('label.remainingSemester')),
                       DataCell(Text(semesterOpen?.toStringAsFixed(1) ?? '-')),
                     ],
                   ),
                   DataRow(
                     cells: [
-                      DataCell(Text('Durchschnitt Note')),
                       DataCell(Text(StudyPlanUtils.totalMeanGrade(studyPlan)
                               ?.toStringAsFixed(2) ??
                           '-')),
+                      DataCell(CWText('label.averageGrade')),
                     ],
                   ),
                   DataRow(
                     cells: [
-                      DataCell(Text('Durchschnitt Credits pro Semester')),
+                      DataCell(CWText('text.meanCreditsSemester')),
                       DataCell(Text(meanCreditsSemster?.toStringAsFixed(2))),
                     ],
                   ),
@@ -140,7 +139,7 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
             children: [
               SPBarChart<Semester>(
                 id: 'credits',
-                title: 'Credits',
+                title: 'title.credits',
                 data: studyPlan.semester,
                 domainFn: (s, _) => s.name,
                 measureFn: (s, _) => StudyPlanUtils.creditsInSemester(s),
@@ -148,7 +147,7 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
               ),
               SPBarChart(
                 id: 'courses',
-                title: 'Notendurchschnitt',
+                title: 'title.gpa',
                 data: studyPlan.semester,
                 domainFn: (s, _) => s.name,
                 labelFn: (s, _) =>

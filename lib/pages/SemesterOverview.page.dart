@@ -8,6 +8,7 @@ import 'package:study_planner/widgets/SPDataTable.dart';
 import 'package:study_planner/widgets/SPDialog.dart';
 import 'package:study_planner/widgets/common/CWAppState.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
+import 'package:study_planner/widgets/common/CWText.dart';
 
 class SemesterOverviewPage extends StatefulWidget {
   SemesterOverviewPage({Key key}) : super(key: key);
@@ -35,14 +36,14 @@ class _SemesterOverviewPageState extends CWState<SemesterOverviewPage> {
   @override
   Widget build(BuildContext context) {
     return SPDialog(
-      header: 'Semesterübersicht',
+      header: 'header.semesterOverview',
       content: () {
         var content = <Widget>[];
         if (studyPlan == null) return content;
         if (studyPlan.semester == null || studyPlan.semester.isEmpty) {
           content.add(
-            Text(
-              'Noch keine Semester vorhanden..',
+            CWText(
+              'text.noSemesterPlaceholder',
               style: Theme.of(context).textTheme.headline6,
             ),
           );
@@ -54,7 +55,7 @@ class _SemesterOverviewPageState extends CWState<SemesterOverviewPage> {
         }
         content.add(
           CWButton(
-            label: 'Semester Hinzufügen',
+            label: 'button.label.addSemester',
             padding: const EdgeInsets.only(top: 32.0, bottom: 16.0),
             onPressed: getClickFunction(studyPlan, null),
           ),

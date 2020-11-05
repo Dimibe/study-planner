@@ -1,32 +1,72 @@
-title: 'Study Planner'
+app:
+  title: 'Study Planner'
 
 required: 'Erforderlich'
 error:
   notcorrect: 'Eingabe nicht korrekt'
+  passwordNotMatching: 'Passwort stimmt nicht überein'
 
 header:
   generalInformation: 'Studienplan'
   analysisOverview: 'Analyse'
+  settings: 'Einstellungen'
+  semesterOverview: 'Semesterübersicht'
+
+title:
+  login: 'Login'
+  registration: 'Registrierung'
+  credits: 'Credits'
+  gpa: 'Notendurchschnitt'
 
 text:
   generalInformationInstruction: 'Bitte gebe die folgenden Informationen ein:'
+  welcomeToStudyPlanner : 'Willkommen bei Study Planner!'
+  welcomeSubHeading: 'Analysiere dein Studium und behalte alles im Überblick.'
+  colorSelection: 'Farbauswahl'
+  goToRegistration: 'Hier gehts zur Registrierung'
+  backToLogin: "Hier geht's zurück zum Login"
+  noSemesterPlaceholder: 'Noch keine Semester vorhanden..'
+  mainMenu: 'Hauptmenü'
+  meanCreditsSemester: 'Durchschnittliche Credits pro Semester'
 
 label:
   university: 'Uni'
   courseOfStudies: 'Studiengang'
+  creditsCount: 'Anzahl Credits'  
   creditsMain: 'Credits Hauptstudium'
   creditsOther: 'Credits Auflagen'
-  semesterGoal: 'Ziel Semesteranzahl'
+  semesterGoal: 'Ziel Anzahl an Semester'
   mail: 'Email'
   password: 'Passwort'
+  changeColor: 'Farbe ändern'
+  studyplan: 'Studienplan'
+  confirmPassword: 'Passwort bestätigen'
+  semester: 'Semester'
+  semesterDone: 'Semester abgeschlossen'
+  course: 'Kurs'
+  courseName: 'Kursname'
+  credits: 'Credits'
+  grade: 'Note'
+  studyField: 'Kategorie'
+  totalCredits: 'Gesamtanzahl Credits'
+  title: 'Titel'
+  aquiredCredits: 'Bereits erworbene Credits'
+  creditsForGoal: 'Credits pro Semester um Wunschziel zu erreichen'
+  remainingSemester: 'Verbleibende Semester mit aktuellen Durchschnitt'
+  averageGrade: 'Durchschnittsnote'
 
 hint: 
   creditsCount: 'Anzahl Credits'
-  semesterGoal: 'Anzahl Semester'
+  semesterCount: 'Anzahl Semester'
 
 button:
   label:
     save: 'Speichern'
+    edit: 'Bearbeiten'
+    cancel: 'Abbrechen'
+    delete: 'Löschen'
     login: 'Login'
     register: 'Registrieren'
     registerNow: 'Jetzt registrieren!'
+    saveStudyplan: 'Studienplan übernehmen'
+    addSemester: 'Semester Hinzufügen'

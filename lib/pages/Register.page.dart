@@ -7,6 +7,7 @@ import 'package:study_planner/services/UserService.dart';
 import 'package:study_planner/utils/UserRouting.dart';
 import 'package:study_planner/widgets/SPModalDialog.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
+import 'package:study_planner/widgets/common/CWText.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
 
 final GetIt getIt = GetIt.instance;
@@ -24,7 +25,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return SPModalDialog(
-      title: Text('Registrieung'),
+      title: 'title.registration',
       minWidth: 100,
       padding: 15,
       content: (constrains) {
@@ -33,7 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
               children: [
                 CWTextField(
-                  labelText: 'Email',
+                  labelText: 'label.mail',
                   autofocus: true,
                   inputType: CWInputType.Email,
                   autofillHints: [AutofillHints.email],
@@ -42,7 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   mandatory: true,
                 ),
                 CWTextField(
-                  labelText: 'Passwort',
+                  labelText: 'label.password',
                   textInputAction: TextInputAction.next,
                   autofillHints: [AutofillHints.newPassword],
                   controller: passwordController,
@@ -51,8 +52,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 CWTextField(
                   textInputAction: TextInputAction.go,
-                  labelText: 'Passwort wiederholen',
-                  errorText: 'Passwort stimmt nicht überein',
+                  labelText: 'label.confirmPassword',
+                  errorText: 'error.passwordNotMatching',
                   obscureText: true,
                   mandatory: true,
                   validate: (text) => text == passwordController.text,
@@ -70,13 +71,13 @@ class _RegisterPageState extends State<RegisterPage> {
                 },
               );
             },
-            child: Text('Hier geht\'s zurück zum Login'),
+            child: CWText('text.backToLogin'),
           ),
         ];
       },
       actions: <Widget>[
         CWButton(
-          label: 'Registrieren',
+          label: 'button.label.register',
           validateOnClick: true,
           onPressed: () async {
             await getIt<UserService>()

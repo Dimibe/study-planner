@@ -5,6 +5,7 @@ import 'package:study_planner/services/NavigatorService.dart';
 import 'package:study_planner/services/UserService.dart';
 import 'package:study_planner/widgets/SPModalDialog.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
+import 'package:study_planner/widgets/common/CWText.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
 
 import 'Register.page.dart';
@@ -23,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return SPModalDialog(
-      title: Text('Login'),
+      title: 'title.login',
       minWidth: 100,
       padding: 15,
       content: (constrains) {
@@ -61,8 +62,8 @@ class _LoginPageState extends State<LoginPage> {
                 },
               );
             },
-            child: Text(
-              'Hier gehts zur Registrierung',
+            child: CWText(
+              'text.goToRegistration',
               style: TextStyle(color: Colors.blue),
             ),
           ),

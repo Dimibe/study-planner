@@ -3,9 +3,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:study_planner/widgets/SPForm.dart';
 
+import 'common/CWText.dart';
+
 /// Base Widget which should be returned by any modal page widget.
 class SPModalDialog extends StatefulWidget {
-  final Widget title;
+  final String title;
   final dynamic content;
   final dynamic actions;
   final double minWidth;
@@ -49,7 +51,7 @@ class _SPModalDialogState extends State<SPModalDialog> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5.0)),
             ),
-            title: widget.title,
+            title: CWText(widget.title),
             content: Container(
               padding: EdgeInsets.all(padding),
               constraints: BoxConstraints(

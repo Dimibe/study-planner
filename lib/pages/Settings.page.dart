@@ -11,6 +11,7 @@ import 'package:study_planner/services/StudyPlanService.dart';
 import 'package:study_planner/widgets/SPDialog.dart';
 import 'package:study_planner/widgets/common/CWAppState.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
+import 'package:study_planner/widgets/common/CWText.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
 import '../main.dart';
 
@@ -47,7 +48,7 @@ class _SettingsPageState extends CWState<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return SPDialog(
-      header: 'Einstellungen',
+      header: 'header.settings',
       content: [
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -57,18 +58,18 @@ class _SettingsPageState extends CWState<SettingsPage> {
           ),
         ),
         CWButton(
-          label: 'Farbe ändern',
+          label: 'label.changeColor',
           color: Theme.of(context).buttonColor,
           padding: EdgeInsets.all(8.0),
           onPressed: _openFullMaterialColorPicker,
         ),
         CWTextField(
-          labelText: 'Studienplan',
+          labelText: 'label.studyplan',
           maxLines: 5,
           controller: textEditingController,
         ),
         CWButton(
-          label: 'Studienplan übernehmen',
+          label: 'button.label.saveStudyplan',
           color: Theme.of(context).buttonColor,
           padding: EdgeInsets.all(8.0),
           onPressed: () => getIt<StudyPlanService>().saveStudyPlan(
@@ -85,18 +86,18 @@ class _SettingsPageState extends CWState<SettingsPage> {
       builder: (_) {
         return AlertDialog(
           contentPadding: const EdgeInsets.all(6.0),
-          title: Text(title),
+          title: CWText(title),
           content: content,
           actions: [
             FlatButton(
-              child: Text('Abbrechen'),
+              child: CWText('button.label.cancel'),
               onPressed: () {
                 MyApp.of(context).setPrimarySwatch();
                 getIt<NavigatorService>().pop();
               },
             ),
             CWButton(
-              label: 'Speichern',
+              label: 'button.label.cancel',
               minWidth: 100,
               minHeight: 40,
               fontSize: 16,
@@ -115,7 +116,7 @@ class _SettingsPageState extends CWState<SettingsPage> {
 
   void _openFullMaterialColorPicker() async {
     _openDialog(
-      'Farbauswahl',
+      'text.colorSelection',
       MaterialColorPicker(
         allowShades: false,
         colors: Colors.primaries,

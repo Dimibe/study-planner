@@ -83,7 +83,7 @@ class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
         ),
         CWTextField(
           labelText: 'label.semesterGoal',
-          hintText: 'hint.semesterGoal',
+          hintText: 'hint.semesterCount',
           controller: _semeseterController,
           inputType: CWInputType.Integer,
           mandatory: true,
