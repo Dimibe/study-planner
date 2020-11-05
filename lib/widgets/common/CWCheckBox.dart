@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 
 import 'CWBaseWidget.dart';
 
@@ -54,7 +55,7 @@ class _CWCheckBoxState extends State<CWCheckBox> {
           activeColor: Theme.of(context).primaryColor,
         ),
         Text(
-          widget.label,
+          FlutterI18n.translate(context, widget.label),
           style: TextStyle(fontSize: 15, fontStyle: FontStyle.italic),
         ),
       ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:study_planner/widgets/common/CWBaseWidget.dart';
 
 class CWTextField extends CWBaseWidget<CWTextField> {
@@ -28,8 +29,8 @@ class CWTextField extends CWBaseWidget<CWTextField> {
     this.controller,
     this.hintText,
     this.helperText,
-    this.mandatoryText = 'Erforderlich',
-    this.errorText = 'Eingabe nicht korrekt',
+    this.mandatoryText = 'required',
+    this.errorText = 'error.notcorrect',
     this.mandatory = false,
     this.validate,
     this.maxWidth = 300,
@@ -96,9 +97,14 @@ class _CWTextFieldState extends State<CWTextField> {
         keyboardType: _getKeyboardType(),
         inputFormatters: _getInputFormatters(),
         decoration: InputDecoration(
-          labelText: widget.labelText + (widget.mandatory ? '*' : ''),
-          hintText: widget.hintText,
-          helperText: widget.helperText,
+          labelText: FlutterI18n.translate(context, widget.labelText) +
+              (widget.mandatory ? '*' : ''),
+          hintText: widget.hintText == null
+              ? null
+              : FlutterI18n.translate(context, widget.hintText),
+          helperText: widget.helperText == null
+              ? null
+              : FlutterI18n.translate(context, widget.helperText),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5.0),
             borderSide: BorderSide(style: BorderStyle.solid, color: Colors.red),

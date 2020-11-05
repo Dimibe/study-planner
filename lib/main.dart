@@ -2,6 +2,10 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:flutter_i18n/flutter_i18n_web.dart';
+import 'package:flutter_i18n/loaders/decoders/yaml_decode_strategy.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 
 import 'pages/Welcome.page.dart';
@@ -71,6 +75,21 @@ class MyAppState extends State<MyApp> {
       title: 'Study Planner',
       debugShowCheckedModeBanner: false,
       navigatorKey: getIt<NavigatorService>().navigatorKey,
+      localizationsDelegates: [
+        FlutterI18nDelegate(
+          translationLoader: FileTranslationLoader(
+            basePath: 'assets/i18n',
+            fallbackFile: 'de',
+            decodeStrategies: [YamlDecodeStrategy()],
+          ),
+          missingTranslationHandler: (key, locale) {
+            print('Missing Key: $key, languageCode: ${locale.languageCode}');
+          },
+        ),
+        GlobalCupertinoLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       theme: ThemeData(
         primarySwatch: Colors.primaries[_themeColorIndex],
         visualDensity: VisualDensity.adaptivePlatformDensity,

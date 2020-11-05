@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 
 import '../SPForm.dart';
 
@@ -46,7 +47,7 @@ class CWButton extends StatelessWidget {
             }
           },
           child: Text(
-            this.label,
+            FlutterI18n.translate(context, label),
             style: TextStyle(fontSize: this.fontSize ?? 20),
           ),
         ),

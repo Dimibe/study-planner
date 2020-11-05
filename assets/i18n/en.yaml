@@ -1,0 +1,34 @@
+app:
+  title: 'Study Planner'
+
+required: 'Required'
+error:
+  notcorrect: 'Input not correct'
+
+header:
+  generalInformation: 'Studienplan'
+  analysisOverview: 'Statistics'
+
+text:
+  generalInformationInstruction: 'Please type in the following information:'
+
+label:
+  university: 'University'
+  courseOfStudies: 'Course of studies'
+  creditsCount: 'Number of Credits'  
+  creditsMain: 'Credits Hauptstudium'
+  creditsOther: 'Credits Auflagen'
+  semesterGoal: 'Ziel Semesteranzahl'
+  mail: 'Email'
+  password: 'Password'
+
+hint: 
+  creditsCount: 'Number of Credits'
+  semesterGoal: 'Number of Semester'
+
+button:
+  label:
+    save: 'Save'
+    login: 'Login'
+    register: 'Register'
+    registerNow: 'Register now!'

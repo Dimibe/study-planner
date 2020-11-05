@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:study_planner/widgets/common/CWBaseWidget.dart';
 
 class CWDropDown<T> extends CWBaseWidget<CWDropDown> {
@@ -60,7 +61,7 @@ class _CWDropDownState<T> extends State<CWDropDown<T>> {
         child: DropdownButtonHideUnderline(
           child: DropdownButtonFormField<T>(
             decoration: InputDecoration(
-              labelText: widget.labelText,
+              labelText: FlutterI18n.translate(context, widget.labelText),
               isDense: true,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(5.0),
