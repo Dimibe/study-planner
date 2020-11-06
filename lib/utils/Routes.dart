@@ -5,6 +5,7 @@ import 'package:study_planner/pages/GeneralInformation.page.dart';
 import 'package:study_planner/pages/SemesterOverview.page.dart';
 import 'package:study_planner/pages/Settings.page.dart';
 import 'package:study_planner/services/NavigatorService.dart';
+import 'package:study_planner/widgets/common/CWText.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -13,28 +14,28 @@ mixin Routes {
     return [
       ListTile(
         leading: Icon(Icons.featured_play_list),
-        title: Text('Allgemeine Informationen'),
+        title: CWText('header.generalInformation'),
         onTap: () =>
             getIt<NavigatorService>().navigateTo(GeneralInformationPage()),
         dense: true,
       ),
       ListTile(
         leading: Icon(Icons.list_alt),
-        title: Text('Semester Übersicht'),
+        title: CWText('header.semesterOverview'),
         onTap: () =>
             getIt<NavigatorService>().navigateTo(SemesterOverviewPage()),
         dense: true,
       ),
       ListTile(
         leading: Icon(Icons.analytics),
-        title: Text('Semester Analyse'),
+        title: CWText('header.analysisOverview'),
         onTap: () =>
             getIt<NavigatorService>().navigateTo(AnalysisOverviewPage()),
         dense: true,
       ),
       ListTile(
         leading: Icon(Icons.settings),
-        title: Text('Einstellungen'),
+        title: CWText('header.settings'),
         onTap: () => getIt<NavigatorService>().navigateTo(SettingsPage()),
         dense: true,
       ),
@@ -49,7 +50,7 @@ mixin Routes {
         padding: const EdgeInsets.only(left: 8.0, right: 8.0),
         child: TextButton.icon(
           icon: Icon(icon, color: color),
-          label: Text(
+          label: CWText(
             label,
             style: TextStyle(color: color, fontWeight: FontWeight.normal),
           ),
@@ -59,13 +60,13 @@ mixin Routes {
     }
 
     return [
+      _getIconButton(Icons.featured_play_list, 'header.generalInformation',
+          GeneralInformationPage()),
       _getIconButton(
-          Icons.featured_play_list, 'Studium', GeneralInformationPage()),
+          Icons.list_alt, 'header.semesterOverview', SemesterOverviewPage()),
       _getIconButton(
-          Icons.list_alt, 'Semester Übersicht', SemesterOverviewPage()),
-      _getIconButton(
-          Icons.analytics, 'Semester Analyse', AnalysisOverviewPage()),
-      _getIconButton(Icons.settings, 'Einstellungen', SettingsPage()),
+          Icons.analytics, 'header.analysisOverview', AnalysisOverviewPage()),
+      _getIconButton(Icons.settings, 'header.settings', SettingsPage()),
     ];
   }
 }

@@ -141,9 +141,9 @@ class _CWTextFieldState extends State<CWTextField> {
 
   String _validator(String text) {
     if (widget.mandatory && (text == null || text.isEmpty)) {
-      return widget.mandatoryText;
+      return FlutterI18n.translate(context, widget.mandatoryText);
     } else if (widget.validate != null && !widget.validate(text)) {
-      return widget.errorText;
+      return FlutterI18n.translate(context, widget.errorText);
     }
     return null;
   }

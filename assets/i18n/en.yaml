@@ -1,13 +1,14 @@
 app:
-  title: 'Study Planner'
+  title: 'Study Planner!'
 
 required: 'Required'
+
 error:
   notcorrect: 'Input not correct'
   passwordNotMatching: 'Password does not match'
 
 header:
-  generalInformation: 'Studienplan'
+  generalInformation: 'Curriculum'
   analysisOverview: 'Statistics'
   settings: 'Settings'
   semesterOverview: 'Semester Overview'
@@ -64,7 +65,7 @@ button:
     save: 'Save'
     edit: 'Edit'
     cancel: 'Cancel'
-    delete: 'Löschen'
+    delete: 'Delete'
     login: 'Login'
     register: 'Register'
     registerNow: 'Register now!'

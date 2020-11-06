@@ -1,7 +1,8 @@
 app:
-  title: 'Study Planner'
+  title: 'Study Planner!'
 
 required: 'Erforderlich'
+
 error:
   notcorrect: 'Eingabe nicht korrekt'
   passwordNotMatching: 'Passwort stimmt nicht überein'

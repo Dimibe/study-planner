@@ -12,6 +12,7 @@ import 'package:study_planner/widgets/SPBarChart.dart';
 import 'package:study_planner/widgets/SPDialog.dart';
 import 'package:study_planner/widgets/common/CWAppState.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
+import 'package:study_planner/widgets/common/CWText.dart';
 
 class AnalysisOverviewPage extends StatefulWidget {
   @override
@@ -81,7 +82,7 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
                 showBottomBorder: true,
                 columns: [
                   DataColumn(label: Text('Wert')),
-                  DataColumn(label: CWText('label.titel')),
+                  DataColumn(label: CWText('label.title')),
                 ],
                 rows: [
                   DataRow(

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:flutter_i18n/models/loading_status.dart';
 import 'package:get_it/get_it.dart';
 import 'package:study_planner/pages/Login.page.dart';
 import 'package:study_planner/services/UserService.dart';
@@ -59,96 +60,88 @@ class SPDialogState extends State<SPDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<bool>(
-        stream: FlutterI18n.retrieveLoadedStream(context),
-        builder: (context, snapshot) {
-          // Translations not loaded
-          if (!snapshot.hasData || !snapshot.data) {
-            return Container();
-          }
-          return LayoutBuilder(
-            builder: (_, constraints) {
-              bool showDrawer = constraints.maxWidth < 1080;
-              return Scaffold(
-                appBar: AppBar(
-                  title: Builder(builder: (context) {
-                    if (_loggedIn && !showDrawer) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: widget.getRoutesForRow(context),
-                      );
-                    }
-                    return Text(FlutterI18n.translate(context, widget.title));
-                  }),
-                  centerTitle: true,
-                  leadingWidth: showDrawer ? null : 200,
-                  leading: Builder(
-                    builder: (BuildContext context) {
-                      if (_loggedIn) {
-                        if (showDrawer) {
-                          return IconButton(
-                            icon: Icon(Icons.menu),
-                            onPressed: () {
-                              Scaffold.of(context).openDrawer();
-                            },
-                            tooltip: 'Menu',
-                          );
-                        }
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 16.0),
-                          child: Center(
-                            child: Text(
-                              FlutterI18n.translate(context, widget.title),
-                              style: TextStyle(
-                                color: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline6
-                                    .color,
-                                fontSize: 21,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        );
-                      }
-                      return Container();
-                    },
-                  ),
-                  actions: [getLoginActionWidget(context)],
-                ),
-                drawerScrimColor: Theme.of(context).backgroundColor,
-                drawer: _loggedIn ? SPDrawer() : null,
-                body: SingleChildScrollView(
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: SPForm(
-                      child: Column(
-                        children: [
-                          if (widget.header != null)
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                16.0,
-                                24.0,
-                                16.0,
-                                50.0,
-                              ),
-                              child: Text(
-                                FlutterI18n.translate(context, widget.header),
-                                style: Theme.of(context).textTheme.headline4,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          if (widget.content is List) ...widget.content,
-                          if (widget.content is! List) ...widget.content(),
-                        ],
+    return LayoutBuilder(
+      builder: (_, constraints) {
+        bool showDrawer = constraints.maxWidth < 1080;
+        return Scaffold(
+          appBar: AppBar(
+            title: Builder(builder: (context) {
+              if (_loggedIn && !showDrawer) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: widget.getRoutesForRow(context),
+                );
+              }
+              return Text(FlutterI18n.translate(context, widget.title));
+            }),
+            centerTitle: true,
+            leadingWidth: showDrawer ? null : 200,
+            leading: Builder(
+              builder: (BuildContext context) {
+                if (_loggedIn) {
+                  if (showDrawer) {
+                    return IconButton(
+                      icon: Icon(Icons.menu),
+                      onPressed: () {
+                        Scaffold.of(context).openDrawer();
+                      },
+                      tooltip: 'Menu',
+                    );
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Center(
+                      child: Text(
+                        FlutterI18n.translate(context, widget.title),
+                        style: TextStyle(
+                          color: Theme.of(context)
+                              .primaryTextTheme
+                              .headline6
+                              .color,
+                          fontSize: 21,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
-                  ),
+                  );
+                }
+                return Container();
+              },
+            ),
+            actions: [getLoginActionWidget(context)],
+          ),
+          drawerScrimColor: Theme.of(context).backgroundColor,
+          drawer: _loggedIn ? SPDrawer() : null,
+          body: SingleChildScrollView(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: SPForm(
+                child: Column(
+                  children: [
+                    if (widget.header != null)
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          24.0,
+                          16.0,
+                          50.0,
+                        ),
+                        child: Text(
+                          FlutterI18n.translate(context, widget.header),
+                          style: Theme.of(context).textTheme.headline4,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    if (widget.content is List) ...widget.content,
+                    if (widget.content is! List) ...widget.content(),
+                  ],
                 ),
-              );
-            },
-          );
-        });
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   Widget getLoginActionWidget(context) {

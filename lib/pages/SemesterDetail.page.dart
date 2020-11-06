@@ -128,7 +128,7 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
             ),
           ),
           CWButton(
-            label: 'button.label.delete',
+            label: 'button.label.save',
             minWidth: minWidth,
             validateOnClick: true,
             onPressed: () {

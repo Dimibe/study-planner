@@ -51,7 +51,7 @@ class _SPModalDialogState extends State<SPModalDialog> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5.0)),
             ),
-            title: CWText(widget.title),
+            title: widget.title == null ? Container() : CWText(widget.title),
             content: Container(
               padding: EdgeInsets.all(padding),
               constraints: BoxConstraints(
