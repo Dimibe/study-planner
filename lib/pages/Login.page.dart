@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:study_planner/services/NavigatorService.dart';
 import 'package:study_planner/services/UserService.dart';
+import 'package:study_planner/utils/UserRouting.dart';
 import 'package:study_planner/widgets/SPModalDialog.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
 import 'package:study_planner/widgets/common/CWText.dart';
@@ -12,7 +13,7 @@ import 'Register.page.dart';
 
 final GetIt getIt = GetIt.instance;
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatefulWidget with UserRouting {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -76,6 +77,8 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () async {
             await getIt<UserService>()
                 .login(emailController.text, passwordController.text);
+            var page = await widget.getNextRoute();
+            getIt<NavigatorService>().navigateTo(page);
           },
         ),
       ],

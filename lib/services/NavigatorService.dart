@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:study_planner/pages/Welcome.page.dart';
+import 'package:study_planner/pages/LoadingScreen.page.dart';
 
 class NavigatorService {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-  Type currentType = WelcomePage;
+  Type currentType = LoadingScreen;
 
   Future<dynamic> navigateTo(Widget page, {bool force = true}) {
     if (force || currentType != page.runtimeType) {

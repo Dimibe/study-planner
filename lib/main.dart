@@ -3,14 +3,13 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:flutter_i18n/flutter_i18n_web.dart';
 import 'package:flutter_i18n/loaders/decoders/yaml_decode_strategy.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:study_planner/pages/LoadingScreen.page.dart';
+import 'package:study_planner/utils/UserRouting.dart';
 
-import 'pages/Welcome.page.dart';
 import 'services/NavigatorService.dart';
-import 'utils/UserRouting.dart';
 import 'services/Cache.dart';
 import 'services/FirestoreService.dart';
 import 'services/SettingsService.dart';
@@ -21,25 +20,38 @@ import 'services/StorageService.dart';
 final getIt = GetIt.instance;
 
 void main() async {
-  await Firebase.initializeApp();
   setup();
-  runApp(MyApp());
+  var flutterI18nDelegate = FlutterI18nDelegate(
+    translationLoader: FileTranslationLoader(
+      basePath: 'assets/i18n',
+      fallbackFile: 'de',
+      decodeStrategies: [YamlDecodeStrategy()],
+    ),
+    missingTranslationHandler: (key, locale) {
+      print('Missing Key: $key, languageCode: ${locale.languageCode}');
+    },
+  );
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp(flutterI18nDelegate));
 }
 
-void setup({bool initFirebase = true}) {
-  if (initFirebase) {
-    getIt.registerSingleton<UserService>(UserService());
-    getIt.registerSingleton<StorageService>(StorageService());
-    getIt.registerSingleton<FirestoreService>(FirestoreService());
-  }
+void setup() {
   getIt.registerSingleton<NavigatorService>(NavigatorService());
   getIt.registerSingleton<SettingsService>(SettingsService());
   getIt.registerSingleton<StudyPlanService>(StudyPlanService());
   getIt.registerSingleton<Cache>(Cache());
 }
 
+void setupFirebase() {
+  getIt.registerSingleton<UserService>(UserService());
+  getIt.registerSingleton<StorageService>(StorageService());
+  getIt.registerSingleton<FirestoreService>(FirestoreService());
+}
+
 class MyApp extends StatefulWidget with UserRouting {
-  const MyApp({Key key}) : super(key: key);
+  final FlutterI18nDelegate flutterI18nDelegate;
+
+  const MyApp(this.flutterI18nDelegate, {Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => MyAppState();
@@ -52,12 +64,18 @@ class MyApp extends StatefulWidget with UserRouting {
 class MyAppState extends State<MyApp> {
   int _themeColorIndex = 17;
   StreamSubscription authStateListener;
-  Widget _homeScreen = WelcomePage();
+  Future<dynamic> _initialized;
 
   @override
   void initState() {
     super.initState();
-    authStateListener = getIt<UserService>().addAuthStateListener((user) {
+    _initialized = Future.wait([
+      Firebase.initializeApp(),
+      Future.delayed(Duration(seconds: 1)),
+      widget.flutterI18nDelegate.load(null),
+    ]);
+    _initialized.then((value) {
+      setupFirebase();
       setPrimarySwatch();
       _handleLoginStatus();
     });
@@ -76,16 +94,7 @@ class MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       navigatorKey: getIt<NavigatorService>().navigatorKey,
       localizationsDelegates: [
-        FlutterI18nDelegate(
-          translationLoader: FileTranslationLoader(
-            basePath: 'assets/i18n',
-            fallbackFile: 'de',
-            decodeStrategies: [YamlDecodeStrategy()],
-          ),
-          missingTranslationHandler: (key, locale) {
-            print('Missing Key: $key, languageCode: ${locale.languageCode}');
-          },
-        ),
+        widget.flutterI18nDelegate,
         GlobalCupertinoLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -94,7 +103,7 @@ class MyAppState extends State<MyApp> {
         primarySwatch: Colors.primaries[_themeColorIndex],
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: _homeScreen,
+      home: LoadingScreen(),
     );
   }
 

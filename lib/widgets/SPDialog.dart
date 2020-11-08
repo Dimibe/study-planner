@@ -2,18 +2,19 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:flutter_i18n/models/loading_status.dart';
 import 'package:get_it/get_it.dart';
 import 'package:study_planner/pages/Login.page.dart';
+import 'package:study_planner/services/NavigatorService.dart';
 import 'package:study_planner/services/UserService.dart';
 import 'package:study_planner/utils/Routes.dart';
+import 'package:study_planner/utils/UserRouting.dart';
 import 'package:study_planner/widgets/SPDrawer.dart';
 import 'package:study_planner/widgets/SPForm.dart';
 
 final GetIt getIt = GetIt.instance;
 
 /// Base Widget which should be returned by any page widget.
-class SPDialog extends StatefulWidget with Routes {
+class SPDialog extends StatefulWidget with Routes, UserRouting {
   /// Title of the dialog.
   final String title;
 
@@ -180,7 +181,11 @@ class SPDialogState extends State<SPDialog> {
         Padding(
           padding: EdgeInsets.only(left: 8.0, right: 8.0),
           child: IconButton(
-            onPressed: GetIt.I<UserService>().logout,
+            onPressed: () async {
+              await GetIt.I<UserService>().logout();
+              var page = await widget.getNextRoute();
+              getIt<NavigatorService>().navigateTo(page);
+            },
             icon: Icon(
               Icons.logout,
               color: Theme.of(context).primaryTextTheme.headline6.color,
