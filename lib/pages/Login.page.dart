@@ -9,6 +9,7 @@ import 'package:study_planner/widgets/common/CWButton.dart';
 import 'package:study_planner/widgets/common/CWText.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
 
+import '../main.dart';
 import 'Register.page.dart';
 
 final GetIt getIt = GetIt.instance;
@@ -77,6 +78,7 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () async {
             await getIt<UserService>()
                 .login(emailController.text, passwordController.text);
+            MyApp.of(context).applyUserSettings(context);
             var page = await widget.getNextRoute();
             getIt<NavigatorService>().navigateTo(page);
           },

@@ -55,6 +55,7 @@ label:
   creditsForGoal: 'Credits per semester to achieve desired goal'
   remainingSemester: 'Remaining semester with current average'
   averageGrade: 'Average Grade'
+  selectLanguage: 'Select Language'
 
 hint: 
   creditsCount: 'Number of Credits'
@@ -71,3 +72,4 @@ button:
     registerNow: 'Register now!'
     saveStudyplan: 'Save Study Plan'
     addSemester: 'Add Semester'
+    saveLanguage: 'Save Language'

@@ -11,6 +11,8 @@ import 'package:study_planner/utils/UserRouting.dart';
 import 'package:study_planner/widgets/SPDrawer.dart';
 import 'package:study_planner/widgets/SPForm.dart';
 
+import '../main.dart';
+
 final GetIt getIt = GetIt.instance;
 
 /// Base Widget which should be returned by any page widget.
@@ -183,6 +185,7 @@ class SPDialogState extends State<SPDialog> {
           child: IconButton(
             onPressed: () async {
               await GetIt.I<UserService>().logout();
+              MyApp.of(context).applyUserSettings(context);
               var page = await widget.getNextRoute();
               getIt<NavigatorService>().navigateTo(page);
             },

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:get_it/get_it.dart';
 import 'package:study_planner/models/Settings.dart';
@@ -11,6 +12,7 @@ import 'package:study_planner/services/StudyPlanService.dart';
 import 'package:study_planner/widgets/SPDialog.dart';
 import 'package:study_planner/widgets/common/CWAppState.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
+import 'package:study_planner/widgets/common/CWDropDown.dart';
 import 'package:study_planner/widgets/common/CWText.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
 import '../main.dart';
@@ -26,6 +28,7 @@ class _SettingsPageState extends CWState<SettingsPage> {
   Settings settings;
   int themeColorIndex = 0;
   var textEditingController = TextEditingController();
+  var dropDownController = DropDownController();
 
   @override
   void initState() {
@@ -35,6 +38,7 @@ class _SettingsPageState extends CWState<SettingsPage> {
         setState(() {
           settings = value;
           themeColorIndex = settings.themeColorIndex;
+          dropDownController.value = settings.locale;
         });
       }
     });
@@ -50,6 +54,26 @@ class _SettingsPageState extends CWState<SettingsPage> {
     return SPDialog(
       header: 'header.settings',
       content: [
+        CWDropDown<String>(
+          labelText: 'label.selectLanguage',
+          items: ['de', 'en'],
+          maxWidth: 290,
+          controller: dropDownController,
+          onChanged: (var value) async {
+            await FlutterI18n.refresh(context, Locale(value));
+            setState(() {
+              settings.locale = value;
+            });
+          },
+        ),
+        CWButton(
+          label: 'button.label.saveLanguage',
+          color: Theme.of(context).buttonColor,
+          padding: EdgeInsets.all(8.0),
+          onPressed: () {
+            getIt<SettingsService>().saveSettings(settings);
+          },
+        ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: CircleAvatar(
@@ -92,19 +116,19 @@ class _SettingsPageState extends CWState<SettingsPage> {
             FlatButton(
               child: CWText('button.label.cancel'),
               onPressed: () {
-                MyApp.of(context).setPrimarySwatch();
+                MyApp.of(context).applyUserSettings(context);
                 getIt<NavigatorService>().pop();
               },
             ),
             CWButton(
-              label: 'button.label.cancel',
+              label: 'button.label.save',
               minWidth: 100,
               minHeight: 40,
               fontSize: 16,
               onPressed: () {
                 settings.themeColorIndex = themeColorIndex;
                 getIt<SettingsService>().saveSettings(settings);
-                MyApp.of(context).setPrimarySwatch();
+                MyApp.of(context).applyUserSettings(context);
                 getIt<NavigatorService>().pop();
               },
             ),
@@ -127,7 +151,7 @@ class _SettingsPageState extends CWState<SettingsPage> {
           setState(() {
             themeColorIndex = Colors.primaries.indexOf(color);
           });
-          MyApp.of(context).setPrimarySwatch(color: color);
+          MyApp.of(context).applyUserSettings(context, color: color);
         },
       ),
     );

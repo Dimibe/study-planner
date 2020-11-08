@@ -10,6 +10,8 @@ import 'package:study_planner/widgets/common/CWButton.dart';
 import 'package:study_planner/widgets/common/CWText.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
 
+import '../main.dart';
+
 final GetIt getIt = GetIt.instance;
 
 class RegisterPage extends StatefulWidget with UserRouting {
@@ -82,6 +84,7 @@ class _RegisterPageState extends State<RegisterPage> {
           onPressed: () async {
             await getIt<UserService>()
                 .register(userNameController.text, passwordController.text);
+            MyApp.of(context).applyUserSettings(context);
             var page = await widget.getNextRoute();
             getIt<NavigatorService>().navigateTo(page);
           },

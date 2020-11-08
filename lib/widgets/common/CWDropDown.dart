@@ -6,6 +6,7 @@ class CWDropDown<T> extends CWBaseWidget<CWDropDown> {
   final List<T> items;
   final T initValue;
   final DropDownController controller;
+  final void Function(T) onChanged;
   final double maxWidth;
   final String labelText;
 
@@ -15,13 +16,15 @@ class CWDropDown<T> extends CWBaseWidget<CWDropDown> {
       @required this.items,
       this.controller,
       this.initValue,
-      this.maxWidth,
+      this.onChanged,
+      this.maxWidth = 300,
       this.labelText})
       : super(id);
 
   CWDropDown.copy(CWDropDown other, DropDownController<T> controller)
       : items = other.items,
         initValue = other.initValue,
+        onChanged = other.onChanged,
         maxWidth = other.maxWidth,
         labelText = other.labelText,
         this.controller = controller,
@@ -70,8 +73,12 @@ class _CWDropDownState<T> extends State<CWDropDown<T>> {
               ),
             ),
             items: widget.items.map(map).toList(),
-            onChanged: (value) =>
-                setState(() => widget.controller.value = value),
+            onChanged: (value) {
+              setState(() => widget.controller.value = value);
+              if (widget.onChanged != null) {
+                widget.onChanged(value);
+              }
+            },
             value: widget.controller.value,
           ),
         ),

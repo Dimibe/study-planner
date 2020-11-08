@@ -8,6 +8,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:study_planner/pages/LoadingScreen.page.dart';
 import 'package:study_planner/utils/UserRouting.dart';
+import 'package:study_planner/widgets/ThemeHandler.dart';
 
 import 'services/NavigatorService.dart';
 import 'services/Cache.dart';
@@ -42,12 +43,6 @@ void setup() {
   getIt.registerSingleton<Cache>(Cache());
 }
 
-void setupFirebase() {
-  getIt.registerSingleton<UserService>(UserService());
-  getIt.registerSingleton<StorageService>(StorageService());
-  getIt.registerSingleton<FirestoreService>(FirestoreService());
-}
-
 class MyApp extends StatefulWidget with UserRouting {
   final FlutterI18nDelegate flutterI18nDelegate;
 
@@ -63,63 +58,51 @@ class MyApp extends StatefulWidget with UserRouting {
 
 class MyAppState extends State<MyApp> {
   int _themeColorIndex = 17;
-  StreamSubscription authStateListener;
-  Future<dynamic> _initialized;
 
   @override
   void initState() {
     super.initState();
-    _initialized = Future.wait([
-      Firebase.initializeApp(),
-      Future.delayed(Duration(seconds: 1)),
-      widget.flutterI18nDelegate.load(null),
-    ]);
-    _initialized.then((value) {
-      setupFirebase();
-      setPrimarySwatch();
-      _handleLoginStatus();
-    });
-  }
-
-  @override
-  void dispose() {
-    authStateListener?.cancel();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Study Planner',
-      debugShowCheckedModeBanner: false,
-      navigatorKey: getIt<NavigatorService>().navigatorKey,
-      localizationsDelegates: [
-        widget.flutterI18nDelegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
+    return ThemeHandler(
       theme: ThemeData(
         primarySwatch: Colors.primaries[_themeColorIndex],
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: LoadingScreen(),
+      child: Builder(
+        builder: (context) => MaterialApp(
+          title: 'Study Planner',
+          debugShowCheckedModeBanner: false,
+          navigatorKey: getIt<NavigatorService>().navigatorKey,
+          localizationsDelegates: [
+            widget.flutterI18nDelegate,
+            GlobalCupertinoLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          theme: ThemeHandler.of(context).theme,
+          home: LoadingScreen(widget.flutterI18nDelegate),
+        ),
+      ),
     );
   }
 
-  void _handleLoginStatus() async {
-    var _page = await widget.getNextRoute();
-    getIt<NavigatorService>().navigateTo(_page, force: false);
-  }
-
-  /// This function can be called from outside to change the primarySwatch
-  void setPrimarySwatch({ColorSwatch color}) {
+  /// This function can be called from outside to change the user settings
+  void applyUserSettings(BuildContext context, {ColorSwatch color}) {
     if (color != null) {
       setState(() {
         _themeColorIndex = Colors.primaries.indexOf(color);
       });
     } else {
       getIt<SettingsService>().loadSettings().then((settings) {
+        if (settings.locale != null) {
+          FlutterI18n.refresh(
+            context,
+            Locale(settings.locale),
+          );
+        }
         setState(() {
           _themeColorIndex = settings.themeColorIndex;
         });
