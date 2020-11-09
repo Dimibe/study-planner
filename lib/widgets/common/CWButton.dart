@@ -32,6 +32,7 @@ class CWButton extends StatelessWidget {
       child: ElevatedButtonTheme(
         data: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
+            elevation: 0.0,
             primary: this.color ?? Theme.of(context).accentColor,
             minimumSize: Size(this.minWidth ?? 290, this.minHeight ?? 60),
             shape: RoundedRectangleBorder(

@@ -112,6 +112,7 @@ class SPDialogState extends State<SPDialog> {
               },
             ),
             actions: [getLoginActionWidget(context)],
+            elevation: 0.0,
           ),
           drawerScrimColor: Theme.of(context).backgroundColor,
           drawer: _loggedIn ? SPDrawer() : null,

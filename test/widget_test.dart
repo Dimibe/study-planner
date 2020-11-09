@@ -12,7 +12,7 @@ import 'package:study_planner/main.dart';
 void main() {
   testWidgets('App starts and renders elements', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    setup(initFirebase: false);
+    setup();
     // await tester.pumpWidget(MyApp());
 
     // Verify that there are five input fields

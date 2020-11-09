@@ -7,7 +7,7 @@ class SPDrawer extends StatelessWidget with Routes {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      elevation: 10,
+      elevation: 0,
       semanticLabel: 'MainMenu',
       child: Builder(
         builder: (context) {

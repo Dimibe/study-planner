@@ -45,6 +45,7 @@ class _SPModalDialogState extends State<SPModalDialog> {
           constraints: BoxConstraints(
               minWidth: _minWidth, maxWidth: this.widget.maxWidth ?? 700),
           child: AlertDialog(
+            elevation: 0.0,
             insetPadding: EdgeInsets.all(padding),
             contentPadding:
                 EdgeInsets.only(left: padding / 2, right: padding / 2),

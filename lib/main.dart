@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_i18n/loaders/decoders/yaml_decode_strategy.dart';
@@ -12,11 +9,8 @@ import 'package:study_planner/widgets/ThemeHandler.dart';
 
 import 'services/NavigatorService.dart';
 import 'services/Cache.dart';
-import 'services/FirestoreService.dart';
 import 'services/SettingsService.dart';
 import 'services/StudyPlanService.dart';
-import 'services/UserService.dart';
-import 'services/StorageService.dart';
 
 final getIt = GetIt.instance;
 

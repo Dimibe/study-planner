@@ -5,6 +5,7 @@ import 'package:study_planner/services/StudyPlanService.dart';
 import 'package:study_planner/widgets/SPDialog.dart';
 import 'package:study_planner/widgets/common/CWAppState.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
+import 'package:study_planner/widgets/common/CWText.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
 
 final GetIt getIt = GetIt.instance;
@@ -53,7 +54,7 @@ class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
     return SPDialog(
       header: 'header.generalInformation',
       content: <Widget>[
-        Text(
+        CWText(
           'text.generalInformationInstruction',
           style: Theme.of(context).textTheme.headline6,
           textAlign: TextAlign.center,
