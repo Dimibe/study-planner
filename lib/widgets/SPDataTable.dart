@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:study_planner/models/Semester.dart';
 
+import 'common/CWText.dart';
+
 class SPDataTable extends StatelessWidget {
   final Semester semester;
   final void Function() onEdit;
@@ -39,8 +41,8 @@ class SPDataTable extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                     ),
                     onPressed: onEdit,
-                    child: Text(
-                      'Bearbeiten',
+                    child: CWText(
+                      'button.label.edit',
                       style: TextStyle(color: Theme.of(context).accentColor),
                     ),
                   ),
@@ -51,10 +53,10 @@ class SPDataTable extends StatelessWidget {
                 child: DataTable(
                   columnSpacing: 10.0,
                   columns: [
-                    DataColumn(label: Text('Kurs')),
-                    DataColumn(label: Text('Credits')),
-                    DataColumn(label: Text('Note')),
-                    DataColumn(label: Text('Feld')),
+                    DataColumn(label: CWText('label.course')),
+                    DataColumn(label: CWText('label.credits')),
+                    DataColumn(label: CWText('label.grade')),
+                    DataColumn(label: CWText('label.studyField')),
                   ],
                   rows: List<DataRow>.generate(
                     semester.courses.length,

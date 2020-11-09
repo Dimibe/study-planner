@@ -60,6 +60,7 @@ class UserService {
   }
 
   Future<void> logout() async {
+    GetIt.I<Cache>().reset();
     return FirebaseAuth.instance.signOut();
   }
 }

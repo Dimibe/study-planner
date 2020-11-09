@@ -3,15 +3,18 @@ import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:study_planner/services/NavigatorService.dart';
 import 'package:study_planner/services/UserService.dart';
+import 'package:study_planner/utils/UserRouting.dart';
 import 'package:study_planner/widgets/SPModalDialog.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
+import 'package:study_planner/widgets/common/CWText.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
 
+import '../main.dart';
 import 'Register.page.dart';
 
 final GetIt getIt = GetIt.instance;
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatefulWidget with UserRouting {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -23,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return SPModalDialog(
-      title: Text('Login'),
+      title: 'title.login',
       minWidth: 100,
       padding: 15,
       content: (constrains) {
@@ -32,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               children: [
                 CWTextField(
-                  labelText: 'Email',
+                  labelText: 'label.mail',
                   autofocus: true,
                   mandatory: true,
                   autofillHints: [AutofillHints.email],
@@ -41,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                   controller: emailController,
                 ),
                 CWTextField(
-                  labelText: 'Passwort',
+                  labelText: 'label.password',
                   obscureText: true,
                   textInputAction: TextInputAction.go,
                   autofillHints: [AutofillHints.password],
@@ -61,8 +64,8 @@ class _LoginPageState extends State<LoginPage> {
                 },
               );
             },
-            child: Text(
-              'Hier gehts zur Registrierung',
+            child: CWText(
+              'text.goToRegistration',
               style: TextStyle(color: Colors.blue),
             ),
           ),
@@ -70,11 +73,14 @@ class _LoginPageState extends State<LoginPage> {
       },
       actions: [
         CWButton(
-          label: 'Login',
+          label: 'button.label.login',
           validateOnClick: true,
           onPressed: () async {
             await getIt<UserService>()
                 .login(emailController.text, passwordController.text);
+            MyApp.of(context).applyUserSettings(context);
+            var page = await widget.getNextRoute();
+            getIt<NavigatorService>().navigateTo(page);
           },
         ),
       ],

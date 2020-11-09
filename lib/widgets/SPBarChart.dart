@@ -1,5 +1,6 @@
 import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 
 class SPBarChart<T> extends StatelessWidget {
   final String id;
@@ -42,9 +43,11 @@ class SPBarChart<T> extends StatelessWidget {
           renderSpec: SmallTickRendererSpec(labelRotation: rotation),
         ),
         behaviors: [
-          ChartTitle(this.title,
-              subTitle:
-                  average == null ? null : 'Ø ${average.toStringAsFixed(2)}'),
+          ChartTitle(
+            FlutterI18n.translate(context, this.title),
+            subTitle:
+                average == null ? null : 'Ø ${average.toStringAsFixed(2)}',
+          ),
           RangeAnnotation(
             <LineAnnotationSegment>[
               if (average != null)

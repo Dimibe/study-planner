@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:study_planner/widgets/SPDialog.dart';
 import 'package:study_planner/widgets/common/CWAppState.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
+import 'package:study_planner/widgets/common/CWText.dart';
 
 import 'Register.page.dart';
 
@@ -16,14 +17,14 @@ class _WelcomePageState extends CWState<WelcomePage> {
   Widget build(BuildContext context) {
     return SPDialog(
       content: <Widget>[
-        Text(
-          'Willkommen bei Study Planner!',
+        CWText(
+          'text.welcomeToStudyPlanner',
           style: Theme.of(context).textTheme.headline2,
           textAlign: TextAlign.center,
         ),
         Padding(padding: EdgeInsets.only(bottom: 20.0)),
-        Text(
-          'Analysiere dein Studium und behalte alles im Überblick.',
+        CWText(
+          'text.welcomeSubHeading',
           style: Theme.of(context).textTheme.headline6,
           textAlign: TextAlign.center,
         ),
@@ -34,7 +35,7 @@ class _WelcomePageState extends CWState<WelcomePage> {
           child: Image(image: AssetImage('assets/welcome.png')),
         ),
         CWButton(
-          label: 'Jetzt registrieren!',
+          label: 'button.label.registerNow',
           padding: const EdgeInsets.only(top: 32.0, bottom: 16.0),
           onPressed: () async {
             await showDialog(

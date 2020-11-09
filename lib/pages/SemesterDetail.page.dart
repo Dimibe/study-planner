@@ -12,6 +12,7 @@ import 'package:study_planner/widgets/common/CWButton.dart';
 import 'package:study_planner/widgets/common/CWCheckBox.dart';
 import 'package:study_planner/widgets/common/CWDropDown.dart';
 import 'package:study_planner/widgets/common/CWDynamicContainer.dart';
+import 'package:study_planner/widgets/common/CWText.dart';
 import 'package:study_planner/widgets/common/CWTextField.dart';
 
 class SemesterDetailPage extends StatefulWidget {
@@ -46,13 +47,13 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
               children: [
                 CWTextField(
                   id: 'semester',
-                  labelText: 'Semester',
+                  labelText: 'label.semester',
                   mandatory: true,
                   controller: semesterController,
                 ),
                 CWCheckBox(
                   id: 'semesterdone',
-                  label: 'Semester abgeschlossen',
+                  label: 'label.semesterDone',
                   controller: checkBoxController,
                 ),
               ],
@@ -77,26 +78,26 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
           children: <CWBaseWidget>[
             CWTextField(
               id: 'name',
-              labelText: 'Kurs Name',
+              labelText: 'label.courseName',
               mandatory: true,
               maxWidth: 200,
             ),
             CWTextField(
               id: 'credits',
-              labelText: 'Credits',
+              labelText: 'label.credits',
               inputType: CWInputType.Decimal,
               mandatory: true,
               maxWidth: 100,
             ),
             CWTextField(
               id: 'grade',
-              labelText: 'Note',
+              labelText: 'label.grade',
               inputType: CWInputType.Decimal,
               maxWidth: 100,
             ),
             CWDropDown<String>(
               id: 'studyfield',
-              labelText: 'Kategorie',
+              labelText: 'label.studyField',
               items: widget.plan.studyFields.map((e) => e.toString()).toList(),
               initValue: widget.plan.studyFields[0].toString(),
               maxWidth: 184,
@@ -121,13 +122,13 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
                     GetIt.I<StudyPlanService>().saveStudyPlan(widget.plan);
                     Navigator.pop(context, true);
                   },
-            child: Text(
-              'Löschen',
+            child: CWText(
+              'button.label.delete',
               style: TextStyle(color: Theme.of(context).errorColor),
             ),
           ),
           CWButton(
-            label: 'Speichern',
+            label: 'button.label.save',
             minWidth: minWidth,
             validateOnClick: true,
             onPressed: () {

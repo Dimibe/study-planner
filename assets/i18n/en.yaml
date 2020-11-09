@@ -1,0 +1,75 @@
+app:
+  title: 'Study Planner!'
+
+required: 'Required'
+
+error:
+  notcorrect: 'Input not correct'
+  passwordNotMatching: 'Password does not match'
+
+header:
+  generalInformation: 'Curriculum'
+  analysisOverview: 'Statistics'
+  settings: 'Settings'
+  semesterOverview: 'Semester Overview'
+
+title:
+  login: 'Login'
+  registration: 'Registration'
+  credits: 'Credits'
+  gpa: 'Grade Point Average'
+
+text:
+  generalInformationInstruction: 'Please type in the following information:'
+  welcomeToStudyPlanner : 'Welcome to Study Planner!'
+  welcomeSubHeading: 'Analyze your studies and keep everything at a glance.'
+  colorSelection: 'Color selection'
+  goToRegistration: 'Click here for registration'
+  backToLogin: 'Go back to login'
+  noSemesterPlaceholder: 'No semesters existing..'
+  mainMenu: 'Main Menu'
+  meanCreditsSemester: 'Average Credits per Semester'
+
+label:
+  university: 'University'
+  courseOfStudies: 'Course of Studies'
+  creditsCount: 'Number of Credits'  
+  creditsMain: 'Credits Main Studies'
+  creditsOther: 'Credits Requirements'
+  semesterGoal: 'Target number of semesters'
+  mail: 'Email'
+  password: 'Password'
+  changeColor: 'Change Color'
+  studyplan: 'Study Plan'
+  confirmPassword: 'Confirm Password'
+  semester: 'Semester'
+  semesterDone: 'Semester Completed'
+  course: 'Course'
+  courseName: 'Course Name'
+  credits: 'Credits'
+  grade: 'Grade'
+  studyField: 'Category'
+  totalCredits: 'Total Credits'
+  title: 'Title'
+  aquiredCredits: 'Already acquired credits'
+  creditsForGoal: 'Credits per semester to achieve desired goal'
+  remainingSemester: 'Remaining semester with current average'
+  averageGrade: 'Average Grade'
+  selectLanguage: 'Select Language'
+
+hint: 
+  creditsCount: 'Number of Credits'
+  semesterCount: 'Number of Semester'
+
+button:
+  label:
+    save: 'Save'
+    edit: 'Edit'
+    cancel: 'Cancel'
+    delete: 'Delete'
+    login: 'Login'
+    register: 'Register'
+    registerNow: 'Register now!'
+    saveStudyplan: 'Save Study Plan'
+    addSemester: 'Add Semester'
+    saveLanguage: 'Save Language'

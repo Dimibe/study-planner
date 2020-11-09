@@ -1,17 +1,22 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:get_it/get_it.dart';
 import 'package:study_planner/pages/Login.page.dart';
+import 'package:study_planner/services/NavigatorService.dart';
 import 'package:study_planner/services/UserService.dart';
 import 'package:study_planner/utils/Routes.dart';
+import 'package:study_planner/utils/UserRouting.dart';
 import 'package:study_planner/widgets/SPDrawer.dart';
 import 'package:study_planner/widgets/SPForm.dart';
+
+import '../main.dart';
 
 final GetIt getIt = GetIt.instance;
 
 /// Base Widget which should be returned by any page widget.
-class SPDialog extends StatefulWidget with Routes {
+class SPDialog extends StatefulWidget with Routes, UserRouting {
   /// Title of the dialog.
   final String title;
 
@@ -27,7 +32,7 @@ class SPDialog extends StatefulWidget with Routes {
 
   SPDialog({
     @required this.content,
-    this.title = 'Study Planner!',
+    this.title = 'app.title',
     this.header,
   });
 
@@ -70,7 +75,7 @@ class SPDialogState extends State<SPDialog> {
                   children: widget.getRoutesForRow(context),
                 );
               }
-              return Text(this.widget.title);
+              return Text(FlutterI18n.translate(context, widget.title));
             }),
             centerTitle: true,
             leadingWidth: showDrawer ? null : 200,
@@ -90,7 +95,7 @@ class SPDialogState extends State<SPDialog> {
                     padding: const EdgeInsets.only(left: 16.0),
                     child: Center(
                       child: Text(
-                        this.widget.title,
+                        FlutterI18n.translate(context, widget.title),
                         style: TextStyle(
                           color: Theme.of(context)
                               .primaryTextTheme
@@ -125,7 +130,7 @@ class SPDialogState extends State<SPDialog> {
                           50.0,
                         ),
                         child: Text(
-                          widget.header,
+                          FlutterI18n.translate(context, widget.header),
                           style: Theme.of(context).textTheme.headline4,
                           textAlign: TextAlign.center,
                         ),
@@ -178,7 +183,12 @@ class SPDialogState extends State<SPDialog> {
         Padding(
           padding: EdgeInsets.only(left: 8.0, right: 8.0),
           child: IconButton(
-            onPressed: GetIt.I<UserService>().logout,
+            onPressed: () async {
+              await GetIt.I<UserService>().logout();
+              MyApp.of(context).applyUserSettings(context);
+              var page = await widget.getNextRoute();
+              getIt<NavigatorService>().navigateTo(page);
+            },
             icon: Icon(
               Icons.logout,
               color: Theme.of(context).primaryTextTheme.headline6.color,
