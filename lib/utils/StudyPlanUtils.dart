@@ -9,8 +9,11 @@ class StudyPlanUtils {
     return semester.courses.map((c) => c.credits).reduce(MathUtils.sum);
   }
 
-  static int sumOfCredits(StudyPlan studyPlan) {
-    return studyPlan.semester.map(creditsInSemester).reduce(MathUtils.sum);
+  static int sumOfCredits(StudyPlan studyPlan, {bool onlyCompleted = false}) {
+    return studyPlan.semester
+        .where((semester) => !onlyCompleted || semester.completed)
+        .map(creditsInSemester)
+        .reduce(MathUtils.sum);
   }
 
   static double semesterMeanGrade(Semester semester) {
@@ -18,9 +21,32 @@ class StudyPlanUtils {
     return _meanGrade(courses);
   }
 
-  static double totalMeanGrade(StudyPlan studyPlan) {
-    var courses = studyPlan.semester.expand(_coursesForGrading).toList();
+  static double totalMeanGrade(StudyPlan studyPlan,
+      {bool onlyCompleted = false}) {
+    var courses = studyPlan.semester
+        .where((semester) => !onlyCompleted || semester.completed)
+        .expand(_coursesForGrading)
+        .toList();
     return _meanGrade(courses);
+  }
+
+  static double bestPossibleMeanGrade(StudyPlan studyPlan,
+      {bool onlyCompleted = false}) {
+    var allCredits = studyPlan.studyFields
+        .where((field) => field.countForGrade)
+        .map((field) => field.credits)
+        .reduce(MathUtils.sum);
+
+    var takenCredits = studyPlan.semester
+        .where((semester) => !onlyCompleted || semester.completed)
+        .expand(_coursesForGrading)
+        .map((c) => c.credits)
+        .reduce(MathUtils.sum);
+
+    return (takenCredits *
+                totalMeanGrade(studyPlan, onlyCompleted: onlyCompleted) +
+            (allCredits - takenCredits)) /
+        allCredits;
   }
 
   static StudyField getStudyFieldByName(StudyPlan studyPlan, String fieldName) {
