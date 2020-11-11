@@ -40,6 +40,7 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
   @override
   Widget build(BuildContext context) {
     return SPModalDialog(
+      padding: 15.0,
       content: [
         Row(
           children: [
@@ -55,6 +56,7 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
                   id: 'semesterdone',
                   label: 'label.semesterDone',
                   controller: checkBoxController,
+                  tooltip: 'tooltip.semesterDone',
                 ),
               ],
             ),

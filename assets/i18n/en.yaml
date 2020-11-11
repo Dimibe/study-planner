@@ -74,6 +74,9 @@ hint:
   creditsCount: 'Number of Credits'
   semesterCount: 'Number of Semester'
 
+tooltip:
+  semesterDone: 'Completed semesters will be distinguished from not completed semesters in the statistics.'
+
 button:
   label:
     save: 'Save'

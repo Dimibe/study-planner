@@ -74,6 +74,9 @@ hint:
   creditsCount: 'Anzahl Credits'
   semesterCount: 'Anzahl Semester'
 
+tooltip:
+  semesterDone: 'Abgeschlossene Semester werden in der Analyse von nicht abgeschlossenen Semestern unterschieden.'
+
 button:
   label:
     save: 'Speichern'
