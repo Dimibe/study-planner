@@ -17,6 +17,7 @@ class _WelcomePageState extends CWState<WelcomePage> {
   Widget build(BuildContext context) {
     return SPDialog(
       content: <Widget>[
+        Padding(padding: EdgeInsets.only(bottom: 20.0)),
         CWText(
           'text.welcomeToStudyPlanner',
           style: Theme.of(context).textTheme.headline2,
@@ -32,7 +33,7 @@ class _WelcomePageState extends CWState<WelcomePage> {
         Container(
           constraints: BoxConstraints(maxWidth: 600),
           padding: EdgeInsets.all(8.0),
-          child: Image(image: AssetImage('assets/welcome.png')),
+          child: Image(image: AssetImage('assets/images/welcome.png')),
         ),
         CWButton(
           label: 'button.label.registerNow',
