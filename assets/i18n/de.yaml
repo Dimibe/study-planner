@@ -28,7 +28,20 @@ text:
   backToLogin: "Hier geht's zurück zum Login"
   noSemesterPlaceholder: 'Noch keine Semester vorhanden..'
   mainMenu: 'Hauptmenü'
+  createStudyPlanFirst: 'Erstelle zuerst dein Studienplan..'
   meanCreditsSemester: 'Durchschnittliche Credits pro Semester'
+  totalCredits: 'Gesamt {#0}'
+  alreadyArchived: 'Bereits erworben: {#0}'
+  averageCreditsInSemester: 'Durchschnittlich {#0} Credits pro Semester'
+  currentlyNeededCreditsInSemester: 'Aktuell {#0} Credits pro Semester nötig für Wunschziel'
+  plannedNeededCredits: 'Nach Planung {#0} Credits pro Semester nötig für Wunschziel'
+  bestPossibleGrade: 'Beste erreichbare Note: {#0}'
+  plannedBestPossibleGrade: 'Nach aktueller Planung beste erreichbare Note: {#0}'
+  currentSemester: 'Akt. {#0}.'
+  goalSemester: 'Zielsemeseter {#0}'
+  openSemester: 'Verbleibende Semster: {#0}'
+  remainingSemester: '{#0} Semester verbleibend nach akt. Credits Durchschnitt'
+  plannedRemainingSemester: '{#0} Semester verbleiben nach geplantem Credits Durchschnitt'
 
 label:
   university: 'Uni'
@@ -73,3 +86,4 @@ button:
     saveStudyplan: 'Studienplan übernehmen'
     addSemester: 'Semester Hinzufügen'
     saveLanguage: 'Sprache speichern'
+    goToStudyPlan: 'Zum Studienplan'

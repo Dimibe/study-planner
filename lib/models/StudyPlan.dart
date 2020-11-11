@@ -30,6 +30,13 @@ class StudyPlan {
         StudyField('Auflagen', creditsOther, false),
       ];
     }
+    studyFields.forEach((element) {
+      if (element.name == 'Hauptstudium') {
+        element.credits = creditsMain;
+      } else if (element.name == 'Auflagen') {
+        element.credits = creditsOther;
+      }
+    });
   }
 
   factory StudyPlan.fromJson(Map<String, dynamic> json) =>

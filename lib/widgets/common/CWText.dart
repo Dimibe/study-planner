@@ -36,8 +36,19 @@ class CWText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String _textKey = textKey.split('::')[0];
+    var params = textKey
+        .split('::')
+        .skip(1)
+        .toList()
+        .asMap()
+        .map((key, value) => MapEntry('#$key', value));
+
+    var text =
+        FlutterI18n.translate(context, _textKey, translationParams: params);
+
     return Text(
-      FlutterI18n.translate(context, textKey),
+      text,
       key: key,
       style: style,
       strutStyle: strutStyle,

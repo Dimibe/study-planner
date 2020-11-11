@@ -11,16 +11,18 @@ class StudyPlanService {
   StudyPlanService();
 
   Future<StudyPlan> loadStudyPlan({force = false}) async {
-    if (!force && getIt<Cache>().studyPlan != null) {
-      return getIt<Cache>().studyPlan;
+    StudyPlan studyPlan = getIt<Cache>().studyPlan;
+    if (!force && studyPlan != null) {
+      print('Reading settings from cache: ${studyPlan.toJson()}');
+      return studyPlan;
     }
-    StudyPlan studyPlan;
     if (getIt<UserService>().isLoggedIn) {
       var uid = getIt<UserService>().getUid();
       var document = getIt<FirestoreService>().getDocument('studyplans', uid);
       var json = (await document).data();
       studyPlan = StudyPlan.fromJson(json ?? {});
     }
+    print('Reading settings: ${studyPlan.toJson()}');
     getIt<Cache>().studyPlan = studyPlan;
     return studyPlan;
   }

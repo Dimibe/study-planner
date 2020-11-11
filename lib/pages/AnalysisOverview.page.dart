@@ -12,6 +12,7 @@ import 'package:study_planner/widgets/SPBarChart.dart';
 import 'package:study_planner/widgets/SPDialog.dart';
 import 'package:study_planner/widgets/common/CWAppState.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
+import 'package:study_planner/widgets/common/CWCard.dart';
 import 'package:study_planner/widgets/common/CWText.dart';
 
 class AnalysisOverviewPage extends StatefulWidget {
@@ -30,6 +31,20 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
   int openSemester;
   double creditsPerSemester;
 
+  int plannedCreditsNow;
+  int plannedCreditsOpen;
+  double plannedMeanCreditsSemster;
+  double plannedSemesterOpen;
+  int plannedSemesterCount;
+  int plannedOpenSemester;
+  double plannedCreditsPerSemester;
+
+  String meanGrade;
+  String plannedMeanGrade;
+
+  String bestPossibleGrade;
+  String plannedBestPossibleGrade;
+
   @override
   void initState() {
     super.initState();
@@ -38,14 +53,44 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
         studyPlan = value;
         if (studyPlan.creditsMain != null) {
           creditsTotal = studyPlan.creditsMain + studyPlan.creditsOther;
-          creditsNow = StudyPlanUtils.sumOfCredits(studyPlan);
+          creditsNow =
+              StudyPlanUtils.sumOfCredits(studyPlan, onlyCompleted: false);
           creditsOpen = creditsTotal - creditsNow;
-          meanCreditsSemster = creditsNow / studyPlan.semester.length;
-          semesterOpen = max(creditsOpen / meanCreditsSemster, 0);
           semesterCount = studyPlan.semester.length;
+          meanCreditsSemster = creditsNow / semesterCount;
+          semesterOpen = max(creditsOpen / meanCreditsSemster, 0);
           openSemester = studyPlan.semesterCount - semesterCount;
           creditsPerSemester =
               openSemester == 0 ? 0 : max(creditsOpen / openSemester, 0);
+
+          plannedCreditsNow =
+              StudyPlanUtils.sumOfCredits(studyPlan, onlyCompleted: true);
+          plannedSemesterCount =
+              studyPlan.semester.where((element) => element.completed).length;
+          plannedCreditsOpen = creditsTotal - plannedCreditsNow;
+          plannedMeanCreditsSemster = plannedCreditsNow / plannedSemesterCount;
+          plannedSemesterOpen =
+              max(plannedCreditsOpen / plannedMeanCreditsSemster, 0);
+          plannedOpenSemester = studyPlan.semesterCount - plannedSemesterCount;
+          plannedCreditsPerSemester = plannedOpenSemester == 0
+              ? 0
+              : max(plannedCreditsOpen / plannedOpenSemester, 0);
+
+          meanGrade = StudyPlanUtils.totalMeanGrade(
+            studyPlan,
+            onlyCompleted: true,
+          )?.toStringAsFixed(2);
+          plannedMeanGrade = StudyPlanUtils.totalMeanGrade(
+            studyPlan,
+          )?.toStringAsFixed(2);
+
+          bestPossibleGrade = StudyPlanUtils.bestPossibleMeanGrade(
+            studyPlan,
+            onlyCompleted: true,
+          )?.toStringAsFixed(2);
+          plannedBestPossibleGrade =
+              StudyPlanUtils.bestPossibleMeanGrade(studyPlan)
+                  ?.toStringAsFixed(2);
         }
       });
     });
@@ -61,11 +106,11 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
         } else if (studyPlan.creditsMain == null) {
           return <Widget>[
             Text(
-              'Erstelle zuerst dein Studienplan..',
+              'text.createStudyPlanFirst',
               style: Theme.of(context).textTheme.headline6,
             ),
             CWButton(
-              label: 'Zum Studienplan',
+              label: 'button.label.goToStudyPlan',
               padding: const EdgeInsets.only(top: 32.0, bottom: 16.0),
               onPressed: () => GetIt.I<NavigatorService>()
                   .navigateTo(GeneralInformationPage()),
@@ -73,68 +118,46 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
           ];
         }
         return [
-          Container(
-            padding: EdgeInsets.all(16.0),
-            constraints: BoxConstraints(maxWidth: 700),
-            child: SizedBox(
-              width: double.infinity,
-              child: DataTable(
-                showBottomBorder: true,
-                columns: [
-                  DataColumn(label: Text('Wert')),
-                  DataColumn(label: CWText('label.title')),
+          Wrap(
+            children: [
+              CWCard(
+                title: 'label.credits',
+                trailingTitle:
+                    '${((plannedCreditsNow / creditsTotal) * 100)?.toStringAsFixed(2) ?? "-"}%',
+                subTitle: 'text.totalCredits::$creditsTotal',
+                info: [
+                  'text.alreadyArchived::$plannedCreditsNow',
+                  'text.averageCreditsInSemester::$plannedMeanCreditsSemster',
+                  'text.currentlyNeededCreditsInSemester::${plannedCreditsPerSemester.toStringAsFixed(2)}',
+                  'text.plannedNeededCredits::${creditsPerSemester.toStringAsFixed(2)}',
                 ],
-                rows: [
-                  DataRow(
-                    cells: [
-                      DataCell(CWText('label.totalCredits')),
-                      DataCell(Text('$creditsTotal')),
-                    ],
-                  ),
-                  DataRow(
-                    cells: [
-                      DataCell(CWText('label.aquiredCredits')),
-                      DataCell(Text(
-                          '$creditsNow (${((creditsNow / creditsTotal) * 100)?.toStringAsFixed(2) ?? "-"}%)')),
-                    ],
-                  ),
-                  DataRow(
-                    cells: [
-                      DataCell(CWText('label.semesterGoal')),
-                      DataCell(Text(
-                          '${studyPlan.semesterCount} ($openSemester offene)')),
-                    ],
-                  ),
-                  DataRow(
-                    cells: [
-                      DataCell(CWText('label.creditsForGoal')),
-                      DataCell(Text(
-                          '${creditsPerSemester.toStringAsFixed(1)} in $openSemester Semester')),
-                    ],
-                  ),
-                  DataRow(
-                    cells: [
-                      DataCell(CWText('label.remainingSemester')),
-                      DataCell(Text(semesterOpen?.toStringAsFixed(1) ?? '-')),
-                    ],
-                  ),
-                  DataRow(
-                    cells: [
-                      DataCell(Text(StudyPlanUtils.totalMeanGrade(studyPlan)
-                              ?.toStringAsFixed(2) ??
-                          '-')),
-                      DataCell(CWText('label.averageGrade')),
-                    ],
-                  ),
-                  DataRow(
-                    cells: [
-                      DataCell(CWText('text.meanCreditsSemester')),
-                      DataCell(Text(meanCreditsSemster?.toStringAsFixed(2))),
-                    ],
-                  ),
-                ],
+                height: 300,
+                color: Colors.blue,
               ),
-            ),
+              CWCard(
+                title: 'label.grade',
+                trailingTitle: meanGrade,
+                info: [
+                  'text.bestPossibleGrade::$bestPossibleGrade',
+                  'text.plannedBestPossibleGrade::$plannedBestPossibleGrade',
+                ],
+                height: 300,
+                color: Colors.green,
+              ),
+              CWCard(
+                title: 'label.semester',
+                trailingTitle:
+                    'text.currentSemester::${semesterCount - plannedOpenSemester + 1}',
+                subTitle: 'text.goalSemester::$semesterCount',
+                info: [
+                  'text.openSemester::$plannedOpenSemester',
+                  'text.remainingSemester::${plannedSemesterOpen?.toStringAsFixed(1)}',
+                  'text.plannedRemainingSemester::${semesterOpen?.toStringAsFixed(1)}',
+                ],
+                height: 300,
+                color: Colors.red,
+              ),
+            ],
           ),
           Wrap(
             children: [
