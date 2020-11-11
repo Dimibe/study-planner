@@ -42,23 +42,19 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
     return SPModalDialog(
       padding: 15.0,
       content: [
-        Row(
+        Wrap(
           children: [
-            Row(
-              children: [
-                CWTextField(
-                  id: 'semester',
-                  labelText: 'label.semester',
-                  mandatory: true,
-                  controller: semesterController,
-                ),
-                CWCheckBox(
-                  id: 'semesterdone',
-                  label: 'label.semesterDone',
-                  controller: checkBoxController,
-                  tooltip: 'tooltip.semesterDone',
-                ),
-              ],
+            CWTextField(
+              id: 'semester',
+              labelText: 'label.semester',
+              mandatory: true,
+              controller: semesterController,
+            ),
+            CWCheckBox(
+              id: 'semesterdone',
+              label: 'label.semesterDone',
+              controller: checkBoxController,
+              tooltip: 'tooltip.semesterDone',
             ),
           ],
         ),
