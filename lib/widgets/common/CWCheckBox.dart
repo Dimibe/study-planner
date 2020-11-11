@@ -7,6 +7,7 @@ class CWCheckBox extends CWBaseWidget<CWCheckBox> {
   final String label;
   final CheckBoxController controller;
   final bool initValue;
+  final String tooltip;
 
   const CWCheckBox({
     Key key,
@@ -14,12 +15,14 @@ class CWCheckBox extends CWBaseWidget<CWCheckBox> {
     @required this.label,
     @required this.controller,
     this.initValue = false,
+    this.tooltip,
   }) : super(id);
 
   CWCheckBox.copy(CWCheckBox other, CheckBoxController controller)
       : label = other.label,
         controller = controller,
         initValue = other.initValue,
+        tooltip = other.tooltip,
         super(other.id, key: other.key);
 
   @override
@@ -58,6 +61,12 @@ class _CWCheckBoxState extends State<CWCheckBox> {
           FlutterI18n.translate(context, widget.label),
           style: TextStyle(fontSize: 15, fontStyle: FontStyle.italic),
         ),
+        if (widget.tooltip != null)
+          IconButton(
+            icon: Icon(Icons.info_outline),
+            onPressed: null,
+            tooltip: FlutterI18n.translate(context, widget.tooltip),
+          ),
       ],
     );
   }
