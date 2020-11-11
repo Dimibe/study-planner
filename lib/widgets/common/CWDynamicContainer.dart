@@ -21,6 +21,10 @@ class CWDynamicContainer extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _CWDynamicContainerState();
+
+  static _CWDynamicContainerState of(BuildContext context) {
+    return context.findAncestorStateOfType<State<CWDynamicContainer>>();
+  }
 }
 
 class _CWDynamicContainerState extends State<CWDynamicContainer> {
@@ -59,6 +63,13 @@ class _CWDynamicContainerState extends State<CWDynamicContainer> {
     addRow();
   }
 
+  void removeRow(_CWDynamicRow row) {
+    widget.contoller.removeRow(rows.indexOf(row));
+    setState(() {
+      rows.remove(row);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -92,6 +103,10 @@ class CWDynamicController {
     _controllers.add(map);
   }
 
+  void removeRow(int index) {
+    _controllers.removeAt(index);
+  }
+
   Map<String, dynamic> getByRow(int row) {
     return _controllers[row];
   }
@@ -117,7 +132,22 @@ class _CWDynamicRowState extends State<_CWDynamicRow> {
       padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
       child: Wrap(
         clipBehavior: Clip.hardEdge,
-        children: widget.children,
+        children: [
+          ...widget.children,
+          Padding(
+            padding: const EdgeInsets.only(top: 12.0, left: 8.0),
+            child: Container(
+              color: Theme.of(context).accentColor,
+              child: IconButton(
+                icon: Icon(
+                  Icons.remove,
+                ),
+                onPressed: () =>
+                    CWDynamicContainer.of(context).removeRow(widget),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
