@@ -2,18 +2,18 @@ import 'package:study_planner/models/Course.dart';
 import 'package:study_planner/models/Semester.dart';
 import 'package:study_planner/models/StudyField.dart';
 import 'package:study_planner/models/StudyPlan.dart';
-import 'package:study_planner/utils/MathUtils.dart';
+import 'package:study_planner/utils/MathUtils.dart' as reduce show sum;
 
 class StudyPlanUtils {
   static int creditsInSemester(Semester semester) {
-    return semester.courses.map((c) => c.credits).reduce(MathUtils.sum);
+    return semester.courses.map((c) => c.credits).reduce(reduce.sum);
   }
 
   static int sumOfCredits(StudyPlan studyPlan, {bool onlyCompleted = false}) {
     return studyPlan.semester
         .where((semester) => !onlyCompleted || semester.completed)
         .map(creditsInSemester)
-        .reduce(MathUtils.sum);
+        .reduce(reduce.sum);
   }
 
   static double semesterMeanGrade(Semester semester) {
@@ -35,13 +35,13 @@ class StudyPlanUtils {
     var allCredits = studyPlan.studyFields
         .where((field) => field.countForGrade)
         .map((field) => field.credits)
-        .reduce(MathUtils.sum);
+        .reduce(reduce.sum);
 
     var takenCredits = studyPlan.semester
         .where((semester) => !onlyCompleted || semester.completed)
         .expand(_coursesForGrading)
         .map((c) => c.credits)
-        .reduce(MathUtils.sum);
+        .reduce(reduce.sum);
 
     return (takenCredits *
                 totalMeanGrade(studyPlan, onlyCompleted: onlyCompleted) +
@@ -58,8 +58,8 @@ class StudyPlanUtils {
     if (courses.isEmpty) {
       return null;
     }
-    var sum = courses.map((c) => c.grade * c.credits).reduce(MathUtils.sum);
-    var mean = sum / courses.map((c) => c.credits).reduce(MathUtils.sum);
+    var sum = courses.map((c) => c.grade * c.credits).reduce(reduce.sum);
+    var mean = sum / courses.map((c) => c.credits).reduce(reduce.sum);
     return mean;
   }
 

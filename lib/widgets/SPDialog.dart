@@ -65,7 +65,7 @@ class SPDialogState extends State<SPDialog> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (_, constraints) {
-        bool showDrawer = constraints.maxWidth < 1080;
+        var showDrawer = constraints.maxWidth < 1080;
         return Scaffold(
           appBar: AppBar(
             title: Builder(builder: (context) {

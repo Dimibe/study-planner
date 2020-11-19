@@ -11,7 +11,7 @@ class StudyPlanService {
   StudyPlanService();
 
   Future<StudyPlan> loadStudyPlan({force = false}) async {
-    StudyPlan studyPlan = getIt<Cache>().studyPlan;
+    var studyPlan = getIt<Cache>().studyPlan;
     if (!force && studyPlan != null) {
       print('Reading settings from cache: ${studyPlan.toJson()}');
       return studyPlan;

@@ -3,7 +3,6 @@ import 'package:study_planner/models/Settings.dart';
 
 import 'Cache.dart';
 import 'FirestoreService.dart';
-import 'StorageService.dart';
 import 'UserService.dart';
 
 final getIt = GetIt.instance;
@@ -12,7 +11,7 @@ class SettingsService {
   SettingsService();
 
   Future<Settings> loadSettings({bool force = false}) async {
-    Settings settings = getIt<Cache>().settings;
+    var settings = getIt<Cache>().settings;
     if (!force && settings != null) {
       print('Reading settings from cache: ${settings.toJson()}');
       return settings;

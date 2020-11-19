@@ -31,7 +31,7 @@ class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
     super.initState();
     getIt<StudyPlanService>().loadStudyPlan().then(
       (plan) {
-        this.studyPlan = plan;
+        studyPlan = plan;
         setState(() {
           _uniController.text = plan?.uni;
           _studiesController.text = plan?.studyName;

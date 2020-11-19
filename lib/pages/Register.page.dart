@@ -86,7 +86,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 .register(userNameController.text, passwordController.text);
             MyApp.of(context).applyUserSettings(context);
             var page = await widget.getNextRoute();
-            getIt<NavigatorService>().navigateTo(page);
+            await getIt<NavigatorService>().navigateTo(page);
           },
         )
       ],

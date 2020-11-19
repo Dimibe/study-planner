@@ -27,6 +27,7 @@ class CWDropDown<T> extends CWBaseWidget<CWDropDown> {
         onChanged = other.onChanged,
         maxWidth = other.maxWidth,
         labelText = other.labelText,
+        // ignore: unnecessary_this
         this.controller = controller,
         super(other.id, key: other.key);
 
@@ -39,7 +40,7 @@ class CWDropDown<T> extends CWBaseWidget<CWDropDown> {
   }
 
   @override
-  createController() => DropDownController<T>();
+  dynamic createController() => DropDownController<T>();
 }
 
 class _CWDropDownState<T> extends State<CWDropDown<T>> {

@@ -41,11 +41,11 @@ class _CWDynamicContainerState extends State<CWDynamicContainer> {
   }
 
   void addRow([Map<String, dynamic> rowValues]) {
-    Map<String, dynamic> map = {};
+    var map = <String, dynamic>{};
 
     var widgets = <Widget>[];
 
-    for (CWBaseWidget baseWidget in widget.children) {
+    for (var baseWidget in widget.children) {
       var controller = baseWidget.createController();
       if (rowValues != null && rowValues[baseWidget.id] != null) {
         controller.text = '${rowValues[baseWidget.id]}';
@@ -97,7 +97,7 @@ class _CWDynamicContainerState extends State<CWDynamicContainer> {
 }
 
 class CWDynamicController {
-  List<Map<String, dynamic>> _controllers = [];
+  final List _controllers = <Map<String, dynamic>>[];
 
   void addRow(Map<String, dynamic> map) {
     _controllers.add(map);
@@ -111,7 +111,7 @@ class CWDynamicController {
     return _controllers[row];
   }
 
-  get controllers {
+  List<Map<String, dynamic>> get controllers {
     return _controllers;
   }
 }
@@ -131,7 +131,7 @@ class _CWDynamicRowState extends State<_CWDynamicRow> {
     return Padding(
       padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
       child: Wrap(
-        clipBehavior: Clip.hardEdge,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
         children: [
           ...widget.children,
           Padding(

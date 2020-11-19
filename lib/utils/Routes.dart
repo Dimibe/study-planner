@@ -10,7 +10,7 @@ import 'package:study_planner/widgets/common/CWText.dart';
 final GetIt getIt = GetIt.instance;
 
 mixin Routes {
-  getRoutes() {
+  List<Widget> getRoutes() {
     return [
       ListTile(
         leading: Icon(Icons.featured_play_list),
@@ -42,10 +42,10 @@ mixin Routes {
     ];
   }
 
-  getRoutesForRow(context) {
+  List<Widget> getRoutesForRow(context) {
     var color = Theme.of(context).primaryTextTheme.headline6.color;
 
-    _getIconButton(IconData icon, String label, Widget page) {
+    Widget _getIconButton(IconData icon, String label, Widget page) {
       return Padding(
         padding: const EdgeInsets.only(left: 8.0, right: 8.0),
         child: TextButton.icon(

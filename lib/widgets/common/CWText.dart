@@ -36,7 +36,7 @@ class CWText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _textKey = textKey.split('::')[0];
+    var _textKey = textKey.split('::')[0];
     var params = textKey
         .split('::')
         .skip(1)

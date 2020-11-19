@@ -46,6 +46,7 @@ class CWTextField extends CWBaseWidget<CWTextField> {
 
   /// Creates a copy
   CWTextField.copy(CWTextField other, {TextEditingController controller})
+      // ignore: unnecessary_this
       : this.controller = controller ?? other.controller,
         labelText = other.labelText,
         hintText = other.hintText,
@@ -74,7 +75,7 @@ class CWTextField extends CWBaseWidget<CWTextField> {
   _CWTextFieldState createState() => _CWTextFieldState();
 
   @override
-  createController() => TextEditingController();
+  dynamic createController() => TextEditingController();
 }
 
 class _CWTextFieldState extends State<CWTextField> {
@@ -82,7 +83,7 @@ class _CWTextFieldState extends State<CWTextField> {
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(
-        maxWidth: this.widget.maxWidth,
+        maxWidth: widget.maxWidth,
       ),
       padding: EdgeInsets.all(8.0),
       child: TextFormField(

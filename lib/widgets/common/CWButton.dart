@@ -28,13 +28,13 @@ class CWButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: this.padding ?? const EdgeInsets.all(8.0),
+      padding: padding ?? const EdgeInsets.all(8.0),
       child: ElevatedButtonTheme(
         data: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             elevation: 0.0,
-            primary: this.color ?? Theme.of(context).accentColor,
-            minimumSize: Size(this.minWidth ?? 290, this.minHeight ?? 60),
+            primary: color ?? Theme.of(context).accentColor,
+            minimumSize: Size(minWidth ?? 290, minHeight ?? 60),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5.0),
             ),
@@ -49,7 +49,7 @@ class CWButton extends StatelessWidget {
           },
           child: Text(
             FlutterI18n.translate(context, label),
-            style: TextStyle(fontSize: this.fontSize ?? 20),
+            style: TextStyle(fontSize: fontSize ?? 20),
           ),
         ),
       ),

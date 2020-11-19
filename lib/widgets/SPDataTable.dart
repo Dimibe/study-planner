@@ -65,13 +65,15 @@ class SPDataTable extends StatelessWidget {
                       return DataRow(
                         color: MaterialStateProperty.resolveWith<Color>(
                             (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.selected))
+                          if (states.contains(MaterialState.selected)) {
                             return Theme.of(context)
                                 .colorScheme
                                 .primary
                                 .withOpacity(0.08);
-                          if (index % 2 == 0)
+                          }
+                          if (index % 2 == 0) {
                             return Colors.grey.withOpacity(0.3);
+                          }
                           return null;
                         }),
                         cells: [

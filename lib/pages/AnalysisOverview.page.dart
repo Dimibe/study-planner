@@ -13,7 +13,6 @@ import 'package:study_planner/widgets/SPDialog.dart';
 import 'package:study_planner/widgets/common/CWAppState.dart';
 import 'package:study_planner/widgets/common/CWButton.dart';
 import 'package:study_planner/widgets/common/CWCard.dart';
-import 'package:study_planner/widgets/common/CWText.dart';
 
 class AnalysisOverviewPage extends StatefulWidget {
   @override

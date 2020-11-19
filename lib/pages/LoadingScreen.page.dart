@@ -56,6 +56,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   void _handleLoginStatus() async {
     var _page = await widget.getNextRoute();
-    getIt<NavigatorService>().navigateTo(_page, force: false);
+    await getIt<NavigatorService>().navigateTo(_page, force: false);
   }
 }

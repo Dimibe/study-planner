@@ -34,7 +34,7 @@ class CWCheckBox extends CWBaseWidget<CWCheckBox> {
   }
 
   @override
-  createController() => CheckBoxController();
+  dynamic createController() => CheckBoxController();
 }
 
 class _CWCheckBoxState extends State<CWCheckBox> {

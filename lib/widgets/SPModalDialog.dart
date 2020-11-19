@@ -35,7 +35,7 @@ class _SPModalDialogState extends State<SPModalDialog> {
       builder: (context, constraints) {
         var padding = 10.0;
         if (constraints.maxWidth > 450) {
-          padding = this.widget.padding ?? 30.0;
+          padding = widget.padding ?? 30.0;
         }
 
         var _minWidth =
@@ -43,7 +43,7 @@ class _SPModalDialogState extends State<SPModalDialog> {
 
         return Container(
           constraints: BoxConstraints(
-              minWidth: _minWidth, maxWidth: this.widget.maxWidth ?? 700),
+              minWidth: _minWidth, maxWidth: widget.maxWidth ?? 700),
           child: AlertDialog(
             elevation: 0.0,
             insetPadding: EdgeInsets.all(padding),
@@ -56,7 +56,7 @@ class _SPModalDialogState extends State<SPModalDialog> {
             content: Container(
               padding: EdgeInsets.all(padding),
               constraints: BoxConstraints(
-                  minWidth: _minWidth, maxWidth: this.widget.maxWidth ?? 700),
+                  minWidth: _minWidth, maxWidth: widget.maxWidth ?? 700),
               child: SingleChildScrollView(
                 child: SPForm(
                   child: Column(

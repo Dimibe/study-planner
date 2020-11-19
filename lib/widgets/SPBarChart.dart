@@ -44,7 +44,7 @@ class SPBarChart<T> extends StatelessWidget {
         ),
         behaviors: [
           ChartTitle(
-            FlutterI18n.translate(context, this.title),
+            FlutterI18n.translate(context, title),
             subTitle:
                 average == null ? null : 'Ø ${average.toStringAsFixed(2)}',
           ),

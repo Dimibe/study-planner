@@ -28,7 +28,7 @@ class _SemesterOverviewPageState extends CWState<SemesterOverviewPage> {
   void _initData() {
     GetIt.I<StudyPlanService>().loadStudyPlan().then((plan) {
       setState(() {
-        this.studyPlan = plan;
+        studyPlan = plan;
       });
     });
   }
