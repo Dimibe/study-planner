@@ -35,4 +35,4 @@ Assets are located in the assets folder, the index.html is located in the web fo
     
 
 ## Impressions
-![Welcome image](https://raw.githubusercontent.com/Dimibe/study-planner/master/assets/welcome.png?token=ADXXI5JLGZGIWFW4GVBPEUC7SGM46)
+![Welcome image](https://raw.githubusercontent.com/Dimibe/study-planner/master/assets/images/welcome.png)
