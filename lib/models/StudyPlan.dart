@@ -11,9 +11,9 @@ class StudyPlan {
   int semesterCount;
   int creditsMain;
   int creditsOther;
-  @JsonKey(defaultValue: const [])
+  @JsonKey(defaultValue: [])
   List<StudyField> studyFields;
-  @JsonKey(defaultValue: const [])
+  @JsonKey(defaultValue: [])
   List<Semester> semester;
 
   StudyPlan(

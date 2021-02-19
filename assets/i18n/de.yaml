@@ -31,7 +31,7 @@ text:
   createStudyPlanFirst: 'Erstelle zuerst dein Studienplan..'
   meanCreditsSemester: 'Durchschnittliche Credits pro Semester'
   totalCredits: 'Gesamt {#0}'
-  alreadyArchived: 'Bereits erworben: {#0}'
+  alreadyArchived: 'Erworben (Akt./Geplant): {#0}/{#1}'
   averageCreditsInSemester: 'Durchschnittlich {#0} Credits pro Semester'
   currentlyNeededCreditsInSemester: 'Aktuell {#0} Credits pro Semester nötig für Wunschziel'
   plannedNeededCredits: 'Nach Planung {#0} Credits pro Semester nötig für Wunschziel'
@@ -42,6 +42,7 @@ text:
   openSemester: 'Verbleibende Semster: {#0}'
   remainingSemester: '{#0} Semester verbleibend nach akt. Credits Durchschnitt'
   plannedRemainingSemester: '{#0} Semester verbleiben nach geplantem Credits Durchschnitt'
+  archivedInMainPlan: 'Erworben Hauptstudium (Akt./Geplant): {#0}/{#1}'
 
 label:
   university: 'Uni'

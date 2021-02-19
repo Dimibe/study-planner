@@ -5,14 +5,23 @@ import 'package:study_planner/models/StudyPlan.dart';
 import 'package:study_planner/utils/MathUtils.dart' as reduce show sum;
 
 class StudyPlanUtils {
-  static int creditsInSemester(Semester semester) {
-    return semester.courses.map((c) => c.credits).reduce(reduce.sum);
+  static int creditsInSemester(Semester semester, {String fieldName}) {
+    return semester.courses
+        .where((course) =>
+            fieldName == null || course.studyField.name == fieldName)
+        .map((c) => c.credits)
+        .reduce(reduce.sum);
   }
 
-  static int sumOfCredits(StudyPlan studyPlan, {bool onlyCompleted = false}) {
-    return studyPlan.semester
-        .where((semester) => !onlyCompleted || semester.completed)
-        .map(creditsInSemester)
+  static int sumOfCredits(StudyPlan studyPlan,
+      {bool onlyCompleted = false, String fieldName}) {
+    var semester = studyPlan.semester
+        .where((semester) => !onlyCompleted || semester.completed);
+    if (semester.isEmpty) {
+      return 0;
+    }
+    return semester
+        .map((s) => creditsInSemester(s, fieldName: fieldName))
         .reduce(reduce.sum);
   }
 
@@ -37,8 +46,10 @@ class StudyPlanUtils {
         .map((field) => field.credits)
         .reduce(reduce.sum);
 
-    var takenCredits = studyPlan.semester
-        .where((semester) => !onlyCompleted || semester.completed)
+    var semester = studyPlan.semester
+        .where((semester) => !onlyCompleted || semester.completed);
+    if (semester.isEmpty) return 1.0;
+    var takenCredits = semester
         .expand(_coursesForGrading)
         .map((c) => c.credits)
         .reduce(reduce.sum);

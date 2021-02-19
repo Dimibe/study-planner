@@ -28,7 +28,7 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
   double semesterOpen;
   int semesterCount;
   int openSemester;
-  double creditsPerSemester;
+  int creditsInMainPlan;
 
   int plannedCreditsNow;
   int plannedCreditsOpen;
@@ -37,6 +37,7 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
   int plannedSemesterCount;
   int plannedOpenSemester;
   double plannedCreditsPerSemester;
+  int plannedCreditsInMainPlan;
 
   String meanGrade;
   String plannedMeanGrade;
@@ -59,29 +60,36 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
           meanCreditsSemster = creditsNow / semesterCount;
           semesterOpen = max(creditsOpen / meanCreditsSemster, 0);
           openSemester = studyPlan.semesterCount - semesterCount;
-          creditsPerSemester =
-              openSemester == 0 ? 0 : max(creditsOpen / openSemester, 0);
 
           plannedCreditsNow =
               StudyPlanUtils.sumOfCredits(studyPlan, onlyCompleted: true);
           plannedSemesterCount =
               studyPlan.semester.where((element) => element.completed).length;
           plannedCreditsOpen = creditsTotal - plannedCreditsNow;
-          plannedMeanCreditsSemster = plannedCreditsNow / plannedSemesterCount;
+          plannedMeanCreditsSemster = plannedSemesterCount == 0
+              ? 0
+              : plannedCreditsNow / plannedSemesterCount;
           plannedSemesterOpen =
               max(plannedCreditsOpen / plannedMeanCreditsSemster, 0);
+          if (plannedSemesterOpen == double.infinity) {}
           plannedOpenSemester = studyPlan.semesterCount - plannedSemesterCount;
           plannedCreditsPerSemester = plannedOpenSemester == 0
               ? 0
               : max(plannedCreditsOpen / plannedOpenSemester, 0);
 
           meanGrade = StudyPlanUtils.totalMeanGrade(
-            studyPlan,
-            onlyCompleted: true,
-          )?.toStringAsFixed(2);
+                studyPlan,
+                onlyCompleted: true,
+              )?.toStringAsFixed(2) ??
+              '-';
           plannedMeanGrade = StudyPlanUtils.totalMeanGrade(
             studyPlan,
           )?.toStringAsFixed(2);
+
+          creditsInMainPlan = StudyPlanUtils.sumOfCredits(studyPlan,
+              onlyCompleted: true, fieldName: 'Hauptstudium');
+          plannedCreditsInMainPlan =
+              StudyPlanUtils.sumOfCredits(studyPlan, fieldName: 'Hauptstudium');
 
           bestPossibleGrade = StudyPlanUtils.bestPossibleMeanGrade(
             studyPlan,
@@ -125,12 +133,12 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
                     '${((plannedCreditsNow / creditsTotal) * 100)?.toStringAsFixed(2) ?? "-"}%',
                 subTitle: 'text.totalCredits::$creditsTotal',
                 info: [
-                  'text.alreadyArchived::$plannedCreditsNow',
+                  'text.alreadyArchived::$plannedCreditsNow::$creditsNow',
+                  'text.archivedInMainPlan::$creditsInMainPlan::$plannedCreditsInMainPlan',
                   'text.averageCreditsInSemester::$plannedMeanCreditsSemster',
                   'text.currentlyNeededCreditsInSemester::${plannedCreditsPerSemester.toStringAsFixed(2)}',
-                  'text.plannedNeededCredits::${creditsPerSemester.toStringAsFixed(2)}',
                 ],
-                height: 300,
+                height: 310,
                 color: Colors.blue,
               ),
               CWCard(
@@ -140,7 +148,7 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
                   'text.bestPossibleGrade::$bestPossibleGrade',
                   'text.plannedBestPossibleGrade::$plannedBestPossibleGrade',
                 ],
-                height: 300,
+                height: 310,
                 color: Colors.green,
               ),
               CWCard(
@@ -150,10 +158,11 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
                 subTitle: 'text.goalSemester::$semesterCount',
                 info: [
                   'text.openSemester::$plannedOpenSemester',
-                  'text.remainingSemester::${plannedSemesterOpen?.toStringAsFixed(1)}',
+                  if (plannedSemesterOpen < double.infinity)
+                    'text.remainingSemester::${plannedSemesterOpen?.toStringAsFixed(1)}',
                   'text.plannedRemainingSemester::${semesterOpen?.toStringAsFixed(1)}',
                 ],
-                height: 300,
+                height: 310,
                 color: Colors.red,
               ),
             ],

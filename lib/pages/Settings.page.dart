@@ -89,7 +89,7 @@ class _SettingsPageState extends CWState<SettingsPage> {
         ),
         CWTextField(
           labelText: 'label.studyplan',
-          maxLines: 5,
+          maxLines: 10,
           controller: textEditingController,
         ),
         CWButton(

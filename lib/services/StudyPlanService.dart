@@ -13,7 +13,6 @@ class StudyPlanService {
   Future<StudyPlan> loadStudyPlan({force = false}) async {
     var studyPlan = getIt<Cache>().studyPlan;
     if (!force && studyPlan != null) {
-      print('Reading settings from cache: ${studyPlan.toJson()}');
       return studyPlan;
     }
     if (getIt<UserService>().isLoggedIn) {

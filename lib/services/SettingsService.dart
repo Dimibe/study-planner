@@ -13,7 +13,6 @@ class SettingsService {
   Future<Settings> loadSettings({bool force = false}) async {
     var settings = getIt<Cache>().settings;
     if (!force && settings != null) {
-      print('Reading settings from cache: ${settings.toJson()}');
       return settings;
     }
     if (getIt<UserService>().isLoggedIn) {
