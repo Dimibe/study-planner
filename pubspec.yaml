@@ -7,37 +7,33 @@ repository: https://github.com/Dimibe/study-planner
 # pub.dev using `pub publish`.
 publish_to: 'none' # Dont remove this line.
 
-version: 1.0.0+1
+version: 2.0.0
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
+  flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  json_annotation: ^4.0.0
-  shared_preferences: ^0.5.12
+  json_annotation: ^4.5.0
+  shared_preferences: ^2.0.15
   flutter_material_color_picker: ^1.0.5
-  charts_flutter: ^0.9.0
-  get_it: ^6.0.0
-  flutter_i18n: ^0.21.0
-
-dependency_overrides:
-  intl: ^0.17.0-nullsafety.2
-
-  
+  charts_flutter: ^0.12.0
+  get_it: ^7.2.0
+  flutter_i18n: ^0.32.2
+  intl: ^0.17.0
   # Firebase 
-  firebase_core: ^0.7.0
-  firebase_auth: ^0.20.1
-  cloud_firestore: ^0.16.0+1
-
+  firebase_core: ^1.17.0
+  firebase_auth: ^3.3.18
+  cloud_firestore: ^3.1.15
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^1.11.4
-  json_serializable: ^4.0.0
-  pedantic: ^1.10.0
+  build_runner: ^2.1.11
+  json_serializable: ^6.2.0
+  flutter_lints: ^2.0.1
 
 
 
