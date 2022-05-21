@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../pages/LoadingScreen.page.dart';
 
 class NavigatorService {

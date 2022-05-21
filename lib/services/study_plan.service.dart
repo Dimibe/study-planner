@@ -2,7 +2,7 @@ import 'package:get_it/get_it.dart';
 
 import '../models/study_plan.dart';
 import '../services/firestore.service.dart';
-import './cache.dart';
+import 'cache.service.dart';
 import './user.service.dart';
 
 final getIt = GetIt.instance;

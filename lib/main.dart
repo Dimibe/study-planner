@@ -9,7 +9,7 @@ import './pages/LoadingScreen.page.dart';
 import './utils/user_routing.dart';
 import './widgets/theme_handler.dart';
 import './services/navigator.service.dart';
-import './services/cache.dart';
+import 'services/cache.service.dart';
 import './services/settings.service.dart';
 import './services/study_plan.service.dart';
 
