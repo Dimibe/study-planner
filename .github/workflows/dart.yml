@@ -13,7 +13,6 @@ jobs:
     - uses: actions/checkout@v3
     - uses: subosito/flutter-action@v2.4.0
       with: 
-        flutter-version: '3.0.1'
         channel: 'stable'
     - name: Flutter version
       run: flutter --version
@@ -26,4 +25,4 @@ jobs:
     - name: Generate code
       run: flutter pub run build_runner build
     - name: Build for web
-      run: flutter build web
+      run: flutter build web --release
