@@ -1,8 +1,8 @@
-import 'package:study_planner/models/course.dart';
-import 'package:study_planner/models/semester.dart';
-import 'package:study_planner/models/study_field.dart';
-import 'package:study_planner/models/study_plan.dart';
-import 'package:study_planner/utils/math_utils.dart' as reduce show sum;
+import '../models/course.dart';
+import '../models/semester.dart';
+import '../models/study_field.dart';
+import '../models/study_plan.dart';
+import './math_utils.dart' as reduce show sum;
 
 class StudyPlanUtils {
   static int creditsInSemester(Semester semester, {String? fieldName}) {

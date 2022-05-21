@@ -3,15 +3,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:get_it/get_it.dart';
-import 'package:study_planner/pages/login.page.dart';
-import 'package:study_planner/services/navigator.service.dart';
-import 'package:study_planner/services/user.service.dart';
-import 'package:study_planner/utils/routes.dart';
-import 'package:study_planner/utils/user_routing.dart';
-import 'package:study_planner/widgets/sp_drawer.dart';
-import 'package:study_planner/widgets/sp_form.dart';
 
+import './sp_drawer.dart';
+import './sp_form.dart';
 import '../main.dart';
+import '../pages/login.page.dart';
+import '../services/navigator.service.dart';
+import '../services/user.service.dart';
+import '../utils/routes.dart';
+import '../utils/user_routing.dart';
 
 final GetIt getIt = GetIt.instance;
 

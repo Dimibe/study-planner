@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:study_planner/widgets/sp_dialog.dart';
-import 'package:study_planner/widgets/common/cw_app_state.dart';
-import 'package:study_planner/widgets/common/cw_button.dart';
-import 'package:study_planner/widgets/common/cw_text.dart';
 
-import 'register.page.dart';
+import './register.page.dart';
+import '../widgets/sp_dialog.dart';
+import '../widgets/common/cw_app_state.dart';
+import '../widgets/common/cw_button.dart';
+import '../widgets/common/cw_text.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});

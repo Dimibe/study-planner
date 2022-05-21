@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:study_planner/models/settings.dart';
-import 'package:study_planner/models/study_plan.dart';
+
+import '../models/settings.dart';
+import '../models/study_plan.dart';
 
 class StorageService {
   static const studyPlanKey = 'studyplan-v0.1';

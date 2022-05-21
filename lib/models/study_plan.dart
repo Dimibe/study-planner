@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:study_planner/models/semester.dart';
-import 'package:study_planner/models/study_field.dart';
+
+import './semester.dart';
+import './study_field.dart';
 
 part 'study_plan.g.dart';
 

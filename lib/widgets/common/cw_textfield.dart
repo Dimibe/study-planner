@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:study_planner/widgets/common/cw_base_widget.dart';
+
+import './cw_base_widget.dart';
 
 class CWTextField extends CWBaseWidget<CWTextField> {
   final TextEditingController? controller;

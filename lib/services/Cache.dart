@@ -1,5 +1,5 @@
-import 'package:study_planner/models/settings.dart';
-import 'package:study_planner/models/study_plan.dart';
+import '../models/settings.dart';
+import '../models/study_plan.dart';
 
 class Cache {
   StudyPlan? _studyPlan;

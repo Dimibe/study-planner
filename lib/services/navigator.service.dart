@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:study_planner/pages/LoadingScreen.page.dart';
+import '../pages/LoadingScreen.page.dart';
 
 class NavigatorService {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

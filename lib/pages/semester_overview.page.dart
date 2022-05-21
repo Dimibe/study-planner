@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:study_planner/models/semester.dart';
-import 'package:study_planner/models/study_plan.dart';
-import 'package:study_planner/pages/semester_detail.page.dart';
-import 'package:study_planner/services/study_plan.service.dart';
-import 'package:study_planner/widgets/sp_data_table.dart';
-import 'package:study_planner/widgets/sp_dialog.dart';
-import 'package:study_planner/widgets/common/cw_app_state.dart';
-import 'package:study_planner/widgets/common/cw_button.dart';
-import 'package:study_planner/widgets/common/cw_text.dart';
+
+import './semester_detail.page.dart';
+import '../models/semester.dart';
+import '../models/study_plan.dart';
+import '../services/study_plan.service.dart';
+import '../widgets/sp_data_table.dart';
+import '../widgets/sp_dialog.dart';
+import '../widgets/common/cw_app_state.dart';
+import '../widgets/common/cw_button.dart';
+import '../widgets/common/cw_text.dart';
 
 class SemesterOverviewPage extends StatefulWidget {
   const SemesterOverviewPage({super.key});

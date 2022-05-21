@@ -1,9 +1,9 @@
 import 'package:get_it/get_it.dart';
-import 'package:study_planner/models/settings.dart';
 
-import 'cache.dart';
-import 'firestore.service.dart';
-import 'user.service.dart';
+import '../models/settings.dart';
+import './cache.dart';
+import './firestore.service.dart';
+import './user.service.dart';
 
 final getIt = GetIt.instance;
 

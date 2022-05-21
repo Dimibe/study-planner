@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:study_planner/models/study_plan.dart';
-import 'package:study_planner/services/study_plan.service.dart';
-import 'package:study_planner/widgets/sp_dialog.dart';
-import 'package:study_planner/widgets/common/cw_app_state.dart';
-import 'package:study_planner/widgets/common/cw_button.dart';
-import 'package:study_planner/widgets/common/cw_text.dart';
-import 'package:study_planner/widgets/common/cw_textfield.dart';
+
+import '../models/study_plan.dart';
+import '../services/study_plan.service.dart';
+import '../widgets/sp_dialog.dart';
+import '../widgets/common/cw_app_state.dart';
+import '../widgets/common/cw_button.dart';
+import '../widgets/common/cw_text.dart';
+import '../widgets/common/cw_textfield.dart';
 
 final GetIt getIt = GetIt.instance;
 

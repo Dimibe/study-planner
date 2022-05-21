@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:study_planner/pages/analysis_overview.page.dart';
-import 'package:study_planner/pages/general_information.page.dart';
-import 'package:study_planner/pages/semester_overview.page.dart';
-import 'package:study_planner/pages/welcome.page.dart';
-import 'package:study_planner/services/study_plan.service.dart';
-import 'package:study_planner/services/user.service.dart';
+
+import '../pages/analysis_overview.page.dart';
+import '../pages/general_information.page.dart';
+import '../pages/semester_overview.page.dart';
+import '../pages/welcome.page.dart';
+import '../services/study_plan.service.dart';
+import '../services/user.service.dart';
 
 final GetIt getIt = GetIt.instance;
 

@@ -2,17 +2,18 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:study_planner/models/semester.dart';
-import 'package:study_planner/models/study_plan.dart';
-import 'package:study_planner/pages/general_information.page.dart';
-import 'package:study_planner/services/navigator.service.dart';
-import 'package:study_planner/services/study_plan.service.dart';
-import 'package:study_planner/utils/study_plan_utils.dart';
-import 'package:study_planner/widgets/sp_barchart.dart';
-import 'package:study_planner/widgets/sp_dialog.dart';
-import 'package:study_planner/widgets/common/cw_app_state.dart';
-import 'package:study_planner/widgets/common/cw_button.dart';
-import 'package:study_planner/widgets/common/cw_card.dart';
+
+import '../models/semester.dart';
+import '../models/study_plan.dart';
+import './general_information.page.dart';
+import '../services/navigator.service.dart';
+import '../services/study_plan.service.dart';
+import '../utils/study_plan_utils.dart';
+import '../widgets/sp_barchart.dart';
+import '../widgets/sp_dialog.dart';
+import '../widgets/common/cw_app_state.dart';
+import '../widgets/common/cw_button.dart';
+import '../widgets/common/cw_card.dart';
 
 class AnalysisOverviewPage extends StatefulWidget {
   const AnalysisOverviewPage({super.key});

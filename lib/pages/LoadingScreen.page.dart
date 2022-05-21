@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_i18n/flutter_i18n_delegate.dart';
 import 'package:get_it/get_it.dart';
-import 'package:study_planner/services/firestore.service.dart';
-import 'package:study_planner/services/navigator.service.dart';
-import 'package:study_planner/services/storage.service.dart';
-import 'package:study_planner/services/user.service.dart';
-import 'package:study_planner/utils/user_routing.dart';
+
+import '../services/firestore.service.dart';
+import '../services/navigator.service.dart';
+import '../services/storage.service.dart';
+import '../services/user.service.dart';
+import '../utils/user_routing.dart';
 
 import '../main.dart';
 

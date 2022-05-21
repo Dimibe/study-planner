@@ -4,14 +4,14 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_i18n/loaders/decoders/yaml_decode_strategy.dart';
 import 'package:get_it/get_it.dart';
-import 'package:study_planner/pages/LoadingScreen.page.dart';
-import 'package:study_planner/utils/user_routing.dart';
-import 'package:study_planner/widgets/theme_handler.dart';
 
-import 'services/navigator.service.dart';
-import 'services/cache.dart';
-import 'services/settings.service.dart';
-import 'services/study_plan.service.dart';
+import './pages/LoadingScreen.page.dart';
+import './utils/user_routing.dart';
+import './widgets/theme_handler.dart';
+import './services/navigator.service.dart';
+import './services/cache.dart';
+import './services/settings.service.dart';
+import './services/study_plan.service.dart';
 
 final getIt = GetIt.instance;
 

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:study_planner/pages/login.page.dart';
-import 'package:study_planner/services/navigator.service.dart';
-import 'package:study_planner/services/user.service.dart';
-import 'package:study_planner/utils/user_routing.dart';
-import 'package:study_planner/widgets/sp_modal_dialog.dart';
-import 'package:study_planner/widgets/common/cw_button.dart';
-import 'package:study_planner/widgets/common/cw_text.dart';
-import 'package:study_planner/widgets/common/cw_textfield.dart';
+
+import './login.page.dart';
+import '../services/navigator.service.dart';
+import '../services/user.service.dart';
+import '../utils/user_routing.dart';
+import '../widgets/sp_modal_dialog.dart';
+import '../widgets/common/cw_button.dart';
+import '../widgets/common/cw_text.dart';
+import '../widgets/common/cw_textfield.dart';
 
 import '../main.dart';
 

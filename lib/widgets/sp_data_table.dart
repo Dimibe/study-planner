@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:study_planner/models/semester.dart';
 
-import 'common/cw_text.dart';
+import './common/cw_text.dart';
+import '../models/semester.dart';
 
 class SPDataTable extends StatelessWidget {
   final Semester semester;
