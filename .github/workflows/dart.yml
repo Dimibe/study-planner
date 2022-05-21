@@ -2,21 +2,23 @@ name: Dart CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, main, feature/** ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, main ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
-    - uses: subosito/flutter-action@v1
-      with:
-       channel: beta
-    - run: flutter config --enable-web
-    - run: flutter pub get
-    - run: flutter pub run build_runner build
-    - run: flutter build web
+    - uses: subosito/flutter-action@v1.5.3
+    - name: Format
+      run: flutter format --set-exit-if-changed lib test
+    - name: Enable web
+      run: flutter config --enable-web
+    - name: Install dependencies
+      run: flutter pub get
+    - name: Generate code
+      run: flutter pub run build_runner build
+    - name: Build for web
+      run: flutter build web
