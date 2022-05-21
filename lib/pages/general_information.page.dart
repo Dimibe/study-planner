@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:study_planner/models/StudyPlan.dart';
-import 'package:study_planner/services/StudyPlanService.dart';
-import 'package:study_planner/widgets/SPDialog.dart';
-import 'package:study_planner/widgets/common/CWAppState.dart';
-import 'package:study_planner/widgets/common/CWButton.dart';
-import 'package:study_planner/widgets/common/CWText.dart';
-import 'package:study_planner/widgets/common/CWTextField.dart';
+import 'package:study_planner/models/study_plan.dart';
+import 'package:study_planner/services/study_plan.service.dart';
+import 'package:study_planner/widgets/sp_dialog.dart';
+import 'package:study_planner/widgets/common/cw_app_state.dart';
+import 'package:study_planner/widgets/common/cw_button.dart';
+import 'package:study_planner/widgets/common/cw_text.dart';
+import 'package:study_planner/widgets/common/cw_textfield.dart';
 
 final GetIt getIt = GetIt.instance;
 
 class GeneralInformationPage extends StatefulWidget {
-  GeneralInformationPage({Key key}) : super(key: key);
+  const GeneralInformationPage({super.key});
 
   @override
-  _GeneralInformationPageState createState() => _GeneralInformationPageState();
+  CWState<GeneralInformationPage> createState() =>
+      _GeneralInformationPageState();
 }
 
 class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
@@ -23,8 +24,7 @@ class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
   final _mainCreditsController = TextEditingController();
   final _otherCreditsController = TextEditingController();
   final _semeseterController = TextEditingController();
-  StudyPlan studyPlan;
-  var streamSubscription;
+  StudyPlan? studyPlan;
 
   @override
   void initState() {
@@ -33,8 +33,8 @@ class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
       (plan) {
         studyPlan = plan;
         setState(() {
-          _uniController.text = plan?.uni;
-          _studiesController.text = plan?.studyName;
+          _uniController.text = plan?.uni ?? '';
+          _studiesController.text = plan?.studyName ?? '';
           _mainCreditsController.text = '${plan?.creditsMain ?? ""}';
           _otherCreditsController.text = '${plan?.creditsOther ?? ""}';
           _semeseterController.text = '${plan?.semesterCount ?? ""}';
@@ -45,7 +45,6 @@ class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
 
   @override
   void dispose() {
-    streamSubscription?.cancel();
     super.dispose();
   }
 
@@ -59,37 +58,42 @@ class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
           style: Theme.of(context).textTheme.headline6,
           textAlign: TextAlign.center,
         ),
-        Padding(padding: EdgeInsets.only(top: 16.0)),
+        const Padding(padding: EdgeInsets.only(top: 16.0)),
         CWTextField(
+          id: 'uni',
           labelText: 'label.university',
           controller: _uniController,
           mandatory: true,
         ),
         CWTextField(
+          id: 'uni',
           labelText: 'label.courseOfStudies',
           controller: _studiesController,
         ),
         CWTextField(
+          id: 'uni',
           labelText: 'label.creditsCount',
           hintText: 'hint.creditsCount',
           controller: _mainCreditsController,
-          inputType: CWInputType.Integer,
+          inputType: CWInputType.integer,
           mandatory: true,
         ),
         CWTextField(
+          id: 'uni',
           labelText: 'label.creditsOther',
           hintText: 'hint.creditsCount',
           controller: _otherCreditsController,
-          inputType: CWInputType.Integer,
+          inputType: CWInputType.integer,
         ),
         CWTextField(
+          id: 'uni',
           labelText: 'label.semesterGoal',
           hintText: 'hint.semesterCount',
           controller: _semeseterController,
-          inputType: CWInputType.Integer,
+          inputType: CWInputType.integer,
           mandatory: true,
         ),
-        Padding(padding: EdgeInsets.only(top: 16.0)),
+        const Padding(padding: EdgeInsets.only(top: 16.0)),
         CWButton(
           label: 'button.label.save',
           validateOnClick: true,
@@ -103,14 +107,14 @@ class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
 
   void saveStudyPlan() {
     studyPlan ??= StudyPlan();
-    studyPlan.uni = _uniController.text;
-    studyPlan.studyName = _studiesController.text;
-    studyPlan.semesterCount = int.parse(_semeseterController.text);
-    studyPlan.creditsMain = int.parse(_mainCreditsController.text);
-    studyPlan.creditsOther = _otherCreditsController.text.isNotEmpty
+    studyPlan!.uni = _uniController.text;
+    studyPlan!.studyName = _studiesController.text;
+    studyPlan!.semesterCount = int.parse(_semeseterController.text);
+    studyPlan!.creditsMain = int.parse(_mainCreditsController.text);
+    studyPlan!.creditsOther = _otherCreditsController.text.isNotEmpty
         ? int.parse(_otherCreditsController.text)
         : null;
 
-    getIt<StudyPlanService>().saveStudyPlan(studyPlan);
+    getIt<StudyPlanService>().saveStudyPlan(studyPlan!);
   }
 }

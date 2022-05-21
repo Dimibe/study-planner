@@ -2,80 +2,83 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:study_planner/models/Semester.dart';
-import 'package:study_planner/models/StudyPlan.dart';
-import 'package:study_planner/pages/GeneralInformation.page.dart';
-import 'package:study_planner/services/NavigatorService.dart';
-import 'package:study_planner/services/StudyPlanService.dart';
-import 'package:study_planner/utils/StudyPlanUtils.dart';
-import 'package:study_planner/widgets/SPBarChart.dart';
-import 'package:study_planner/widgets/SPDialog.dart';
-import 'package:study_planner/widgets/common/CWAppState.dart';
-import 'package:study_planner/widgets/common/CWButton.dart';
-import 'package:study_planner/widgets/common/CWCard.dart';
+import 'package:study_planner/models/semester.dart';
+import 'package:study_planner/models/study_plan.dart';
+import 'package:study_planner/pages/general_information.page.dart';
+import 'package:study_planner/services/navigator.service.dart';
+import 'package:study_planner/services/study_plan.service.dart';
+import 'package:study_planner/utils/study_plan_utils.dart';
+import 'package:study_planner/widgets/sp_barchart.dart';
+import 'package:study_planner/widgets/sp_dialog.dart';
+import 'package:study_planner/widgets/common/cw_app_state.dart';
+import 'package:study_planner/widgets/common/cw_button.dart';
+import 'package:study_planner/widgets/common/cw_card.dart';
 
 class AnalysisOverviewPage extends StatefulWidget {
+  const AnalysisOverviewPage({super.key});
+
   @override
   State<StatefulWidget> createState() => _AnalysisOverviewPageState();
 }
 
 class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
-  StudyPlan studyPlan;
-  int creditsTotal;
-  int creditsNow;
-  int creditsOpen;
-  double meanCreditsSemster;
-  double semesterOpen;
-  int semesterCount;
-  int openSemester;
-  int creditsInMainPlan;
+  late final StudyPlan studyPlan;
+  int? creditsTotal;
+  int? creditsNow;
+  int? creditsOpen;
+  double? meanCreditsSemster;
+  double? semesterOpen;
+  int? semesterCount;
+  int? openSemester;
+  int? creditsInMainPlan;
 
-  int plannedCreditsNow;
-  int plannedCreditsOpen;
-  double plannedMeanCreditsSemster;
-  double plannedSemesterOpen;
-  int plannedSemesterCount;
-  int plannedOpenSemester;
-  double plannedCreditsPerSemester;
-  int plannedCreditsInMainPlan;
+  int? plannedCreditsNow;
+  int? plannedCreditsOpen;
+  double? plannedMeanCreditsSemster;
+  double? plannedSemesterOpen;
+  int? plannedSemesterCount;
+  int? plannedOpenSemester;
+  double? plannedCreditsPerSemester;
+  int? plannedCreditsInMainPlan;
 
-  String meanGrade;
-  String plannedMeanGrade;
+  String? meanGrade;
+  String? plannedMeanGrade;
 
-  String bestPossibleGrade;
-  String plannedBestPossibleGrade;
+  String? bestPossibleGrade;
+  String? plannedBestPossibleGrade;
 
   @override
   void initState() {
     super.initState();
     GetIt.I<StudyPlanService>().loadStudyPlan().then((value) {
       setState(() {
-        studyPlan = value;
+        studyPlan = value!;
         if (studyPlan.creditsMain != null) {
-          creditsTotal = studyPlan.creditsMain + studyPlan.creditsOther;
+          creditsTotal = studyPlan.creditsMain! + studyPlan.creditsOther!;
           creditsNow =
               StudyPlanUtils.sumOfCredits(studyPlan, onlyCompleted: false);
-          creditsOpen = creditsTotal - creditsNow;
+          creditsOpen = creditsTotal! - creditsNow!;
           semesterCount = studyPlan.semester.length;
-          meanCreditsSemster = creditsNow / semesterCount;
-          semesterOpen = max(creditsOpen / meanCreditsSemster, 0);
-          openSemester = studyPlan.semesterCount - semesterCount;
+          meanCreditsSemster = creditsNow! / semesterCount!;
+          semesterOpen = max(creditsOpen! / meanCreditsSemster!, 0);
+          openSemester = studyPlan.semesterCount! - semesterCount!;
 
           plannedCreditsNow =
               StudyPlanUtils.sumOfCredits(studyPlan, onlyCompleted: true);
           plannedSemesterCount =
               studyPlan.semester.where((element) => element.completed).length;
-          plannedCreditsOpen = creditsTotal - plannedCreditsNow;
+          plannedCreditsOpen = creditsTotal! - plannedCreditsNow!;
           plannedMeanCreditsSemster = plannedSemesterCount == 0
               ? 0
-              : plannedCreditsNow / plannedSemesterCount;
+              : plannedCreditsNow! / plannedSemesterCount!;
           plannedSemesterOpen =
-              max(plannedCreditsOpen / plannedMeanCreditsSemster, 0);
+              max(plannedCreditsOpen! / plannedMeanCreditsSemster!, 0);
           if (plannedSemesterOpen == double.infinity) {}
-          plannedOpenSemester = studyPlan.semesterCount - plannedSemesterCount;
+          plannedOpenSemester =
+              studyPlan.semesterCount! - plannedSemesterCount!;
           plannedCreditsPerSemester = plannedOpenSemester == 0
               ? 0
-              : max(plannedCreditsOpen / plannedOpenSemester, 0);
+              : max(plannedCreditsOpen! / plannedOpenSemester!, 0);
 
           meanGrade = StudyPlanUtils.totalMeanGrade(
                 studyPlan,
@@ -94,10 +97,10 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
           bestPossibleGrade = StudyPlanUtils.bestPossibleMeanGrade(
             studyPlan,
             onlyCompleted: true,
-          )?.toStringAsFixed(2);
+          ).toStringAsFixed(2);
           plannedBestPossibleGrade =
               StudyPlanUtils.bestPossibleMeanGrade(studyPlan)
-                  ?.toStringAsFixed(2);
+                  .toStringAsFixed(2);
         }
       });
     });
@@ -120,7 +123,7 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
               label: 'button.label.goToStudyPlan',
               padding: const EdgeInsets.only(top: 32.0, bottom: 16.0),
               onPressed: () => GetIt.I<NavigatorService>()
-                  .navigateTo(GeneralInformationPage()),
+                  .navigateTo(const GeneralInformationPage()),
             ),
           ];
         }
@@ -130,20 +133,20 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
               CWCard(
                 title: 'label.credits',
                 trailingTitle:
-                    '${((plannedCreditsNow / creditsTotal) * 100)?.toStringAsFixed(2) ?? "-"}%',
+                    '${((plannedCreditsNow! / creditsTotal!) * 100).toStringAsFixed(2) ?? "-"}%',
                 subTitle: 'text.totalCredits::$creditsTotal',
                 info: [
                   'text.alreadyArchived::$plannedCreditsNow::$creditsNow',
                   'text.archivedInMainPlan::$creditsInMainPlan::$plannedCreditsInMainPlan',
                   'text.averageCreditsInSemester::$plannedMeanCreditsSemster',
-                  'text.currentlyNeededCreditsInSemester::${plannedCreditsPerSemester.toStringAsFixed(2)}',
+                  'text.currentlyNeededCreditsInSemester::${plannedCreditsPerSemester!.toStringAsFixed(2)}',
                 ],
                 height: 310,
                 color: Colors.blue,
               ),
               CWCard(
                 title: 'label.grade',
-                trailingTitle: meanGrade,
+                trailingTitle: meanGrade!,
                 info: [
                   'text.bestPossibleGrade::$bestPossibleGrade',
                   'text.plannedBestPossibleGrade::$plannedBestPossibleGrade',
@@ -154,11 +157,11 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
               CWCard(
                 title: 'label.semester',
                 trailingTitle:
-                    'text.currentSemester::${semesterCount - plannedOpenSemester + 1}',
+                    'text.currentSemester::${semesterCount! - plannedOpenSemester! + 1}',
                 subTitle: 'text.goalSemester::$semesterCount',
                 info: [
                   'text.openSemester::$plannedOpenSemester',
-                  if (plannedSemesterOpen < double.infinity)
+                  if (plannedSemesterOpen! < double.infinity)
                     'text.remainingSemester::${plannedSemesterOpen?.toStringAsFixed(1)}',
                   'text.plannedRemainingSemester::${semesterOpen?.toStringAsFixed(1)}',
                 ],
@@ -173,17 +176,17 @@ class _AnalysisOverviewPageState extends CWState<AnalysisOverviewPage> {
                 id: 'credits',
                 title: 'title.credits',
                 data: studyPlan.semester,
-                domainFn: (s, _) => s.name,
+                domainFn: (s, _) => s.name!,
                 measureFn: (s, _) => StudyPlanUtils.creditsInSemester(s),
                 average: meanCreditsSemster,
               ),
-              SPBarChart(
+              SPBarChart<Semester>(
                 id: 'courses',
                 title: 'title.gpa',
                 data: studyPlan.semester,
-                domainFn: (s, _) => s.name,
+                domainFn: (s, _) => s.name!,
                 labelFn: (s, _) =>
-                    StudyPlanUtils.semesterMeanGrade(s).toStringAsFixed(2),
+                    StudyPlanUtils.semesterMeanGrade(s)!.toStringAsFixed(2),
                 measureFn: (s, _) => StudyPlanUtils.semesterMeanGrade(s),
                 average: StudyPlanUtils.totalMeanGrade(studyPlan),
               ),

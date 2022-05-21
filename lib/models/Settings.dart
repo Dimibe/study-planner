@@ -1,13 +1,13 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'Settings.g.dart';
+part 'settings.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Settings {
   @JsonKey(defaultValue: 17)
   int themeColorIndex;
 
-  String locale;
+  String? locale;
 
   Settings([this.themeColorIndex = 17, this.locale]);
 

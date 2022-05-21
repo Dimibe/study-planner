@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:study_planner/utils/Routes.dart';
+import 'package:study_planner/utils/routes.dart';
 
-import 'common/CWText.dart';
+import 'common/cw_text.dart';
 
 class SPDrawer extends StatelessWidget with Routes {
+  const SPDrawer({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -15,7 +17,7 @@ class SPDrawer extends StatelessWidget with Routes {
             children: [
               Center(
                 child: Container(
-                  padding: EdgeInsets.only(top: 20),
+                  padding: const EdgeInsets.only(top: 20),
                   height: 80,
                   child: CWText(
                     'text.mainMenu',

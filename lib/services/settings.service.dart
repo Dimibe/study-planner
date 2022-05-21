@@ -1,9 +1,9 @@
 import 'package:get_it/get_it.dart';
-import 'package:study_planner/models/Settings.dart';
+import 'package:study_planner/models/settings.dart';
 
-import 'Cache.dart';
-import 'FirestoreService.dart';
-import 'UserService.dart';
+import 'cache.dart';
+import 'firestore.service.dart';
+import 'user.service.dart';
 
 final getIt = GetIt.instance;
 
@@ -17,9 +17,9 @@ class SettingsService {
     }
     if (getIt<UserService>().isLoggedIn) {
       var userService = getIt<UserService>();
-      var uid = userService.getUid();
+      var uid = userService.getUid()!;
       var document = getIt<FirestoreService>().getDocument('settings', uid);
-      var json = (await document).data();
+      var json = (await document).data() as Map<String, dynamic>?;
       settings = Settings.fromJson(json ?? {});
     } else {
       settings = Settings.fromJson({});
@@ -29,14 +29,14 @@ class SettingsService {
     return settings;
   }
 
-  Future<void> saveSettings(Settings settings) {
+  Future<void> saveSettings(Settings settings) async {
     print('Saving: ${settings.toJson()}');
     getIt<Cache>().settings = settings;
     if (getIt<UserService>().isLoggedIn) {
-      var uid = getIt<UserService>().getUid();
+      var uid = getIt<UserService>().getUid()!;
       return getIt<FirestoreService>()
           .saveDocument('settings', uid, settings.toJson());
     }
-    return null;
+    return;
   }
 }

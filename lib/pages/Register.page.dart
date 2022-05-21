@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
-import 'package:study_planner/pages/Login.page.dart';
-import 'package:study_planner/services/NavigatorService.dart';
-import 'package:study_planner/services/UserService.dart';
-import 'package:study_planner/utils/UserRouting.dart';
-import 'package:study_planner/widgets/SPModalDialog.dart';
-import 'package:study_planner/widgets/common/CWButton.dart';
-import 'package:study_planner/widgets/common/CWText.dart';
-import 'package:study_planner/widgets/common/CWTextField.dart';
+import 'package:study_planner/pages/login.page.dart';
+import 'package:study_planner/services/navigator.service.dart';
+import 'package:study_planner/services/user.service.dart';
+import 'package:study_planner/utils/user_routing.dart';
+import 'package:study_planner/widgets/sp_modal_dialog.dart';
+import 'package:study_planner/widgets/common/cw_button.dart';
+import 'package:study_planner/widgets/common/cw_text.dart';
+import 'package:study_planner/widgets/common/cw_textfield.dart';
 
 import '../main.dart';
 
 final GetIt getIt = GetIt.instance;
 
 class RegisterPage extends StatefulWidget with UserRouting {
+  const RegisterPage({super.key});
+
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
@@ -36,23 +37,26 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
               children: [
                 CWTextField(
+                  id: 'mail-input',
                   labelText: 'label.mail',
                   autofocus: true,
-                  inputType: CWInputType.Email,
-                  autofillHints: [AutofillHints.email],
+                  inputType: CWInputType.email,
+                  autofillHints: const [AutofillHints.email],
                   textInputAction: TextInputAction.next,
                   controller: userNameController,
                   mandatory: true,
                 ),
                 CWTextField(
+                  id: 'password-input',
                   labelText: 'label.password',
                   textInputAction: TextInputAction.next,
-                  autofillHints: [AutofillHints.newPassword],
+                  autofillHints: const [AutofillHints.newPassword],
                   controller: passwordController,
                   obscureText: true,
                   mandatory: true,
                 ),
                 CWTextField(
+                  id: 'confirm-pw-input',
                   textInputAction: TextInputAction.go,
                   labelText: 'label.confirmPassword',
                   errorText: 'error.passwordNotMatching',
@@ -63,17 +67,17 @@ class _RegisterPageState extends State<RegisterPage> {
               ],
             ),
           ),
-          FlatButton(
+          TextButton(
             onPressed: () async {
               getIt<NavigatorService>().pop();
               await showDialog(
                 context: context,
                 builder: (context) {
-                  return LoginPage();
+                  return const LoginPage();
                 },
               );
             },
-            child: CWText('text.backToLogin'),
+            child: const CWText('text.backToLogin'),
           ),
         ];
       },
@@ -84,7 +88,7 @@ class _RegisterPageState extends State<RegisterPage> {
           onPressed: () async {
             await getIt<UserService>()
                 .register(userNameController.text, passwordController.text);
-            MyApp.of(context).applyUserSettings(context);
+            MyApp.of(context)?.applyUserSettings(context);
             var page = await widget.getNextRoute();
             await getIt<NavigatorService>().navigateTo(page);
           },

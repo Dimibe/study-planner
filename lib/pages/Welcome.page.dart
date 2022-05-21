@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:study_planner/widgets/SPDialog.dart';
-import 'package:study_planner/widgets/common/CWAppState.dart';
-import 'package:study_planner/widgets/common/CWButton.dart';
-import 'package:study_planner/widgets/common/CWText.dart';
+import 'package:study_planner/widgets/sp_dialog.dart';
+import 'package:study_planner/widgets/common/cw_app_state.dart';
+import 'package:study_planner/widgets/common/cw_button.dart';
+import 'package:study_planner/widgets/common/cw_text.dart';
 
-import 'Register.page.dart';
+import 'register.page.dart';
 
 class WelcomePage extends StatefulWidget {
+  const WelcomePage({super.key});
+
   @override
-  _WelcomePageState createState() => _WelcomePageState();
+  State<StatefulWidget> createState() => _WelcomePageState();
 }
 
 class _WelcomePageState extends CWState<WelcomePage> {
@@ -17,23 +18,23 @@ class _WelcomePageState extends CWState<WelcomePage> {
   Widget build(BuildContext context) {
     return SPDialog(
       content: <Widget>[
-        Padding(padding: EdgeInsets.only(bottom: 20.0)),
+        const Padding(padding: EdgeInsets.only(bottom: 20.0)),
         CWText(
           'text.welcomeToStudyPlanner',
           style: Theme.of(context).textTheme.headline2,
           textAlign: TextAlign.center,
         ),
-        Padding(padding: EdgeInsets.only(bottom: 20.0)),
+        const Padding(padding: EdgeInsets.only(bottom: 20.0)),
         CWText(
           'text.welcomeSubHeading',
           style: Theme.of(context).textTheme.headline6,
           textAlign: TextAlign.center,
         ),
-        Padding(padding: EdgeInsets.only(bottom: 20.0)),
+        const Padding(padding: EdgeInsets.only(bottom: 20.0)),
         Container(
-          constraints: BoxConstraints(maxWidth: 600),
-          padding: EdgeInsets.all(8.0),
-          child: Image(image: AssetImage('assets/images/welcome.png')),
+          constraints: const BoxConstraints(maxWidth: 600),
+          padding: const EdgeInsets.all(8.0),
+          child: const Image(image: AssetImage('assets/images/welcome.png')),
         ),
         CWButton(
           label: 'button.label.registerNow',
@@ -42,7 +43,7 @@ class _WelcomePageState extends CWState<WelcomePage> {
             await showDialog(
               context: context,
               builder: (context) {
-                return RegisterPage();
+                return const RegisterPage();
               },
             );
           },

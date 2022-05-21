@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 abstract class CWBaseWidget<T> extends StatefulWidget {
   final String id;
 
-  const CWBaseWidget(this.id, {Key key}) : super(key: key);
+  const CWBaseWidget(this.id, {super.key});
 
   T copy(covariant dynamic controller);
 

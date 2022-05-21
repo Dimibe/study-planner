@@ -1,40 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:study_planner/models/Course.dart';
-import 'package:study_planner/models/Semester.dart';
-import 'package:study_planner/models/StudyPlan.dart';
-import 'package:study_planner/services/StudyPlanService.dart';
-import 'package:study_planner/utils/StudyPlanUtils.dart';
-import 'package:study_planner/widgets/SPModalDialog.dart';
-import 'package:study_planner/widgets/common/CWAppState.dart';
-import 'package:study_planner/widgets/common/CWBaseWidget.dart';
-import 'package:study_planner/widgets/common/CWButton.dart';
-import 'package:study_planner/widgets/common/CWCheckBox.dart';
-import 'package:study_planner/widgets/common/CWDropDown.dart';
-import 'package:study_planner/widgets/common/CWDynamicContainer.dart';
-import 'package:study_planner/widgets/common/CWText.dart';
-import 'package:study_planner/widgets/common/CWTextField.dart';
+import 'package:study_planner/models/course.dart';
+import 'package:study_planner/models/semester.dart';
+import 'package:study_planner/models/study_plan.dart';
+import 'package:study_planner/services/study_plan.service.dart';
+import 'package:study_planner/utils/study_plan_utils.dart';
+import 'package:study_planner/widgets/sp_modal_dialog.dart';
+import 'package:study_planner/widgets/common/cw_app_state.dart';
+import 'package:study_planner/widgets/common/cw_base_widget.dart';
+import 'package:study_planner/widgets/common/cw_button.dart';
+import 'package:study_planner/widgets/common/cw_checkbox.dart';
+import 'package:study_planner/widgets/common/cw_dropdown.dart';
+import 'package:study_planner/widgets/common/cw_dynamic_container.dart';
+import 'package:study_planner/widgets/common/cw_text.dart';
+import 'package:study_planner/widgets/common/cw_textfield.dart';
 
 class SemesterDetailPage extends StatefulWidget {
-  final Semester semester;
   final StudyPlan plan;
+  final Semester? semester;
 
-  SemesterDetailPage({Key key, this.plan, this.semester}) : super(key: key);
+  const SemesterDetailPage({super.key, required this.plan, this.semester});
 
   @override
-  _SemesterDetailPageState createState() => _SemesterDetailPageState();
+  CWState<SemesterDetailPage> createState() => _SemesterDetailPageState();
 }
 
 class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
-  var semesterController;
+  late final TextEditingController semesterController;
   var dynamicControllers = CWDynamicController();
   var checkBoxController = CheckBoxController();
 
   @override
   void initState() {
     super.initState();
-    semesterController = TextEditingController(text: widget?.semester?.name);
-    checkBoxController.value = widget?.semester?.completed;
+    semesterController = TextEditingController(text: widget.semester?.name);
+    checkBoxController.value = widget.semester?.completed;
   }
 
   @override
@@ -61,36 +61,36 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
         CWDynamicContainer(
           showAddOption: true,
           showHideOption: true,
-          padding: EdgeInsets.only(top: 8.0),
+          padding: const EdgeInsets.only(top: 8.0),
           contoller: dynamicControllers,
           initialData: () {
             return widget.semester?.courses
-                ?.map((c) => {
+                .map((c) => {
                       'name': c.name,
                       'credits': c.credits,
                       'grade': c.grade,
                       'studyfield': c.studyField,
                     })
-                ?.toList(growable: false);
+                .toList(growable: false);
           },
           children: <CWBaseWidget>[
-            CWTextField(
+            const CWTextField(
               id: 'name',
               labelText: 'label.courseName',
               mandatory: true,
               maxWidth: 200,
             ),
-            CWTextField(
+            const CWTextField(
               id: 'credits',
               labelText: 'label.credits',
-              inputType: CWInputType.Decimal,
+              inputType: CWInputType.decimal,
               mandatory: true,
               maxWidth: 100,
             ),
-            CWTextField(
+            const CWTextField(
               id: 'grade',
               labelText: 'label.grade',
-              inputType: CWInputType.Decimal,
+              inputType: CWInputType.decimal,
               maxWidth: 100,
             ),
             CWDropDown<String>(
@@ -109,9 +109,13 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
           minWidth = 100.0;
         }
         return [
-          FlatButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          TextButton(
+            style: ButtonStyle(
+              shape: MaterialStateProperty.all(
+                const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                ),
+              ),
             ),
             onPressed: widget.semester == null
                 ? null
@@ -150,7 +154,7 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
               }
               var s = widget.semester ?? Semester();
               s.name = semesterController.text;
-              s.completed = checkBoxController.value;
+              s.completed = checkBoxController.value!;
               s.courses = courses;
               if (widget.semester == null) {
                 widget.plan.semester.add(s);

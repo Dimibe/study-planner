@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'CWText.dart';
+import 'cw_text.dart';
 
 class CWCard extends StatelessWidget {
   final Color color;
@@ -10,14 +10,14 @@ class CWCard extends StatelessWidget {
   final EdgeInsetsGeometry margin;
   final double width;
   final double height;
-  final void Function() onTap;
+  final void Function()? onTap;
   final List<String> info;
   final List<String> subInfo;
 
   const CWCard({
-    Key key,
+    super.key,
     this.onTap,
-    this.title,
+    required this.title,
     this.subTitle = '',
     this.trailingTitle = '',
     this.color = Colors.blue,
@@ -26,7 +26,7 @@ class CWCard extends StatelessWidget {
     this.margin = const EdgeInsets.all(8.0),
     this.width = 300,
     this.height = 400,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class CWCard extends StatelessWidget {
           children: <Widget>[
             Positioned(
               child: ClipRRect(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(400.0),
                   bottomLeft: Radius.circular(400.0),
                   bottomRight: Radius.elliptical(2000.0, 8500.0),
@@ -58,28 +58,26 @@ class CWCard extends StatelessWidget {
             Positioned(
               top: 15.0,
               left: 20.0,
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    CWText(
-                      title,
-                      style: TextStyle(
-                        color: Color(0xFFFFFFFF).withOpacity(0.8),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24.0,
-                      ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  CWText(
+                    title,
+                    style: TextStyle(
+                      color: const Color(0xFFFFFFFF).withOpacity(0.8),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24.0,
                     ),
-                    CWText(
-                      subTitle,
-                      style: TextStyle(
-                        color: Color(0xFFFFFFFF).withOpacity(0.8),
-                        fontStyle: FontStyle.italic,
-                        fontSize: 19.0,
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                  CWText(
+                    subTitle,
+                    style: TextStyle(
+                      color: const Color(0xFFFFFFFF).withOpacity(0.8),
+                      fontStyle: FontStyle.italic,
+                      fontSize: 19.0,
+                    ),
+                  )
+                ],
               ),
             ),
             Positioned(
@@ -88,7 +86,7 @@ class CWCard extends StatelessWidget {
               child: CWText(
                 trailingTitle,
                 style: TextStyle(
-                  color: Color(0xFFFFFFFF).withOpacity(0.8),
+                  color: const Color(0xFFFFFFFF).withOpacity(0.8),
                   fontWeight: FontWeight.bold,
                   fontSize: 24.0,
                 ),
@@ -103,7 +101,7 @@ class CWCard extends StatelessWidget {
                 children: [
                   Divider(
                     height: 10,
-                    color: Color(0xFFFFFFFF).withOpacity(0.8),
+                    color: const Color(0xFFFFFFFF).withOpacity(0.8),
                   ),
                   for (var text in info)
                     Padding(
@@ -111,7 +109,7 @@ class CWCard extends StatelessWidget {
                       child: CWText(
                         text,
                         style: TextStyle(
-                          color: Color(0xFFFFFFFF).withOpacity(0.8),
+                          color: const Color(0xFFFFFFFF).withOpacity(0.8),
                           fontSize: 18.0,
                         ),
                       ),
@@ -122,7 +120,7 @@ class CWCard extends StatelessWidget {
                       child: CWText(
                         text,
                         style: TextStyle(
-                          color: Color(0xFFFFFFFF).withOpacity(0.8),
+                          color: const Color(0xFFFFFFFF).withOpacity(0.8),
                           fontSize: 18.0,
                         ),
                       ),

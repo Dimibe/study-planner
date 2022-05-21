@@ -1,15 +1,15 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'StudyField.g.dart';
+part 'study_field.g.dart';
 
 @JsonSerializable()
 class StudyField {
   String name;
-  int credits;
+  int? credits;
   @JsonKey(defaultValue: false)
   bool countForGrade;
 
-  StudyField(this.name, [this.credits, this.countForGrade]);
+  StudyField(this.name, [this.credits, this.countForGrade = false]);
 
   factory StudyField.fromJson(Map<String, dynamic> json) =>
       _$StudyFieldFromJson(json);

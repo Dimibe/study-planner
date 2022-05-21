@@ -1,14 +1,14 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:study_planner/models/StudyField.dart';
+import 'package:study_planner/models/study_field.dart';
 
-part 'Course.g.dart';
+part 'course.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Course {
   String name;
-  int credits;
-  double grade;
-  StudyField studyField;
+  int? credits;
+  double? grade;
+  StudyField? studyField;
 
   Course(this.name, [this.credits, this.grade, this.studyField]);
 

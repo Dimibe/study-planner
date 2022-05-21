@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:study_planner/pages/AnalysisOverview.page.dart';
-import 'package:study_planner/pages/GeneralInformation.page.dart';
-import 'package:study_planner/pages/SemesterOverview.page.dart';
-import 'package:study_planner/pages/Settings.page.dart';
-import 'package:study_planner/services/NavigatorService.dart';
-import 'package:study_planner/widgets/common/CWText.dart';
+import 'package:study_planner/pages/analysis_overview.page.dart';
+import 'package:study_planner/pages/general_information.page.dart';
+import 'package:study_planner/pages/semester_overview.page.dart';
+import 'package:study_planner/pages/settings.page.dart';
+import 'package:study_planner/services/navigator.service.dart';
+import 'package:study_planner/widgets/common/cw_text.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -13,37 +13,37 @@ mixin Routes {
   List<Widget> getRoutes() {
     return [
       ListTile(
-        leading: Icon(Icons.featured_play_list),
-        title: CWText('header.generalInformation'),
-        onTap: () =>
-            getIt<NavigatorService>().navigateTo(GeneralInformationPage()),
+        leading: const Icon(Icons.featured_play_list),
+        title: const CWText('header.generalInformation'),
+        onTap: () => getIt<NavigatorService>()
+            .navigateTo(const GeneralInformationPage()),
         dense: true,
       ),
       ListTile(
-        leading: Icon(Icons.list_alt),
-        title: CWText('header.semesterOverview'),
+        leading: const Icon(Icons.list_alt),
+        title: const CWText('header.semesterOverview'),
         onTap: () =>
-            getIt<NavigatorService>().navigateTo(SemesterOverviewPage()),
+            getIt<NavigatorService>().navigateTo(const SemesterOverviewPage()),
         dense: true,
       ),
       ListTile(
-        leading: Icon(Icons.analytics),
-        title: CWText('header.analysisOverview'),
+        leading: const Icon(Icons.analytics),
+        title: const CWText('header.analysisOverview'),
         onTap: () =>
-            getIt<NavigatorService>().navigateTo(AnalysisOverviewPage()),
+            getIt<NavigatorService>().navigateTo(const AnalysisOverviewPage()),
         dense: true,
       ),
       ListTile(
-        leading: Icon(Icons.settings),
-        title: CWText('header.settings'),
-        onTap: () => getIt<NavigatorService>().navigateTo(SettingsPage()),
+        leading: const Icon(Icons.settings),
+        title: const CWText('header.settings'),
+        onTap: () => getIt<NavigatorService>().navigateTo(const SettingsPage()),
         dense: true,
       ),
     ];
   }
 
   List<Widget> getRoutesForRow(context) {
-    var color = Theme.of(context).primaryTextTheme.headline6.color;
+    var color = Theme.of(context).primaryTextTheme.headline6?.color;
 
     Widget _getIconButton(IconData icon, String label, Widget page) {
       return Padding(
@@ -61,12 +61,12 @@ mixin Routes {
 
     return [
       _getIconButton(Icons.featured_play_list, 'header.generalInformation',
-          GeneralInformationPage()),
-      _getIconButton(
-          Icons.list_alt, 'header.semesterOverview', SemesterOverviewPage()),
-      _getIconButton(
-          Icons.analytics, 'header.analysisOverview', AnalysisOverviewPage()),
-      _getIconButton(Icons.settings, 'header.settings', SettingsPage()),
+          const GeneralInformationPage()),
+      _getIconButton(Icons.list_alt, 'header.semesterOverview',
+          const SemesterOverviewPage()),
+      _getIconButton(Icons.analytics, 'header.analysisOverview',
+          const AnalysisOverviewPage()),
+      _getIconButton(Icons.settings, 'header.settings', const SettingsPage()),
     ];
   }
 }

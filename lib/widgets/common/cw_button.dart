@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 
-import '../SPForm.dart';
+import '../sp_form.dart';
 
 class CWButton extends StatelessWidget {
   final String label;
   final void Function() onPressed;
-  final EdgeInsets padding;
-  final Color color;
-  final double minWidth;
-  final double minHeight;
-  final double fontSize;
+  final EdgeInsets? padding;
+  final Color? color;
+  final double? minWidth;
+  final double? minHeight;
+  final double? fontSize;
   final bool validateOnClick;
 
   const CWButton({
-    Key key,
-    this.label,
+    Key? key,
+    required this.label,
     this.color,
-    this.onPressed,
+    required this.onPressed,
     this.padding,
     this.minWidth,
     this.minHeight,
@@ -33,7 +33,7 @@ class CWButton extends StatelessWidget {
         data: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             elevation: 0.0,
-            primary: color ?? Theme.of(context).accentColor,
+            primary: color ?? Theme.of(context).colorScheme.secondary,
             minimumSize: Size(minWidth ?? 290, minHeight ?? 60),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5.0),
@@ -42,8 +42,9 @@ class CWButton extends StatelessWidget {
         ),
         child: ElevatedButton(
           onPressed: () {
-            var formState = SPForm.of(context);
-            if (!validateOnClick || formState.formKey.currentState.validate()) {
+            var formState = SPForm.of(context).formKey.currentState;
+            if (!validateOnClick ||
+                (formState != null && formState.validate())) {
               onPressed();
             }
           },

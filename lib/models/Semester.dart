@@ -1,18 +1,18 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'Course.dart';
+import 'course.dart';
 
-part 'Semester.g.dart';
+part 'semester.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Semester {
-  String name;
+  String? name;
   @JsonKey(defaultValue: false)
   bool completed;
   @JsonKey(defaultValue: [])
   List<Course> courses;
 
-  Semester([this.name, this.courses, this.completed]);
+  Semester([this.name, this.courses = const [], this.completed = false]);
 
   factory Semester.fromJson(Map<String, dynamic> json) =>
       _$SemesterFromJson(json);

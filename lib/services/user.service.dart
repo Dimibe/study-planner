@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 
-import 'Cache.dart';
+import 'cache.dart';
 
 class UserService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -12,14 +12,15 @@ class UserService {
     addAuthStateListener((user) => GetIt.I<Cache>().reset());
   }
 
-  StreamSubscription<User> addAuthStateListener(Function(User) listener) {
+  StreamSubscription<User?> addAuthStateListener(
+      void Function(User?) listener) {
     return _auth.authStateChanges().listen(listener);
   }
 
   Future<String> login(String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-      return _auth.currentUser.uid;
+      return _auth.currentUser!.uid;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -27,14 +28,14 @@ class UserService {
         print('Wrong password provided for that user.');
       }
     }
-    throw null;
+    throw 'Failed to login';
   }
 
   Future<String> register(String email, String password) async {
     try {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      return _auth.currentUser.uid;
+      return _auth.currentUser!.uid;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -44,19 +45,19 @@ class UserService {
     } catch (e) {
       print(e);
     }
-    throw null;
+    throw 'Failed to register';
   }
 
   bool get isLoggedIn {
     return _auth.currentUser != null;
   }
 
-  String get email {
-    return _auth.currentUser.email;
+  String? get email {
+    return _auth.currentUser?.email;
   }
 
-  String getUid() {
-    return _auth.currentUser.uid;
+  String? getUid() {
+    return _auth.currentUser?.uid;
   }
 
   Future<void> logout() async {

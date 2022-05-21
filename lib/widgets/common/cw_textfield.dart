@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:study_planner/widgets/common/CWBaseWidget.dart';
+import 'package:study_planner/widgets/common/cw_base_widget.dart';
 
 class CWTextField extends CWBaseWidget<CWTextField> {
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final String labelText;
-  final String hintText;
-  final String helperText;
+  final String? hintText;
+  final String? helperText;
   final String errorText;
   final String mandatoryText;
   final bool mandatory;
-  final bool Function(String) validate;
+  final bool Function(String?)? validate;
   final double maxWidth;
   final int maxLines;
   final bool obscureText;
-  final List<String> autofillHints;
+  final List<String>? autofillHints;
   final bool autofocus;
   final CWInputType inputType;
-  final TextInputAction textInputAction;
-  final void Function(String) onFieldSubmitted;
-  final FocusNode focusNode;
+  final TextInputAction? textInputAction;
+  final void Function(String)? onFieldSubmitted;
+  final FocusNode? focusNode;
 
   const CWTextField({
-    Key key,
-    String id,
-    @required this.labelText,
+    super.key,
+    required String id,
+    required this.labelText,
     this.controller,
     this.hintText,
     this.helperText,
@@ -38,14 +38,14 @@ class CWTextField extends CWBaseWidget<CWTextField> {
     this.obscureText = false,
     this.autofillHints,
     this.autofocus = false,
-    this.inputType = CWInputType.Text,
+    this.inputType = CWInputType.text,
     this.textInputAction,
     this.onFieldSubmitted,
     this.focusNode,
   }) : super(id);
 
   /// Creates a copy
-  CWTextField.copy(CWTextField other, {TextEditingController controller})
+  CWTextField.copy(CWTextField other, {TextEditingController? controller})
       // ignore: unnecessary_this
       : this.controller = controller ?? other.controller,
         labelText = other.labelText,
@@ -72,7 +72,7 @@ class CWTextField extends CWBaseWidget<CWTextField> {
   }
 
   @override
-  _CWTextFieldState createState() => _CWTextFieldState();
+  State<CWTextField> createState() => _CWTextFieldState();
 
   @override
   dynamic createController() => TextEditingController();
@@ -85,7 +85,7 @@ class _CWTextFieldState extends State<CWTextField> {
       constraints: BoxConstraints(
         maxWidth: widget.maxWidth,
       ),
-      padding: EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8.0),
       child: TextFormField(
         textInputAction: widget.textInputAction,
         onFieldSubmitted: widget.onFieldSubmitted,
@@ -102,13 +102,14 @@ class _CWTextFieldState extends State<CWTextField> {
               (widget.mandatory ? '*' : ''),
           hintText: widget.hintText == null
               ? null
-              : FlutterI18n.translate(context, widget.hintText),
+              : FlutterI18n.translate(context, widget.hintText!),
           helperText: widget.helperText == null
               ? null
-              : FlutterI18n.translate(context, widget.helperText),
+              : FlutterI18n.translate(context, widget.helperText!),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5.0),
-            borderSide: BorderSide(style: BorderStyle.solid, color: Colors.red),
+            borderSide:
+                const BorderSide(style: BorderStyle.solid, color: Colors.red),
           ),
         ),
         controller: widget.controller,
@@ -117,21 +118,21 @@ class _CWTextFieldState extends State<CWTextField> {
   }
 
   TextInputType _getKeyboardType() {
-    if ({CWInputType.Decimal, CWInputType.Integer}.contains(widget.inputType)) {
+    if ({CWInputType.decimal, CWInputType.integer}.contains(widget.inputType)) {
       return TextInputType.numberWithOptions(
-        decimal: widget.inputType == CWInputType.Decimal,
+        decimal: widget.inputType == CWInputType.decimal,
         signed: false,
       );
-    } else if (CWInputType.Email == widget.inputType) {
+    } else if (CWInputType.email == widget.inputType) {
       return TextInputType.emailAddress;
     }
     return TextInputType.text;
   }
 
-  List<TextInputFormatter> _getInputFormatters() {
-    if (CWInputType.Integer == widget.inputType) {
+  List<TextInputFormatter>? _getInputFormatters() {
+    if (CWInputType.integer == widget.inputType) {
       return [FilteringTextInputFormatter.digitsOnly];
-    } else if (CWInputType.Decimal == widget.inputType) {
+    } else if (CWInputType.decimal == widget.inputType) {
       return [
         FilteringTextInputFormatter.allow(RegExp(r'(\d|\.|,)')),
         FilteringTextInputFormatter.deny(RegExp(r','), replacementString: '.'),
@@ -140,14 +141,14 @@ class _CWTextFieldState extends State<CWTextField> {
     return null;
   }
 
-  String _validator(String text) {
+  String? _validator(String? text) {
     if (widget.mandatory && (text == null || text.isEmpty)) {
       return FlutterI18n.translate(context, widget.mandatoryText);
-    } else if (widget.validate != null && !widget.validate(text)) {
+    } else if (widget.validate != null && !widget.validate!(text)) {
       return FlutterI18n.translate(context, widget.errorText);
     }
     return null;
   }
 }
 
-enum CWInputType { Integer, Decimal, Text, Email }
+enum CWInputType { integer, decimal, text, email }

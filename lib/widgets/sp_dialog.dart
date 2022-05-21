@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:get_it/get_it.dart';
-import 'package:study_planner/pages/Login.page.dart';
-import 'package:study_planner/services/NavigatorService.dart';
-import 'package:study_planner/services/UserService.dart';
-import 'package:study_planner/utils/Routes.dart';
-import 'package:study_planner/utils/UserRouting.dart';
-import 'package:study_planner/widgets/SPDrawer.dart';
-import 'package:study_planner/widgets/SPForm.dart';
+import 'package:study_planner/pages/login.page.dart';
+import 'package:study_planner/services/navigator.service.dart';
+import 'package:study_planner/services/user.service.dart';
+import 'package:study_planner/utils/routes.dart';
+import 'package:study_planner/utils/user_routing.dart';
+import 'package:study_planner/widgets/sp_drawer.dart';
+import 'package:study_planner/widgets/sp_form.dart';
 
 import '../main.dart';
 
@@ -31,7 +31,8 @@ class SPDialog extends StatefulWidget with Routes, UserRouting {
   final dynamic content;
 
   SPDialog({
-    @required this.content,
+    super.key,
+    required this.content,
     this.title = 'app.title',
     this.header,
   });
@@ -41,8 +42,8 @@ class SPDialog extends StatefulWidget with Routes, UserRouting {
 }
 
 class SPDialogState extends State<SPDialog> {
-  bool _loggedIn;
-  StreamSubscription _authStateListener;
+  late final bool _loggedIn;
+  late final StreamSubscription _authStateListener;
 
   @override
   void initState() {
@@ -57,7 +58,7 @@ class SPDialogState extends State<SPDialog> {
 
   @override
   void dispose() {
-    _authStateListener?.cancel();
+    _authStateListener.cancel();
     super.dispose();
   }
 
@@ -84,7 +85,7 @@ class SPDialogState extends State<SPDialog> {
                 if (_loggedIn) {
                   if (showDrawer) {
                     return IconButton(
-                      icon: Icon(Icons.menu),
+                      icon: const Icon(Icons.menu),
                       onPressed: () {
                         Scaffold.of(context).openDrawer();
                       },
@@ -99,7 +100,7 @@ class SPDialogState extends State<SPDialog> {
                         style: TextStyle(
                           color: Theme.of(context)
                               .primaryTextTheme
-                              .headline6
+                              .headline6!
                               .color,
                           fontSize: 21,
                           fontWeight: FontWeight.w500,
@@ -115,7 +116,7 @@ class SPDialogState extends State<SPDialog> {
             elevation: 0.0,
           ),
           drawerScrimColor: Theme.of(context).backgroundColor,
-          drawer: _loggedIn ? SPDrawer() : null,
+          drawer: _loggedIn ? const SPDrawer() : null,
           body: SingleChildScrollView(
             child: Align(
               alignment: Alignment.topCenter,
@@ -148,9 +149,9 @@ class SPDialogState extends State<SPDialog> {
     );
   }
 
-  Widget getLoginActionWidget(context) {
+  Widget getLoginActionWidget(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(right: 8.0),
+      padding: const EdgeInsets.only(right: 8.0),
       child: Center(
         child: GetIt.I<UserService>().isLoggedIn
             ? _getLogoutWidget(context)
@@ -159,40 +160,40 @@ class SPDialogState extends State<SPDialog> {
     );
   }
 
-  Widget _getLoginWidget(context) {
-    return FlatButton(
+  Widget _getLoginWidget(BuildContext context) {
+    return TextButton(
       onPressed: _openLogin,
       child: Text(
         'Log in',
         style: TextStyle(
-          color: Theme.of(context).primaryTextTheme.headline6.color,
+          color: Theme.of(context).primaryTextTheme.headline6!.color,
         ),
       ),
     );
   }
 
-  Widget _getLogoutWidget(context) {
+  Widget _getLogoutWidget(BuildContext context) {
     return Row(
       children: [
         if (MediaQuery.of(context).size.width > 600)
           Text(
-            GetIt.I<UserService>().email,
+            getIt<UserService>().email!,
             style: TextStyle(
-              color: Theme.of(context).primaryTextTheme.headline6.color,
+              color: Theme.of(context).primaryTextTheme.headline6!.color,
             ),
           ),
         Padding(
-          padding: EdgeInsets.only(left: 8.0, right: 8.0),
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
           child: IconButton(
             onPressed: () async {
               await GetIt.I<UserService>().logout();
-              MyApp.of(context).applyUserSettings(context);
+              MyApp.of(context)?.applyUserSettings(context);
               var page = await widget.getNextRoute();
               getIt<NavigatorService>().navigateTo(page);
             },
             icon: Icon(
               Icons.logout,
-              color: Theme.of(context).primaryTextTheme.headline6.color,
+              color: Theme.of(context).primaryTextTheme.headline6!.color,
             ),
           ),
         ),
@@ -204,7 +205,7 @@ class SPDialogState extends State<SPDialog> {
     await showDialog(
       context: context,
       builder: (context) {
-        return LoginPage();
+        return const LoginPage();
       },
     );
   }

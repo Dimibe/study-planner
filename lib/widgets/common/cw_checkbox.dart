@@ -1,32 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 
-import 'CWBaseWidget.dart';
+import 'cw_base_widget.dart';
 
 class CWCheckBox extends CWBaseWidget<CWCheckBox> {
   final String label;
   final CheckBoxController controller;
   final bool initValue;
-  final String tooltip;
+  final String? tooltip;
 
   const CWCheckBox({
-    Key key,
-    String id,
-    @required this.label,
-    @required this.controller,
+    super.key,
+    required String id,
+    required this.label,
+    required this.controller,
     this.initValue = false,
     this.tooltip,
   }) : super(id);
 
-  CWCheckBox.copy(CWCheckBox other, CheckBoxController controller)
+  CWCheckBox.copy(CWCheckBox other, this.controller)
       : label = other.label,
-        controller = controller,
         initValue = other.initValue,
         tooltip = other.tooltip,
         super(other.id, key: other.key);
 
   @override
-  _CWCheckBoxState createState() => _CWCheckBoxState();
+  State<CWCheckBox> createState() => _CWCheckBoxState();
 
   @override
   CWCheckBox copy(CheckBoxController controller) {
@@ -59,13 +58,13 @@ class _CWCheckBoxState extends State<CWCheckBox> {
         ),
         Text(
           FlutterI18n.translate(context, widget.label),
-          style: TextStyle(fontSize: 15, fontStyle: FontStyle.italic),
+          style: const TextStyle(fontSize: 15, fontStyle: FontStyle.italic),
         ),
         if (widget.tooltip != null)
           IconButton(
-            icon: Icon(Icons.info_outline),
+            icon: const Icon(Icons.info_outline),
             onPressed: null,
-            tooltip: FlutterI18n.translate(context, widget.tooltip),
+            tooltip: FlutterI18n.translate(context, widget.tooltip!),
           ),
       ],
     );
@@ -73,7 +72,7 @@ class _CWCheckBoxState extends State<CWCheckBox> {
 }
 
 class CheckBoxController {
-  bool value;
+  bool? value;
 
   set text(bool value) {
     this.value = value;

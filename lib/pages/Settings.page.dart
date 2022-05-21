@@ -4,47 +4,47 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:get_it/get_it.dart';
-import 'package:study_planner/models/Settings.dart';
-import 'package:study_planner/models/StudyPlan.dart';
-import 'package:study_planner/services/NavigatorService.dart';
-import 'package:study_planner/services/SettingsService.dart';
-import 'package:study_planner/services/StudyPlanService.dart';
-import 'package:study_planner/widgets/SPDialog.dart';
-import 'package:study_planner/widgets/common/CWAppState.dart';
-import 'package:study_planner/widgets/common/CWButton.dart';
-import 'package:study_planner/widgets/common/CWDropDown.dart';
-import 'package:study_planner/widgets/common/CWText.dart';
-import 'package:study_planner/widgets/common/CWTextField.dart';
+import 'package:study_planner/models/settings.dart';
+import 'package:study_planner/models/study_plan.dart';
+import 'package:study_planner/services/navigator.service.dart';
+import 'package:study_planner/services/settings.service.dart';
+import 'package:study_planner/services/study_plan.service.dart';
+import 'package:study_planner/widgets/sp_dialog.dart';
+import 'package:study_planner/widgets/common/cw_app_state.dart';
+import 'package:study_planner/widgets/common/cw_button.dart';
+import 'package:study_planner/widgets/common/cw_dropdown.dart';
+import 'package:study_planner/widgets/common/cw_text.dart';
+import 'package:study_planner/widgets/common/cw_textfield.dart';
 import '../main.dart';
 
 final getIt = GetIt.instance;
 
 class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
+
   @override
   State<StatefulWidget> createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends CWState<SettingsPage> {
-  Settings settings;
+  late final Settings settings;
   int themeColorIndex = 0;
-  var textEditingController = TextEditingController();
-  var dropDownController = DropDownController();
+  final textEditingController = TextEditingController();
+  final dropDownController = DropDownController();
 
   @override
   void initState() {
     super.initState();
     getIt<SettingsService>().loadSettings().then((value) {
-      if (value != null) {
-        setState(() {
-          settings = value;
-          themeColorIndex = settings.themeColorIndex;
-          dropDownController.value = settings.locale;
-        });
-      }
+      setState(() {
+        settings = value;
+        themeColorIndex = settings.themeColorIndex;
+        dropDownController.value = settings.locale;
+      });
     });
     getIt<StudyPlanService>().loadStudyPlan().then((value) {
       setState(() {
-        textEditingController.text = json.encode(value.toJson());
+        textEditingController.text = json.encode(value?.toJson());
       });
     });
   }
@@ -55,12 +55,13 @@ class _SettingsPageState extends CWState<SettingsPage> {
       header: 'header.settings',
       content: [
         CWDropDown<String>(
+          id: 'language-select',
           labelText: 'label.selectLanguage',
-          items: ['de', 'en'],
+          items: const ['de', 'en'],
           maxWidth: 290,
           controller: dropDownController,
           onChanged: (var value) async {
-            await FlutterI18n.refresh(context, Locale(value));
+            await FlutterI18n.refresh(context, Locale(value!));
             setState(() {
               settings.locale = value;
             });
@@ -69,7 +70,7 @@ class _SettingsPageState extends CWState<SettingsPage> {
         CWButton(
           label: 'button.label.saveLanguage',
           color: Theme.of(context).buttonColor,
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           onPressed: () {
             getIt<SettingsService>().saveSettings(settings);
           },
@@ -84,10 +85,11 @@ class _SettingsPageState extends CWState<SettingsPage> {
         CWButton(
           label: 'label.changeColor',
           color: Theme.of(context).buttonColor,
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           onPressed: _openFullMaterialColorPicker,
         ),
         CWTextField(
+          id: 'studyplan',
           labelText: 'label.studyplan',
           maxLines: 10,
           controller: textEditingController,
@@ -95,7 +97,7 @@ class _SettingsPageState extends CWState<SettingsPage> {
         CWButton(
           label: 'button.label.saveStudyplan',
           color: Theme.of(context).buttonColor,
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           onPressed: () => getIt<StudyPlanService>().saveStudyPlan(
             StudyPlan.fromJson(json.decode(textEditingController.text)),
           ),
@@ -113,12 +115,12 @@ class _SettingsPageState extends CWState<SettingsPage> {
           title: CWText(title),
           content: content,
           actions: [
-            FlatButton(
-              child: CWText('button.label.cancel'),
+            TextButton(
               onPressed: () {
-                MyApp.of(context).applyUserSettings(context);
+                MyApp.of(context)?.applyUserSettings(context);
                 getIt<NavigatorService>().pop();
               },
+              child: const CWText('button.label.cancel'),
             ),
             CWButton(
               label: 'button.label.save',
@@ -128,7 +130,7 @@ class _SettingsPageState extends CWState<SettingsPage> {
               onPressed: () {
                 settings.themeColorIndex = themeColorIndex;
                 getIt<SettingsService>().saveSettings(settings);
-                MyApp.of(context).applyUserSettings(context);
+                MyApp.of(context)?.applyUserSettings(context);
                 getIt<NavigatorService>().pop();
               },
             ),
@@ -144,14 +146,12 @@ class _SettingsPageState extends CWState<SettingsPage> {
       MaterialColorPicker(
         allowShades: false,
         colors: Colors.primaries,
-        selectedColor: settings?.themeColorIndex == null
-            ? Colors.green
-            : Colors.primaries[settings.themeColorIndex],
+        selectedColor: Colors.primaries[settings.themeColorIndex],
         onMainColorChange: (color) {
           setState(() {
-            themeColorIndex = Colors.primaries.indexOf(color);
+            themeColorIndex = Colors.primaries.indexOf(color as MaterialColor);
           });
-          MyApp.of(context).applyUserSettings(context, color: color);
+          MyApp.of(context)?.applyUserSettings(context, color: color);
         },
       ),
     );

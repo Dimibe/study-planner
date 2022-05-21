@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:study_planner/models/Semester.dart';
-import 'package:study_planner/models/StudyPlan.dart';
-import 'package:study_planner/pages/SemesterDetail.page.dart';
-import 'package:study_planner/services/StudyPlanService.dart';
-import 'package:study_planner/widgets/SPDataTable.dart';
-import 'package:study_planner/widgets/SPDialog.dart';
-import 'package:study_planner/widgets/common/CWAppState.dart';
-import 'package:study_planner/widgets/common/CWButton.dart';
-import 'package:study_planner/widgets/common/CWText.dart';
+import 'package:study_planner/models/semester.dart';
+import 'package:study_planner/models/study_plan.dart';
+import 'package:study_planner/pages/semester_detail.page.dart';
+import 'package:study_planner/services/study_plan.service.dart';
+import 'package:study_planner/widgets/sp_data_table.dart';
+import 'package:study_planner/widgets/sp_dialog.dart';
+import 'package:study_planner/widgets/common/cw_app_state.dart';
+import 'package:study_planner/widgets/common/cw_button.dart';
+import 'package:study_planner/widgets/common/cw_text.dart';
 
 class SemesterOverviewPage extends StatefulWidget {
-  SemesterOverviewPage({Key key}) : super(key: key);
+  const SemesterOverviewPage({super.key});
 
   @override
-  _SemesterOverviewPageState createState() => _SemesterOverviewPageState();
+  CWState<SemesterOverviewPage> createState() => _SemesterOverviewPageState();
 }
 
 class _SemesterOverviewPageState extends CWState<SemesterOverviewPage> {
-  StudyPlan studyPlan;
+  StudyPlan? studyPlan;
+
   @override
   void initState() {
     super.initState();
@@ -40,7 +41,7 @@ class _SemesterOverviewPageState extends CWState<SemesterOverviewPage> {
       content: () {
         var content = <Widget>[];
         if (studyPlan == null) return content;
-        if (studyPlan.semester == null || studyPlan.semester.isEmpty) {
+        if (studyPlan!.semester.isEmpty) {
           content.add(
             CWText(
               'text.noSemesterPlaceholder',
@@ -49,7 +50,7 @@ class _SemesterOverviewPageState extends CWState<SemesterOverviewPage> {
           );
         } else {
           content.add(Container(
-            constraints: BoxConstraints(maxWidth: 1000),
+            constraints: const BoxConstraints(maxWidth: 1000),
             child: Wrap(children: _getSemesterData()),
           ));
         }
@@ -57,7 +58,7 @@ class _SemesterOverviewPageState extends CWState<SemesterOverviewPage> {
           CWButton(
             label: 'button.label.addSemester',
             padding: const EdgeInsets.only(top: 32.0, bottom: 16.0),
-            onPressed: getClickFunction(studyPlan, null),
+            onPressed: getClickFunction(null),
           ),
         );
         return content;
@@ -67,19 +68,19 @@ class _SemesterOverviewPageState extends CWState<SemesterOverviewPage> {
 
   List<Widget> _getSemesterData() {
     var content = <Widget>[];
-    content.addAll(studyPlan.semester.map((s) {
-      return SPDataTable(semester: s, onEdit: getClickFunction(studyPlan, s));
+    content.addAll(studyPlan!.semester.map((s) {
+      return SPDataTable(semester: s, onEdit: getClickFunction(s));
     }));
     return content;
   }
 
-  Function() getClickFunction(StudyPlan plan, Semester s) {
+  Function() getClickFunction(Semester? s) {
     return () async {
       var res = await showDialog(
           barrierDismissible: true,
           context: context,
           builder: (context) {
-            return SemesterDetailPage(plan: studyPlan, semester: s);
+            return SemesterDetailPage(plan: studyPlan!, semester: s);
           });
       if (res) {
         _initData();

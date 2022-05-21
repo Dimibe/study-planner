@@ -1,21 +1,21 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:study_planner/models/Settings.dart';
-import 'package:study_planner/models/StudyPlan.dart';
+import 'package:study_planner/models/settings.dart';
+import 'package:study_planner/models/study_plan.dart';
 
 class StorageService {
-  static const _STUDY_PLAN = 'studyplan-v0.1';
-  static const _SETTINGS = 'settings-v0.1';
+  static const studyPlanKey = 'studyplan-v0.1';
+  static const settingsKey = 'settings-v0.1';
 
-  SharedPreferences prefs;
+  late final SharedPreferences prefs;
 
   StorageService() {
     SharedPreferences.getInstance().then((value) => prefs = value);
   }
 
   StudyPlan loadStudyPlan() {
-    var jsonString = prefs.get(_STUDY_PLAN);
+    var jsonString = prefs.get(studyPlanKey) as String?;
     if (jsonString == null) {
       return StudyPlan();
     }
@@ -27,11 +27,11 @@ class StorageService {
 
   Future<void> saveStudyPlan(StudyPlan plan) async {
     print('Saving: ${plan.toJson()}');
-    await prefs.setString(_STUDY_PLAN, jsonEncode(plan.toJson()));
+    await prefs.setString(studyPlanKey, jsonEncode(plan.toJson()));
   }
 
   Settings loadSettings() {
-    var jsonString = prefs.get(_SETTINGS);
+    var jsonString = prefs.get(settingsKey) as String?;
     if (jsonString == null) {
       return Settings();
     }
@@ -42,6 +42,6 @@ class StorageService {
   }
 
   Future<void> saveSettings(Settings settings) async {
-    await prefs.setString(_SETTINGS, jsonEncode(settings.toJson()));
+    await prefs.setString(settingsKey, jsonEncode(settings.toJson()));
   }
 }

@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class SPForm extends StatefulWidget {
   final Widget child;
 
-  const SPForm({Key key, this.child}) : super(key: key);
+  const SPForm({super.key, required this.child});
 
   @override
   SPFormState createState() => SPFormState();
 
   static SPFormState of(BuildContext context) {
-    return context.findAncestorStateOfType<SPFormState>();
+    return context.findAncestorStateOfType<SPFormState>()!;
   }
 }
 

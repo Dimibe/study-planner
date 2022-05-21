@@ -5,20 +5,20 @@ class NavigatorService {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   Type currentType = LoadingScreen;
 
-  Future<dynamic> navigateTo(Widget page, {bool force = true}) {
+  Future<dynamic> navigateTo(Widget page, {bool force = true}) async {
     if (force || currentType != page.runtimeType) {
       currentType = page.runtimeType;
-      return navigatorKey.currentState.pushReplacement(
+      return navigatorKey.currentState?.pushReplacement(
         PageRouteBuilder(
           pageBuilder: (context, a1, a2) => page,
           transitionDuration: Duration.zero,
         ),
       );
     }
-    return null;
+    return;
   }
 
   void pop() {
-    navigatorKey.currentState.pop();
+    navigatorKey.currentState?.pop();
   }
 }

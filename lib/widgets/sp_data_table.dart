@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:study_planner/models/Semester.dart';
+import 'package:study_planner/models/semester.dart';
 
-import 'common/CWText.dart';
+import 'common/cw_text.dart';
 
 class SPDataTable extends StatelessWidget {
   final Semester semester;
   final void Function() onEdit;
 
-  const SPDataTable({Key key, this.semester, this.onEdit}) : super(key: key);
+  const SPDataTable({super.key, required this.semester, required this.onEdit});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class SPDataTable extends StatelessWidget {
         return Container(
           padding: EdgeInsets.fromLTRB(
               sidePadding, topBottomPadding, sidePadding, topBottomPadding),
-          constraints: BoxConstraints(maxWidth: 500),
+          constraints: const BoxConstraints(maxWidth: 500),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
@@ -29,21 +29,37 @@ class SPDataTable extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        semester.name,
+                        semester.name!,
                         style: Theme.of(context).textTheme.headline6,
                       ),
-                      Padding(padding: EdgeInsets.only(right: 8.0)),
-                      if (semester.completed) Icon(Icons.check),
+                      const Padding(padding: EdgeInsets.only(right: 8.0)),
+                      if (semester.completed) const Icon(Icons.check),
                     ],
                   ),
+                  TextButton(
+                    onPressed: onEdit,
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                        const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        ),
+                      ),
+                    ),
+                    child: CWText(
+                      'button.label.edit',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary),
+                    ),
+                  ),
                   FlatButton(
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                     ),
                     onPressed: onEdit,
                     child: CWText(
                       'button.label.edit',
-                      style: TextStyle(color: Theme.of(context).accentColor),
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary),
                     ),
                   ),
                 ],
@@ -52,7 +68,7 @@ class SPDataTable extends StatelessWidget {
                 width: double.infinity,
                 child: DataTable(
                   columnSpacing: 10.0,
-                  columns: [
+                  columns: const [
                     DataColumn(label: CWText('label.course')),
                     DataColumn(label: CWText('label.credits')),
                     DataColumn(label: CWText('label.grade')),
@@ -63,7 +79,7 @@ class SPDataTable extends StatelessWidget {
                     (index) {
                       var course = semester.courses[index];
                       return DataRow(
-                        color: MaterialStateProperty.resolveWith<Color>(
+                        color: MaterialStateProperty.resolveWith<Color?>(
                             (Set<MaterialState> states) {
                           if (states.contains(MaterialState.selected)) {
                             return Theme.of(context)

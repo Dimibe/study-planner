@@ -1,16 +1,16 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:study_planner/models/Semester.dart';
-import 'package:study_planner/models/StudyField.dart';
+import 'package:study_planner/models/semester.dart';
+import 'package:study_planner/models/study_field.dart';
 
-part 'StudyPlan.g.dart';
+part 'study_plan.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class StudyPlan {
-  String uni;
-  String studyName;
-  int semesterCount;
-  int creditsMain;
-  int creditsOther;
+  String? uni;
+  String? studyName;
+  int? semesterCount;
+  int? creditsMain;
+  int? creditsOther;
   @JsonKey(defaultValue: [])
   List<StudyField> studyFields;
   @JsonKey(defaultValue: [])
@@ -22,9 +22,9 @@ class StudyPlan {
       this.semesterCount,
       this.creditsMain,
       this.creditsOther,
-      this.studyFields,
-      this.semester]) {
-    if (studyFields == null || studyFields.isEmpty) {
+      this.studyFields = const [],
+      this.semester = const []]) {
+    if (studyFields.isEmpty) {
       studyFields = [
         StudyField('Hauptstudium', creditsMain, true),
         StudyField('Auflagen', creditsOther, false),

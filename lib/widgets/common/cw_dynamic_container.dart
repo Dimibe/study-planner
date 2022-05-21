@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:study_planner/widgets/common/CWBaseWidget.dart';
+import 'package:study_planner/widgets/common/cw_base_widget.dart';
 
 class CWDynamicContainer extends StatefulWidget {
-  final bool showHideOption;
-  final bool showAddOption;
+  final bool? showHideOption;
+  final bool? showAddOption;
   final CWDynamicController contoller;
   final List<CWBaseWidget> children;
-  final List<Map<String, dynamic>> Function() initialData;
+  final List<Map<String, dynamic>>? Function() initialData;
   final EdgeInsets padding;
 
   const CWDynamicContainer({
-    Key key,
+    super.key,
     this.showHideOption,
     this.showAddOption,
-    this.contoller,
-    this.children,
-    this.initialData,
+    required this.contoller,
+    required this.children,
+    required this.initialData,
     this.padding = const EdgeInsets.all(8.0),
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() => _CWDynamicContainerState();
 
-  static _CWDynamicContainerState of(BuildContext context) {
-    return context.findAncestorStateOfType<State<CWDynamicContainer>>();
+  static _CWDynamicContainerState? _of(BuildContext context) {
+    return context.findAncestorStateOfType<_CWDynamicContainerState>();
   }
 }
 
@@ -34,13 +34,13 @@ class _CWDynamicContainerState extends State<CWDynamicContainer> {
   void initState() {
     super.initState();
     if (widget.initialData() != null) {
-      widget.initialData().forEach((rowValues) => addRow(rowValues));
+      widget.initialData()!.forEach(addRow);
     } else {
       addEmptyRow();
     }
   }
 
-  void addRow([Map<String, dynamic> rowValues]) {
+  void addRow([Map<String, dynamic>? rowValues]) {
     var map = <String, dynamic>{};
 
     var widgets = <Widget>[];
@@ -81,11 +81,9 @@ class _CWDynamicContainerState extends State<CWDynamicContainer> {
           Padding(
             padding: widget.padding,
             child: Container(
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).colorScheme.secondary,
               child: IconButton(
-                icon: Icon(
-                  Icons.add,
-                ),
+                icon: const Icon(Icons.add),
                 onPressed: addEmptyRow,
               ),
             ),
@@ -97,7 +95,7 @@ class _CWDynamicContainerState extends State<CWDynamicContainer> {
 }
 
 class CWDynamicController {
-  final List _controllers = <Map<String, dynamic>>[];
+  final _controllers = <Map<String, dynamic>>[];
 
   void addRow(Map<String, dynamic> map) {
     _controllers.add(map);
@@ -119,7 +117,7 @@ class CWDynamicController {
 class _CWDynamicRow extends StatefulWidget {
   final List<Widget> children;
 
-  const _CWDynamicRow({Key key, this.children}) : super(key: key);
+  const _CWDynamicRow({required this.children});
 
   @override
   State<StatefulWidget> createState() => _CWDynamicRowState();
@@ -137,13 +135,11 @@ class _CWDynamicRowState extends State<_CWDynamicRow> {
           Padding(
             padding: const EdgeInsets.only(top: 12.0, left: 8.0),
             child: Container(
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).colorScheme.secondary,
               child: IconButton(
-                icon: Icon(
-                  Icons.remove,
-                ),
+                icon: const Icon(Icons.remove),
                 onPressed: () =>
-                    CWDynamicContainer.of(context).removeRow(widget),
+                    CWDynamicContainer._of(context)!.removeRow(widget),
               ),
             ),
           ),

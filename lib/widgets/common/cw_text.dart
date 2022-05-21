@@ -3,23 +3,22 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 
 class CWText extends StatelessWidget {
   final String textKey;
-  final Key key;
-  final TextStyle style;
-  final StrutStyle strutStyle;
-  final TextAlign textAlign;
-  final TextDirection textDirection;
-  final Locale locale;
-  final bool softWrap;
-  final TextOverflow overflow;
-  final double textScaleFactor;
-  final int maxLines;
-  final String semanticsLabel;
-  final TextWidthBasis textWidthBasis;
-  final TextHeightBehavior textHeightBehavior;
+  final TextStyle? style;
+  final StrutStyle? strutStyle;
+  final TextAlign? textAlign;
+  final TextDirection? textDirection;
+  final Locale? locale;
+  final bool? softWrap;
+  final TextOverflow? overflow;
+  final double? textScaleFactor;
+  final int? maxLines;
+  final String? semanticsLabel;
+  final TextWidthBasis? textWidthBasis;
+  final TextHeightBehavior? textHeightBehavior;
 
-  CWText(
+  const CWText(
     this.textKey, {
-    this.key,
+    super.key,
     this.style,
     this.strutStyle,
     this.textAlign,
@@ -36,7 +35,7 @@ class CWText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _textKey = textKey.split('::')[0];
+    var baseKey = textKey.split('::')[0];
     var params = textKey
         .split('::')
         .skip(1)
@@ -45,7 +44,7 @@ class CWText extends StatelessWidget {
         .map((key, value) => MapEntry('#$key', value));
 
     var text =
-        FlutterI18n.translate(context, _textKey, translationParams: params);
+        FlutterI18n.translate(context, baseKey, translationParams: params);
 
     return Text(
       text,

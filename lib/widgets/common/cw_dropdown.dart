@@ -1,42 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:study_planner/widgets/common/CWBaseWidget.dart';
+import 'package:study_planner/widgets/common/cw_base_widget.dart';
 
 class CWDropDown<T> extends CWBaseWidget<CWDropDown> {
   final List<T> items;
-  final T initValue;
-  final DropDownController controller;
-  final void Function(T) onChanged;
+  final T? initValue;
+  final DropDownController? controller;
+  final void Function(T?)? onChanged;
   final double maxWidth;
   final String labelText;
 
   const CWDropDown(
-      {Key key,
-      String id,
-      @required this.items,
+      {super.key,
+      required String id,
+      required this.items,
       this.controller,
       this.initValue,
       this.onChanged,
       this.maxWidth = 300,
-      this.labelText})
+      required this.labelText})
       : super(id);
 
-  CWDropDown.copy(CWDropDown other, DropDownController<T> controller)
+  CWDropDown.copy(CWDropDown<T> other, this.controller)
       : items = other.items,
         initValue = other.initValue,
         onChanged = other.onChanged,
         maxWidth = other.maxWidth,
         labelText = other.labelText,
-        // ignore: unnecessary_this
-        this.controller = controller,
         super(other.id, key: other.key);
 
   @override
-  _CWDropDownState<T> createState() => _CWDropDownState<T>();
+  State<CWDropDown<T>> createState() => _CWDropDownState<T>();
 
   @override
-  CWDropDown copy(DropDownController<T> value) {
-    return CWDropDown.copy(this, value);
+  CWDropDown copy(DropDownController<T> controller) {
+    return CWDropDown.copy(this, controller);
   }
 
   @override
@@ -47,9 +45,9 @@ class _CWDropDownState<T> extends State<CWDropDown<T>> {
   @override
   void initState() {
     super.initState();
-    if (widget.controller.value == null) {
+    if (widget.controller?.value == null) {
       setState(() {
-        widget.controller.value = widget.initValue;
+        widget.controller!.value = widget.initValue;
       });
     }
   }
@@ -69,18 +67,18 @@ class _CWDropDownState<T> extends State<CWDropDown<T>> {
               isDense: true,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(5.0),
-                borderSide:
-                    BorderSide(style: BorderStyle.solid, color: Colors.red),
+                borderSide: const BorderSide(
+                    style: BorderStyle.solid, color: Colors.red),
               ),
             ),
             items: widget.items.map(map).toList(),
             onChanged: (value) {
-              setState(() => widget.controller.value = value);
+              setState(() => widget.controller!.value = value);
               if (widget.onChanged != null) {
-                widget.onChanged(value);
+                widget.onChanged!(value);
               }
             },
-            value: widget.controller.value,
+            value: widget.controller!.value,
           ),
         ),
       ),
@@ -96,7 +94,7 @@ class _CWDropDownState<T> extends State<CWDropDown<T>> {
 }
 
 class DropDownController<T> {
-  T value;
+  T? value;
 
   set text(T value) {
     this.value = value;

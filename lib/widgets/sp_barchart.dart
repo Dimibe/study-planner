@@ -6,33 +6,33 @@ class SPBarChart<T> extends StatelessWidget {
   final String id;
   final String title;
   final List<T> data;
-  final num Function(T, int) measureFn;
-  final String Function(T, int) domainFn;
-  final String Function(T, int) labelFn;
-  final num average;
+  final num? Function(T, int?) measureFn;
+  final String Function(T, int?) domainFn;
+  final String Function(T, int?)? labelFn;
+  final num? average;
 
   const SPBarChart({
-    Key key,
-    @required this.id,
-    @required this.data,
-    @required this.measureFn,
-    @required this.domainFn,
+    super.key,
+    required this.id,
+    required this.data,
+    required this.measureFn,
+    required this.domainFn,
     this.labelFn,
-    this.title,
+    required this.title,
     this.average,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     var rotation = 0;
-    if (data != null && data.isNotEmpty) {
+    if (data.isNotEmpty) {
       if (domainFn(data[0], null).length * data.length > 52) {
         rotation = 45;
       }
     }
 
     return Container(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       width: 400,
       height: 300,
       child: BarChart(
@@ -46,13 +46,13 @@ class SPBarChart<T> extends StatelessWidget {
           ChartTitle(
             FlutterI18n.translate(context, title),
             subTitle:
-                average == null ? null : 'Ø ${average.toStringAsFixed(2)}',
+                average == null ? null : 'Ø ${average!.toStringAsFixed(2)}',
           ),
           RangeAnnotation(
-            <LineAnnotationSegment>[
+            <LineAnnotationSegment<Object>>[
               if (average != null)
-                LineAnnotationSegment(
-                  average,
+                LineAnnotationSegment<Object>(
+                  average!,
                   RangeAnnotationAxisType.measure,
                   middleLabel: 'Ø',
                   labelPosition: AnnotationLabelPosition.margin,
@@ -74,9 +74,9 @@ class SPBarChart<T> extends StatelessWidget {
         domainFn: domainFn,
         measureFn: measureFn,
         labelAccessorFn: (arg1, arg2) =>
-            labelFn != null ? labelFn(arg1, arg2) : '${measureFn(arg1, arg2)}',
+            labelFn != null ? labelFn!(arg1, arg2) : '${measureFn(arg1, arg2)}',
         colorFn: (semester, _) {
-          var theme = Theme.of(context).accentColor;
+          var theme = Theme.of(context).colorScheme.secondary;
           return Color(r: theme.red, g: theme.green, b: theme.blue);
         },
       ),

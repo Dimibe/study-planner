@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:flutter_i18n/loaders/decoders/yaml_decode_strategy.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_i18n/loaders/decoders/yaml_decode_strategy.dart';
 import 'package:get_it/get_it.dart';
 import 'package:study_planner/pages/LoadingScreen.page.dart';
-import 'package:study_planner/utils/UserRouting.dart';
-import 'package:study_planner/widgets/ThemeHandler.dart';
+import 'package:study_planner/utils/user_routing.dart';
+import 'package:study_planner/widgets/theme_handler.dart';
 
-import 'services/NavigatorService.dart';
-import 'services/Cache.dart';
-import 'services/SettingsService.dart';
-import 'services/StudyPlanService.dart';
+import 'services/navigator.service.dart';
+import 'services/cache.dart';
+import 'services/settings.service.dart';
+import 'services/study_plan.service.dart';
 
 final getIt = GetIt.instance;
 
@@ -23,7 +24,7 @@ void main() async {
       decodeStrategies: [YamlDecodeStrategy()],
     ),
     missingTranslationHandler: (key, locale) {
-      print('Missing Key: $key, languageCode: ${locale.languageCode}');
+      print('Missing Key: $key, languageCode: ${locale?.languageCode}');
     },
   );
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,13 +41,13 @@ void setup() {
 class MyApp extends StatefulWidget with UserRouting {
   final FlutterI18nDelegate flutterI18nDelegate;
 
-  const MyApp(this.flutterI18nDelegate, {Key key}) : super(key: key);
+  const MyApp(this.flutterI18nDelegate, {super.key});
 
   @override
   State<StatefulWidget> createState() => MyAppState();
 
-  static MyAppState of(BuildContext context) {
-    return context.findAncestorStateOfType<State<MyApp>>();
+  static MyAppState? of(BuildContext context) {
+    return context.findAncestorStateOfType<MyAppState>();
   }
 }
 
@@ -77,7 +78,7 @@ class MyAppState extends State<MyApp> {
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
           ],
-          theme: ThemeHandler.of(context).theme,
+          theme: ThemeHandler.of(context)?.theme,
           home: LoadingScreen(widget.flutterI18nDelegate),
         ),
       ),
@@ -85,17 +86,17 @@ class MyAppState extends State<MyApp> {
   }
 
   /// This function can be called from outside to change the user settings
-  void applyUserSettings(BuildContext context, {ColorSwatch color}) {
+  void applyUserSettings(BuildContext context, {ColorSwatch? color}) {
     if (color != null) {
       setState(() {
-        _themeColorIndex = Colors.primaries.indexOf(color);
+        _themeColorIndex = Colors.primaries.indexOf(color as MaterialColor);
       });
     } else {
       getIt<SettingsService>().loadSettings().then((settings) {
         if (settings.locale != null) {
           FlutterI18n.refresh(
             context,
-            Locale(settings.locale),
+            Locale(settings.locale!),
           );
         }
         setState(() {
