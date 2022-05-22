@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-import './semester_detail.page.dart';
+import 'semester_detail.page.dart';
 import '../models/semester.dart';
 import '../models/study_plan.dart';
 import '../services/study_plan.service.dart';

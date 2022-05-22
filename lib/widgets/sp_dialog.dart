@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:get_it/get_it.dart';
 
-import './sp_drawer.dart';
-import './sp_form.dart';
+import 'sp_drawer.dart';
+import 'sp_form.dart';
 import '../main.dart';
 import '../pages/login.page.dart';
 import '../services/navigator.service.dart';

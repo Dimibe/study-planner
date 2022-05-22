@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import './sp_form.dart';
-import './common/cw_text.dart';
+import 'sp_form.dart';
+import 'common/cw_text.dart';
 
 /// Base Widget which should be returned by any modal page widget.
 class SPModalDialog extends StatefulWidget {

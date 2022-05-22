@@ -1,9 +1,9 @@
 import 'package:get_it/get_it.dart';
 
-import '../models/settings.dart';
 import 'cache.service.dart';
-import './firestore.service.dart';
-import './user.service.dart';
+import 'firestore.service.dart';
+import 'user.service.dart';
+import '../models/settings.dart';
 
 final getIt = GetIt.instance;
 

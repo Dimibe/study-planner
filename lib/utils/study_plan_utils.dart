@@ -1,8 +1,8 @@
+import 'math_utils.dart' as reduce show sum;
 import '../models/course.dart';
 import '../models/semester.dart';
 import '../models/study_field.dart';
 import '../models/study_plan.dart';
-import './math_utils.dart' as reduce show sum;
 
 class StudyPlanUtils {
   static int creditsInSemester(Semester semester, {String? fieldName}) {

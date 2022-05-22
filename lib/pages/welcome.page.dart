@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './register.page.dart';
+import 'register.page.dart';
 import '../widgets/sp_dialog.dart';
 import '../widgets/common/cw_app_state.dart';
 import '../widgets/common/cw_button.dart';

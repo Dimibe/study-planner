@@ -5,6 +5,7 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:get_it/get_it.dart';
 
+import '../main.dart';
 import '../models/settings.dart';
 import '../models/study_plan.dart';
 import '../services/navigator.service.dart';
@@ -16,7 +17,6 @@ import '../widgets/common/cw_button.dart';
 import '../widgets/common/cw_dropdown.dart';
 import '../widgets/common/cw_text.dart';
 import '../widgets/common/cw_textfield.dart';
-import '../main.dart';
 
 final getIt = GetIt.instance;
 

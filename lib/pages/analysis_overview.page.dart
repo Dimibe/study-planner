@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
+import 'general_information.page.dart';
 import '../models/semester.dart';
 import '../models/study_plan.dart';
-import './general_information.page.dart';
 import '../services/navigator.service.dart';
 import '../services/study_plan.service.dart';
 import '../utils/study_plan_utils.dart';

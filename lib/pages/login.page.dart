@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
+import 'register.page.dart';
+import '../main.dart';
 import '../services/navigator.service.dart';
 import '../services/user.service.dart';
 import '../utils/user_routing.dart';
@@ -8,9 +10,6 @@ import '../widgets/sp_modal_dialog.dart';
 import '../widgets/common/cw_button.dart';
 import '../widgets/common/cw_text.dart';
 import '../widgets/common/cw_textfield.dart';
-
-import '../main.dart';
-import 'register.page.dart';
 
 final GetIt getIt = GetIt.instance;
 

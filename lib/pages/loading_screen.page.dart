@@ -4,13 +4,12 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_i18n/flutter_i18n_delegate.dart';
 import 'package:get_it/get_it.dart';
 
+import '../main.dart';
 import '../services/firestore.service.dart';
 import '../services/navigator.service.dart';
 import '../services/storage.service.dart';
 import '../services/user.service.dart';
 import '../utils/user_routing.dart';
-
-import '../main.dart';
 
 final getIt = GetIt.instance;
 

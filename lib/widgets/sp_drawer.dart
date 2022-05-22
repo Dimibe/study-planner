@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './common/cw_text.dart';
+import 'common/cw_text.dart';
 import '../utils/routes.dart';
 
 class SPDrawer extends StatelessWidget with Routes {

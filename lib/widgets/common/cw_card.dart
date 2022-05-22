@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './cw_text.dart';
+import 'cw_text.dart';
 
 class CWCard extends StatelessWidget {
   final Color color;
