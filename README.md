@@ -1,5 +1,5 @@
 # Study Planner!
-![Dart CI](https://github.com/Dimibe/study-planner/workflows/Dart%20CI/badge.svg?branch=master)
+![Main Build](https://github.com/Dimibe/study-planner/workflows/Dart%20CI/badge.svg?branch=main)
 
 Plan and analyse your course of studies with Study Planner!
 
