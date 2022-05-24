@@ -16,15 +16,15 @@ jobs:
         channel: 'stable'
     - name: Flutter version
       run: flutter --version
-    - name: Format
-      run: flutter format --set-exit-if-changed lib test
-    - name: Analyze
-      run: flutter analyze lib test
     - name: Enable web
       run: flutter config --enable-web
     - name: Install dependencies
       run: flutter pub get
     - name: Generate code
       run: flutter pub run build_runner build
+    - name: Format
+      run: flutter format --set-exit-if-changed lib test
+    - name: Analyze
+      run: flutter analyze lib test
     - name: Build for web
       run: flutter build web --release
