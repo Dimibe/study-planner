@@ -11,7 +11,7 @@ class Course {
   double? grade;
   StudyField? studyField;
 
-  Course(this.name, [this.credits, this.grade, this.studyField]);
+  Course({required this.name, this.credits, this.grade, this.studyField});
 
   factory Course.fromJson(Map<String, dynamic> json) => _$CourseFromJson(json);
 

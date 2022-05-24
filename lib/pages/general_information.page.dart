@@ -25,20 +25,18 @@ class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
   final _mainCreditsController = TextEditingController();
   final _otherCreditsController = TextEditingController();
   final _semeseterController = TextEditingController();
-  StudyPlan? studyPlan;
 
   @override
   void initState() {
     super.initState();
     getIt<StudyPlanService>().loadStudyPlan().then(
       (plan) {
-        studyPlan = plan;
         setState(() {
-          _uniController.text = plan?.uni ?? '';
-          _studiesController.text = plan?.studyName ?? '';
-          _mainCreditsController.text = '${plan?.creditsMain ?? ""}';
-          _otherCreditsController.text = '${plan?.creditsOther ?? ""}';
-          _semeseterController.text = '${plan?.semesterCount ?? ""}';
+          _uniController.text = '${plan?.uni}';
+          _studiesController.text = '${plan?.studyName}';
+          _mainCreditsController.text = '${plan?.creditsMain}';
+          _otherCreditsController.text = '${plan?.creditsOther}';
+          _semeseterController.text = '${plan?.semesterCount}';
         });
       },
     );
@@ -98,24 +96,29 @@ class _GeneralInformationPageState extends CWState<GeneralInformationPage> {
         CWButton(
           label: 'button.label.save',
           validateOnClick: true,
-          onPressed: () {
-            saveStudyPlan();
-          },
+          onPressed: saveStudyPlan,
         ),
       ],
     );
   }
 
   void saveStudyPlan() {
-    studyPlan ??= StudyPlan();
-    studyPlan!.uni = _uniController.text;
-    studyPlan!.studyName = _studiesController.text;
-    studyPlan!.semesterCount = int.parse(_semeseterController.text);
-    studyPlan!.creditsMain = int.parse(_mainCreditsController.text);
-    studyPlan!.creditsOther = _otherCreditsController.text.isNotEmpty
-        ? int.parse(_otherCreditsController.text)
-        : null;
+    var studyPlan = StudyPlan(
+      uni: _uniController.text,
+      studyName: _studiesController.text,
+      semesterCount: int.parse(_semeseterController.text),
+      creditsMain: int.parse(_mainCreditsController.text),
+      creditsOther: _otherCreditsController.text.isNotEmpty
+          ? int.parse(_otherCreditsController.text)
+          : null,
+    );
 
-    getIt<StudyPlanService>().saveStudyPlan(studyPlan!);
+    getIt<StudyPlanService>().loadStudyPlan().then((value) {
+      if (value != null) {
+        studyPlan.semester = value.semester;
+        studyPlan.studyFields = value.studyFields;
+      }
+      getIt<StudyPlanService>().saveStudyPlan(studyPlan);
+    });
   }
 }

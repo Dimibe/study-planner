@@ -139,8 +139,8 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
               for (Map<String, dynamic> c in dynamicControllers.controllers) {
                 if (c['name'].text.isNotEmpty && c['credits'].text.isNotEmpty) {
                   var course = Course(
-                    c['name'].text,
-                    int.parse(c['credits'].text),
+                    name: c['name'].text,
+                    credits: int.parse(c['credits'].text),
                   );
                   if (c['grade'].text != null && c['grade'].text.isNotEmpty) {
                     course.grade = double.parse(c['grade'].text);
@@ -153,12 +153,17 @@ class _SemesterDetailPageState extends CWState<SemesterDetailPage> {
                   courses.add(course);
                 }
               }
-              var s = widget.semester ?? Semester();
-              s.name = semesterController.text;
-              s.completed = checkBoxController.value!;
-              s.courses = courses;
-              if (widget.semester == null) {
-                widget.plan.semester.add(s);
+              if (widget.semester != null) {
+                widget.semester!.name = semesterController.text;
+                widget.semester!.completed = checkBoxController.value!;
+                widget.semester!.courses = courses;
+              } else {
+                var semester = Semester(
+                  name: semesterController.text,
+                  completed: checkBoxController.value!,
+                  courses: courses,
+                );
+                widget.plan.semester.add(semester);
               }
               GetIt.I<StudyPlanService>().saveStudyPlan(widget.plan);
               Navigator.pop(context, true);

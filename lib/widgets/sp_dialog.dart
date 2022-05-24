@@ -42,7 +42,7 @@ class SPDialog extends StatefulWidget with Routes, UserRouting {
 }
 
 class SPDialogState extends State<SPDialog> {
-  late final bool _loggedIn;
+  late bool _loggedIn;
   late final StreamSubscription _authStateListener;
 
   @override
@@ -187,6 +187,7 @@ class SPDialogState extends State<SPDialog> {
           child: IconButton(
             onPressed: () async {
               await GetIt.I<UserService>().logout();
+              if (!mounted) return;
               MyApp.of(context)?.applyUserSettings(context);
               var page = await widget.getNextRoute();
               getIt<NavigatorService>().navigateTo(page);

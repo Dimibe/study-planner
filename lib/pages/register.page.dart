@@ -88,6 +88,7 @@ class _RegisterPageState extends State<RegisterPage> {
           onPressed: () async {
             await getIt<UserService>()
                 .register(userNameController.text, passwordController.text);
+            if (!mounted) return;
             MyApp.of(context)?.applyUserSettings(context);
             var page = await widget.getNextRoute();
             await getIt<NavigatorService>().navigateTo(page);

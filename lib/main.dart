@@ -4,6 +4,7 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_i18n/loaders/decoders/yaml_decode_strategy.dart';
 import 'package:get_it/get_it.dart';
+import 'package:logger/logger.dart';
 
 import 'pages/loading_screen.page.dart';
 import 'utils/user_routing.dart';
@@ -14,6 +15,7 @@ import 'services/settings.service.dart';
 import 'services/study_plan.service.dart';
 
 final getIt = GetIt.instance;
+final logger = Logger(printer: PrettyPrinter(methodCount: 0, printTime: true));
 
 void main() async {
   setup();
@@ -24,7 +26,7 @@ void main() async {
       decodeStrategies: [YamlDecodeStrategy()],
     ),
     missingTranslationHandler: (key, locale) {
-      print('Missing Key: $key, languageCode: ${locale?.languageCode}');
+      logger.i('Missing Key: $key, languageCode: ${locale?.languageCode}');
     },
   );
   WidgetsFlutterBinding.ensureInitialized();
@@ -93,12 +95,11 @@ class MyAppState extends State<MyApp> {
       });
     } else {
       getIt<SettingsService>().loadSettings().then((settings) {
-        if (settings.locale != null) {
-          FlutterI18n.refresh(
-            context,
-            Locale(settings.locale!),
-          );
-        }
+        FlutterI18n.refresh(
+          context,
+          Locale(settings.locale),
+        );
+
         setState(() {
           _themeColorIndex = settings.themeColorIndex;
         });

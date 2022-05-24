@@ -81,6 +81,7 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () async {
             await getIt<UserService>()
                 .login(emailController.text, passwordController.text);
+            if (!mounted) return;
             MyApp.of(context)?.applyUserSettings(context);
             var page = await widget.getNextRoute();
             await getIt<NavigatorService>().navigateTo(page);

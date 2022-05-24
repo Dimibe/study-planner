@@ -9,7 +9,7 @@ class StudyField {
   @JsonKey(defaultValue: false)
   bool countForGrade;
 
-  StudyField(this.name, [this.credits, this.countForGrade = false]);
+  StudyField({required this.name, this.credits, this.countForGrade = false});
 
   factory StudyField.fromJson(Map<String, dynamic> json) =>
       _$StudyFieldFromJson(json);

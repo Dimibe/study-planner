@@ -7,9 +7,10 @@ class Settings {
   @JsonKey(defaultValue: 17)
   int themeColorIndex;
 
-  String? locale;
+  @JsonKey(defaultValue: 'en')
+  String locale;
 
-  Settings([this.themeColorIndex = 17, this.locale]);
+  Settings({this.themeColorIndex = 17, this.locale = 'en'});
 
   factory Settings.fromJson(Map<String, dynamic> json) =>
       _$SettingsFromJson(json);

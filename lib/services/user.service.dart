@@ -2,8 +2,11 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
+import 'package:logger/logger.dart';
 
 import 'cache.service.dart';
+
+final logger = Logger(printer: PrettyPrinter(methodCount: 0, printTime: true));
 
 class UserService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -23,9 +26,9 @@ class UserService {
       return _auth.currentUser!.uid;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        logger.i('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        logger.i('Wrong password provided for that user.');
       }
     }
     throw 'Failed to login';
@@ -38,12 +41,12 @@ class UserService {
       return _auth.currentUser!.uid;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        logger.i('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        logger.i('The account already exists for that email.');
       }
     } catch (e) {
-      print(e);
+      logger.e(e);
     }
     throw 'Failed to register';
   }

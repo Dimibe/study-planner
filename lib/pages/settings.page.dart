@@ -70,7 +70,7 @@ class _SettingsPageState extends CWState<SettingsPage> {
         ),
         CWButton(
           label: 'button.label.saveLanguage',
-          color: Theme.of(context).buttonColor,
+          color: Theme.of(context).buttonTheme.colorScheme?.primary,
           padding: const EdgeInsets.all(8.0),
           onPressed: () {
             getIt<SettingsService>().saveSettings(settings);
@@ -85,7 +85,7 @@ class _SettingsPageState extends CWState<SettingsPage> {
         ),
         CWButton(
           label: 'label.changeColor',
-          color: Theme.of(context).buttonColor,
+          color: Theme.of(context).buttonTheme.colorScheme?.primary,
           padding: const EdgeInsets.all(8.0),
           onPressed: _openFullMaterialColorPicker,
         ),
@@ -97,7 +97,7 @@ class _SettingsPageState extends CWState<SettingsPage> {
         ),
         CWButton(
           label: 'button.label.saveStudyplan',
-          color: Theme.of(context).buttonColor,
+          color: Theme.of(context).buttonTheme.colorScheme?.primary,
           padding: const EdgeInsets.all(8.0),
           onPressed: () => getIt<StudyPlanService>().saveStudyPlan(
             StudyPlan.fromJson(json.decode(textEditingController.text)),

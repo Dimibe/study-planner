@@ -29,7 +29,7 @@ class SPDataTable extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        semester.name!,
+                        semester.name,
                         style: Theme.of(context).textTheme.headline6,
                       ),
                       const Padding(padding: EdgeInsets.only(right: 8.0)),
@@ -37,23 +37,12 @@ class SPDataTable extends StatelessWidget {
                     ],
                   ),
                   TextButton(
-                    onPressed: onEdit,
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all(
                         const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         ),
                       ),
-                    ),
-                    child: CWText(
-                      'button.label.edit',
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary),
-                    ),
-                  ),
-                  FlatButton(
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
                     ),
                     onPressed: onEdit,
                     child: CWText(

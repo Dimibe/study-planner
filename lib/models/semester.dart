@@ -6,13 +6,14 @@ part 'semester.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Semester {
-  String? name;
+  String name;
   @JsonKey(defaultValue: false)
   bool completed;
   @JsonKey(defaultValue: [])
   List<Course> courses;
 
-  Semester([this.name, this.courses = const [], this.completed = false]);
+  Semester(
+      {required this.name, required this.courses, required this.completed});
 
   factory Semester.fromJson(Map<String, dynamic> json) =>
       _$SemesterFromJson(json);

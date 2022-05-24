@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:logger/logger.dart';
 
 import 'cache.service.dart';
 import 'user.service.dart';
@@ -6,6 +7,7 @@ import '../models/study_plan.dart';
 import '../services/firestore.service.dart';
 
 final getIt = GetIt.instance;
+final logger = Logger(printer: PrettyPrinter(methodCount: 0, printTime: true));
 
 class StudyPlanService {
   StudyPlanService();
@@ -21,13 +23,13 @@ class StudyPlanService {
       var json = (await document).data() as Map<String, dynamic>?;
       studyPlan = StudyPlan.fromJson(json ?? {});
     }
-    print('Reading settings: ${studyPlan?.toJson()}');
+    logger.i('Reading settings: ${studyPlan?.toJson()}');
     getIt<Cache>().studyPlan = studyPlan;
     return studyPlan;
   }
 
   Future<void> saveStudyPlan(StudyPlan studyPlan) async {
-    print('Saving: ${studyPlan.toJson()}');
+    logger.i('Saving: ${studyPlan.toJson()}');
     getIt<Cache>().studyPlan = studyPlan;
     if (getIt<UserService>().isLoggedIn) {
       var uid = getIt<UserService>().getUid()!;

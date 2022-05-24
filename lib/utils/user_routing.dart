@@ -15,12 +15,12 @@ mixin UserRouting {
     StatefulWidget page;
     if (getIt<UserService>().isLoggedIn) {
       var plan = await getIt<StudyPlanService>().loadStudyPlan();
-      if (plan!.semester.isNotEmpty) {
-        page = const AnalysisOverviewPage();
-      } else if (plan.uni != null) {
-        page = const SemesterOverviewPage();
-      } else {
+      if (plan == null) {
         page = const GeneralInformationPage();
+      } else if (plan.semester.isNotEmpty) {
+        page = const AnalysisOverviewPage();
+      } else {
+        page = const SemesterOverviewPage();
       }
     } else {
       page = const WelcomePage();
