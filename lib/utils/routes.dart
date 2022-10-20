@@ -46,7 +46,7 @@ mixin Routes {
   List<Widget> getRoutesForRow(context) {
     var color = Theme.of(context).primaryTextTheme.headline6?.color;
 
-    Widget _getIconButton(IconData icon, String label, Widget page) {
+    Widget getIconButton(IconData icon, String label, Widget page) {
       return Padding(
         padding: const EdgeInsets.only(left: 8.0, right: 8.0),
         child: TextButton.icon(
@@ -61,13 +61,13 @@ mixin Routes {
     }
 
     return [
-      _getIconButton(Icons.featured_play_list, 'header.generalInformation',
+      getIconButton(Icons.featured_play_list, 'header.generalInformation',
           const GeneralInformationPage()),
-      _getIconButton(Icons.list_alt, 'header.semesterOverview',
+      getIconButton(Icons.list_alt, 'header.semesterOverview',
           const SemesterOverviewPage()),
-      _getIconButton(Icons.analytics, 'header.analysisOverview',
+      getIconButton(Icons.analytics, 'header.analysisOverview',
           const AnalysisOverviewPage()),
-      _getIconButton(Icons.settings, 'header.settings', const SettingsPage()),
+      getIconButton(Icons.settings, 'header.settings', const SettingsPage()),
     ];
   }
 }
